@@ -1,0 +1,802 @@
+[
+    {
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "year": 1960,
+        "synopsis": "A young girl navigates racial injustice and moral growth in the Deep South during the 1930s.",
+        "rating": 5
+    },
+    {
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Fiction",
+        "year": 1949,
+        "synopsis": "In a totalitarian society under constant surveillance, a man questions the regime's oppressive control.",
+        "rating": 5
+    },
+    {
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "genre": "Romance",
+        "year": 1813,
+        "synopsis": "Elizabeth Bennet deals with issues of manners, marriage, and morality in 19th-century England.",
+        "rating": 5
+    },
+    {
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Fiction",
+        "year": 1925,
+        "synopsis": "A mysterious millionaire's obsession with a past love leads to tragedy in Jazz Age America.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Kite Runner",
+        "author": "Khaled Hosseini",
+        "genre": "Fiction",
+        "year": 2003,
+        "synopsis": "A tale of friendship, betrayal, and redemption set in war-torn Afghanistan.",
+        "rating": 5
+    },
+    {
+        "title": "Becoming",
+        "author": "Michelle Obama",
+        "genre": "Autobiography",
+        "year": 2018,
+        "synopsis": "A deeply personal account of the former First Lady's life and legacy.",
+        "rating": 5
+    },
+    {
+        "title": "Circe",
+        "author": "Madeline Miller",
+        "genre": "Fiction",
+        "year": 2018,
+        "synopsis": "The story of Circe, a sorceress from Greek mythology, as she discovers her powers and identity.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins",
+        "genre": "Fiction",
+        "year": 2008,
+        "synopsis": "In a deadly game of survival, a young girl becomes a symbol of rebellion.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Seven Husbands of Evelyn Hugo",
+        "author": "Taylor Jenkins Reid",
+        "genre": "Romance",
+        "year": 2017,
+        "synopsis": "An aging Hollywood icon reflects on her glamorous, scandalous life and loves.",
+        "rating": 5
+    },
+    {
+        "title": "Rich Dad Poor Dad",
+        "author": "Robert Kiyosaki",
+        "genre": "Autobiography",
+        "year": 1997,
+        "synopsis": "A financial guide based on lessons learned from two father figures.",
+        "rating": 4
+    },
+    {
+        "title": "The Silent Patient",
+        "author": "Alex Michaelides",
+        "genre": "Crime",
+        "year": 2019,
+        "synopsis": "A woman accused of murder stops speaking, leaving a therapist to uncover the truth.",
+        "rating": 4.5
+    },
+    {
+        "title": "Shantaram",
+        "author": "Gregory David Roberts",
+        "genre": "Crime",
+        "year": 2003,
+        "synopsis": "An escaped convict builds a new life in the underworld of Bombay.",
+        "rating": 4.5
+    },
+    {
+        "title": "Life of Pi",
+        "author": "Yann Martel",
+        "genre": "Fiction",
+        "year": 2001,
+        "synopsis": "A boy survives a shipwreck and forms an unlikely bond with a tiger.",
+        "rating": 5
+    },
+    {
+        "title": "Normal People",
+        "author": "Sally Rooney",
+        "genre": "Romance",
+        "year": 2018,
+        "synopsis": "Two people navigate a complex, on-and-off relationship over several years.",
+        "rating": 4
+    },
+    {
+        "title": "Little Women",
+        "author": "Louisa May Alcott",
+        "genre": "Fiction",
+        "year": 1868,
+        "synopsis": "Four sisters come of age during the American Civil War, facing love and hardship.",
+        "rating": 5
+    },
+    {
+        "title": "The Handmaid's Tale",
+        "author": "Margaret Atwood",
+        "genre": "Fiction",
+        "year": 1985,
+        "synopsis": "In a repressive society, women are valued only for their ability to reproduce.",
+        "rating": 5
+    },
+    {
+        "title": "Charlotte's Web",
+        "author": "E.B. White",
+        "genre": "Fiction",
+        "year": 1952,
+        "synopsis": "A pig named Wilbur befriends a spider who weaves messages to save his life.",
+        "rating": 5
+    },
+    {
+        "title": "The Paris Library",
+        "author": "Janet Skeslien Charles",
+        "genre": "Fiction",
+        "year": 2021,
+        "synopsis": "The story of Paris librarians during WWII who fought for their readers' freedom.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "genre": "Fiction",
+        "year": 2006,
+        "synopsis": "A father and son struggle to survive in a bleak, post-apocalyptic world.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Girl on the Train",
+        "author": "Paula Hawkins",
+        "genre": "Crime",
+        "year": 2015,
+        "synopsis": "An alcoholic woman becomes entangled in the disappearance of a young wife.",
+        "rating": 4.5
+    },
+    {
+        "title": "Love in the Time of Cholera",
+        "author": "Gabriel García Márquez",
+        "genre": "Romance",
+        "year": 1985,
+        "synopsis": "A decades-long love story unfolds between two people separated by time and circumstances.",
+        "rating": 5
+    },
+    {
+        "title": "I Am Malala",
+        "author": "Malala Yousafzai",
+        "genre": "Autobiography",
+        "year": 2013,
+        "synopsis": "The inspiring story of a young Pakistani girl who stood up for education and was shot by the Taliban.",
+        "rating": 5
+    },
+    {
+        "title": "The Lovely Bones",
+        "author": "Alice Sebold",
+        "genre": "Fiction",
+        "year": 2002,
+        "synopsis": "A teenage girl watches from the afterlife as her family copes with her tragic death.",
+        "rating": 4.5
+    },
+    {
+        "title": "Outlander",
+        "author": "Diana Gabaldon",
+        "genre": "Romance",
+        "year": 1991,
+        "synopsis": "A World War II nurse is transported back in time to 18th-century Scotland, where she finds love and adventure.",
+        "rating": 4.5
+    },
+    {
+        "title": "Into the Wild",
+        "author": "Jon Krakauer",
+        "genre": "Autobiography",
+        "year": 1996,
+        "synopsis": "The true story of Christopher McCandless, who left society behind to live in the Alaskan wilderness.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Guernsey Literary and Potato Peel Pie Society",
+        "author": "Mary Ann Shaffer and Annie Barrows",
+        "genre": "Romance",
+        "year": 2008,
+        "synopsis": "A correspondence between a writer and residents of a small island blossoms into love.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Chain",
+        "author": "Adrian McKinty",
+        "genre": "Crime",
+        "year": 2019,
+        "synopsis": "A mother is forced to commit a crime to save her kidnapped daughter in a twisted extortion plot.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Bridges of Madison County",
+        "author": "Robert James Waller",
+        "genre": "Romance",
+        "year": 1992,
+        "synopsis": "A brief but transformative affair between a photographer and a lonely housewife.",
+        "rating": 4.5
+    },
+    {
+        "title": "Helter Skelter",
+        "author": "Vincent Bugliosi and Curt Gentry",
+        "genre": "Crime",
+        "year": 1974,
+        "synopsis": "The true story of the Manson Family murders, written by the lead prosecutor.",
+        "rating": 5
+    },
+    {
+        "title": "The Help",
+        "author": "Kathryn Stockett",
+        "genre": "Fiction",
+        "year": 2009,
+        "synopsis": "In the 1960s South, three women from different backgrounds join forces to confront racism.",
+        "rating": 5
+    },
+    {
+        "title": "Murder on the Orient Express",
+        "author": "Agatha Christie",
+        "genre": "Crime",
+        "year": 1934,
+        "synopsis": "Detective Hercule Poirot solves a baffling murder aboard a luxurious train.",
+        "rating": 5
+    },
+    {
+        "title": "Me Before You",
+        "author": "Jojo Moyes",
+        "genre": "Romance",
+        "year": 2012,
+        "synopsis": "A young woman becomes the caregiver for a paraplegic man, leading to an unexpected bond.",
+        "rating": 4.5
+    },
+    {
+        "title": "Eat, Pray, Love",
+        "author": "Elizabeth Gilbert",
+        "genre": "Autobiography",
+        "year": 2006,
+        "synopsis": "A woman travels the world in search of self-discovery after a painful divorce.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Night Circus",
+        "author": "Erin Morgenstern",
+        "genre": "Fiction",
+        "year": 2011,
+        "synopsis": "A magical competition between two rivals sparks love and mystery.",
+        "rating": 4.5
+    },
+    {
+        "title": "Rebecca",
+        "author": "Daphne du Maurier",
+        "genre": "Romance",
+        "year": 1938,
+        "synopsis": "A young bride uncovers dark secrets about her husband's deceased first wife.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Devil in the White City",
+        "author": "Erik Larson",
+        "genre": "Crime",
+        "year": 2003,
+        "synopsis": "The chilling true story of a serial killer during the 1893 Chicago World's Fair.",
+        "rating": 5
+    },
+    {
+        "title": "Call Me by Your Name",
+        "author": "André Aciman",
+        "genre": "Romance",
+        "year": 2007,
+        "synopsis": "A passionate and fleeting romance blossoms during a summer in Italy.",
+        "rating": 4.5
+    },
+    {
+        "title": "Angela's Ashes",
+        "author": "Frank McCourt",
+        "genre": "Autobiography",
+        "year": 1996,
+        "synopsis": "A heart-wrenching memoir of a boy's impoverished Irish childhood and his dreams of escape.",
+        "rating": 5
+    },
+    {
+        "title": "The Perks of Being a Wallflower",
+        "author": "Stephen Chbosky",
+        "genre": "Fiction",
+        "year": 1999,
+        "synopsis": "A shy teenager navigates high school, love, and mental health with the help of his friends.",
+        "rating": 5
+    },
+    {
+        "title": "Before We Were Strangers",
+        "author": "Renée Carlino",
+        "genre": "Romance",
+        "year": 2015,
+        "synopsis": "A chance reunion rekindles a love story between two former college friends.",
+        "rating": 4.5
+    },
+    {
+        "title": "Falling",
+        "author": "T.J. Newman",
+        "genre": "Crime",
+        "year": 2021,
+        "synopsis": "A pilot faces an impossible decision when his family is held hostage mid-flight.",
+        "rating": 4.5
+    },
+    {
+        "title": "Bossypants",
+        "author": "Tina Fey",
+        "genre": "Autobiography",
+        "year": 2011,
+        "synopsis": "The comedic memoir of Tina Fey's rise from awkward teen to comedy superstar.",
+        "rating": 4.5
+    },
+    {
+        "title": "Twilight",
+        "author": "Stephenie Meyer",
+        "genre": "Romance",
+        "year": 2005,
+        "synopsis": "A high school girl falls in love with a vampire, sparking a supernatural romance.",
+        "rating": 4
+    },
+    {
+        "title": "The Alchemist",
+        "author": "Paulo Coelho",
+        "genre": "Fiction",
+        "year": 1988,
+        "synopsis": "A shepherd's journey in search of a treasure leads to self-discovery.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Stranger Beside Me",
+        "author": "Ann Rule",
+        "genre": "Crime",
+        "year": 1980,
+        "synopsis": "A chilling true crime account of Ann Rule's friendship with serial killer Ted Bundy.",
+        "rating": 5
+    },
+    {
+        "title": "Wild: From Lost to Found on the Pacific Crest Trail",
+        "author": "Cheryl Strayed",
+        "genre": "Autobiography",
+        "year": 2012,
+        "synopsis": "A woman embarks on a solo journey to heal after personal tragedy.",
+        "rating": 4.5
+    },
+    {
+        "title": "Steve Jobs",
+        "author": "Walter Isaacson",
+        "genre": "Autobiography",
+        "year": 2011,
+        "synopsis": "A biography detailing the visionary life and work of Apple co-founder Steve Jobs.",
+        "rating": 4.5
+    },
+    {
+        "title": "Big Little Lies",
+        "author": "Liane Moriarty",
+        "genre": "Crime",
+        "year": 2014,
+        "synopsis": "The lives of three women unravel as secrets and lies lead to a shocking murder.",
+        "rating": 4.5
+    },
+    {
+        "title": "Memoirs of a Geisha",
+        "author": "Arthur Golden",
+        "genre": "Fiction",
+        "year": 1997,
+        "synopsis": "The fictionalized life story of a young girl sold into the world of Japanese geisha.",
+        "rating": 5
+    },
+    {
+        "title": "Eleanor Oliphant Is Completely Fine",
+        "author": "Gail Honeyman",
+        "genre": "Fiction",
+        "year": 2017,
+        "synopsis": "A quirky and socially awkward woman learns to connect with the world around her.",
+        "rating": 5
+    },
+    {
+        "title": "A Thousand Splendid Suns",
+        "author": "Khaled Hosseini",
+        "genre": "Fiction",
+        "year": 2007,
+        "synopsis": "Two Afghan women forge an unlikely bond amidst decades of war and suffering.",
+        "rating": 5
+    },
+    {
+        "title": "Room",
+        "author": "Emma Donoghue",
+        "genre": "Fiction",
+        "year": 2010,
+        "synopsis": "A mother and son live in captivity, told through the eyes of the young boy.",
+        "rating": 4.5
+    },
+    {
+        "title": "The 5 Love Languages",
+        "author": "Gary Chapman",
+        "genre": "Autobiography (Self-help)",
+        "year": 1992,
+        "synopsis": "A guide to understanding the different ways people express and receive love.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Fault in Our Stars",
+        "author": "John Green",
+        "genre": "Romance",
+        "year": 2012,
+        "synopsis": "Two teenagers with cancer find love and confront life's big questions.",
+        "rating": 4.5
+    },
+    {
+        "title": "In Cold Blood",
+        "author": "Truman Capote",
+        "genre": "Crime",
+        "year": 1966,
+        "synopsis": "A detailed account of the brutal murder of a Kansas family and its aftermath.",
+        "rating": 5
+    },
+    {
+        "title": "A Man Called Ove",
+        "author": "Fredrik Backman",
+        "genre": "Fiction",
+        "year": 2012,
+        "synopsis": "A grumpy old man learns the value of connection through unexpected friendships.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Rosie Project",
+        "author": "Graeme Simsion",
+        "genre": "Romance",
+        "year": 2013,
+        "synopsis": "A socially awkward professor creates a scientific project to find a wife.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Light We Cannot See",
+        "author": "Anthony Doerr",
+        "genre": "Fiction",
+        "year": 2014,
+        "synopsis": "The paths of a blind French girl and a German boy collide during WWII.",
+        "rating": 5
+    },
+    {
+        "title": "The Goldfinch",
+        "author": "Donna Tartt",
+        "genre": "Fiction",
+        "year": 2013,
+        "synopsis": "A boy's life is altered forever by the theft of a priceless painting.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Catcher in the Rye",
+        "author": "J.D. Salinger",
+        "genre": "Fiction",
+        "year": 1951,
+        "synopsis": "A disillusioned teenager narrates his experiences of alienation and rebellion in 1950s New York.",
+        "rating": 4
+    },
+    {
+        "title": "The Shadow of the Wind",
+        "author": "Carlos Ruiz Zafón",
+        "genre": "Crime",
+        "year": 2001,
+        "synopsis": "A boy discovers a cursed book that changes the course of his life forever.",
+        "rating": 4.5
+    },
+    {
+        "title": "The House in the Cerulean Sea",
+        "author": "TJ Klune",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "A caseworker overseeing magical children discovers the meaning of love and family.",
+        "rating": 5
+    },
+    {
+        "title": "Midnight in the Garden of Good and Evil",
+        "author": "John Berendt",
+        "genre": "Crime",
+        "year": 1994,
+        "synopsis": "A murder in Savannah, Georgia, unveils the eccentric lives of the town's inhabitants.",
+        "rating": 4.5
+    },
+    {
+        "title": "Goodnight Moon",
+        "author": "Margaret Wise Brown",
+        "genre": "Fiction",
+        "year": 1947,
+        "synopsis": "A gentle bedtime story that has charmed generations of children.",
+        "rating": 4
+    },
+    {
+        "title": "Becoming Myself",
+        "author": "Irving D. Yalom",
+        "genre": "Autobiography",
+        "year": 2017,
+        "synopsis": "The memoir of a renowned psychotherapist, chronicling his professional and personal journey.",
+        "rating": 4.5
+    },
+    {
+        "title": "Shogun",
+        "author": "James Clavell",
+        "genre": "Fiction",
+        "year": 1975,
+        "synopsis": "An English navigator is shipwrecked in Japan and becomes entwined in samurai culture.",
+        "rating": 5
+    },
+    {
+        "title": "The Giver",
+        "author": "Lois Lowry",
+        "genre": "Fiction",
+        "year": 1993,
+        "synopsis": "In a seemingly perfect society, a boy discovers the dark secrets of his world.",
+        "rating": 4.5
+    },
+    {
+        "title": "A Tale of Two Cities",
+        "author": "Charles Dickens",
+        "genre": "Fiction",
+        "year": 1859,
+        "synopsis": "A story of love and sacrifice set against the backdrop of the French Revolution.",
+        "rating": 5
+    },
+    {
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "genre": "Autobiography (Self-help)",
+        "year": 2018,
+        "synopsis": "A guide to building habits that stick and breaking those that don't.",
+        "rating": 5
+    },
+    {
+        "title": "The Hobbit",
+        "author": "J.R.R. Tolkien",
+        "genre": "Fiction",
+        "year": 1937,
+        "synopsis": "A hobbit embarks on an unexpected adventure to reclaim a treasure guarded by a dragon.",
+        "rating": 5
+    },
+    {
+        "title": "Gone Girl",
+        "author": "Gillian Flynn",
+        "genre": "Crime",
+        "year": 2012,
+        "synopsis": "A husband becomes the prime suspect when his wife goes missing under suspicious circumstances.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Subtle Art of Not Giving a F*ck",
+        "author": "Mark Manson",
+        "genre": "Autobiography (Self-help)",
+        "year": 2016,
+        "synopsis": "A counterintuitive approach to living a meaningful life by focusing on what matters.",
+        "rating": 4.5
+    },
+    {
+        "title": "Brave New World",
+        "author": "Aldous Huxley",
+        "genre": "Fiction",
+        "year": 1932,
+        "synopsis": "A chilling vision of a future controlled by technology, conformity, and pleasure.",
+        "rating": 5
+    },
+    {
+        "title": "The Secret History",
+        "author": "Donna Tartt",
+        "genre": "Fiction",
+        "year": 1992,
+        "synopsis": "A group of classics students become involved in a murder that changes their lives forever.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Water Dancer",
+        "author": "Ta-Nehisi Coates",
+        "genre": "Fiction",
+        "year": 2019,
+        "synopsis": "A magical realist tale of slavery and freedom, centered on a man with a mysterious gift.",
+        "rating": 4.5
+    },
+    {
+        "title": "Where the Crawdads Sing",
+        "author": "Delia Owens",
+        "genre": "Fiction",
+        "year": 2018,
+        "synopsis": "A coming-of-age murder mystery set in the marshes of North Carolina.",
+        "rating": 4.5
+    },
+    {
+        "title": "Educated",
+        "author": "Tara Westover",
+        "genre": "Autobiography",
+        "year": 2018,
+        "synopsis": "A memoir of a woman who escapes her strict and abusive upbringing to pursue education.",
+        "rating": 5
+    },
+    {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "genre": "Fiction",
+        "year": 1965,
+        "synopsis": "A young heir must navigate politics and mysticism on a desert planet.",
+        "rating": 5
+    },
+    {
+        "title": "A Tree Grows in Brooklyn",
+        "author": "Betty Smith",
+        "genre": "Fiction",
+        "year": 1943,
+        "synopsis": "A young girl comes of age in the slums of Brooklyn during the early 20th century.",
+        "rating": 5
+    },
+    {
+        "title": "The House of Mirth",
+        "author": "Edith Wharton",
+        "genre": "Fiction",
+        "year": 1905,
+        "synopsis": "A young woman navigates the pitfalls of high society in turn-of-the-century New York.",
+        "rating": 5
+    },
+    {
+        "title": "The Last Mrs. Parrish",
+        "author": "Liv Constantine",
+        "genre": "Crime",
+        "year": 2017,
+        "synopsis": "A woman infiltrates the life of a wealthy socialite with sinister intentions.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Shadow King",
+        "author": "Maaza Mengiste",
+        "genre": "Fiction",
+        "year": 2019,
+        "synopsis": "An Ethiopian woman's perspective during Mussolini's invasion of Ethiopia in 1935.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Book Thief",
+        "author": "Markus Zusak",
+        "genre": "Fiction",
+        "year": 2005,
+        "synopsis": "A young girl in Nazi Germany discovers the power of books to heal and resist.",
+        "rating": 5
+    },
+    {
+        "title": "The Testaments",
+        "author": "Margaret Atwood",
+        "genre": "Fiction",
+        "year": 2019,
+        "synopsis": "A sequel to 'The Handmaid's Tale' that delves into the fall of Gilead.",
+        "rating": 5
+    },
+    {
+        "title": "Homegoing",
+        "author": "Yaa Gyasi",
+        "genre": "Fiction",
+        "year": 2016,
+        "synopsis": "The story of two sisters and their descendants, spanning continents and centuries.",
+        "rating": 5
+    },
+    {
+        "title": "Half of a Yellow Sun",
+        "author": "Chimamanda Ngozi Adichie",
+        "genre": "Fiction",
+        "year": 2006,
+        "synopsis": "The lives of three characters are intertwined during Nigeria's Biafran War.",
+        "rating": 4.5
+    },
+    {
+        "title": "An American Marriage",
+        "author": "Tayari Jones",
+        "genre": "Fiction",
+        "year": 2018,
+        "synopsis": "A newlywed couple's lives are torn apart when the husband is wrongly convicted of a crime.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Underground Railroad",
+        "author": "Colson Whitehead",
+        "genre": "Fiction",
+        "year": 2016,
+        "synopsis": "An alternate history of slavery, featuring a literal underground railroad to freedom.",
+        "rating": 5
+    },
+    {
+        "title": "The Vanishing Half",
+        "author": "Brit Bennett",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "Twin sisters grow up in a small Black community but lead drastically different adult lives.",
+        "rating": 4.5
+    },
+    {
+        "title": "Clap When You Land",
+        "author": "Elizabeth Acevedo",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "Two sisters discover each other after their father dies in a plane crash.",
+        "rating": 4.5
+    },
+    {
+        "title": "Pachinko",
+        "author": "Min Jin Lee",
+        "genre": "Fiction",
+        "year": 2017,
+        "synopsis": "A multi-generational tale of a Korean family living in Japan and navigating identity and struggle.",
+        "rating": 5
+    },
+    {
+        "title": "A Gentleman in Moscow",
+        "author": "Amor Towles",
+        "genre": "Fiction",
+        "year": 2016,
+        "synopsis": "A Russian aristocrat is sentenced to house arrest in a luxury hotel during the Soviet era.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Alice Network",
+        "author": "Kate Quinn",
+        "genre": "Fiction",
+        "year": 2017,
+        "synopsis": "Two women—one a spy during WWI, the other searching for her cousin in post-WWII—team up on a mission",
+        "rating": 4.5
+    },
+    {
+        "title": "The Island of Missing Trees",
+        "author": "Elif Shafak",
+        "genre": "Fiction",
+        "year": 2021,
+        "synopsis": "A tale of love and divided Cyprus, told partly from the perspective of a fig tree.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Henna Artist",
+        "author": "Alka Joshi",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "A young woman escapes an abusive marriage to become a celebrated henna artist in 1950s India.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Four Winds",
+        "author": "Kristin Hannah",
+        "genre": "Fiction",
+        "year": 2021,
+        "synopsis": "A family's struggle to survive the Great Depression and Dust Bowl in Texas.",
+        "rating": 4.5
+    },
+    {
+        "title": "Mexican Gothic",
+        "author": "Silvia Moreno-Garcia",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "A young woman investigates her cousin's mysterious illness in a haunted mansion in 1950s Mexico.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Mountain Between Us",
+        "author": "Charles Martin",
+        "genre": "Fiction",
+        "year": 2010,
+        "synopsis": "Two strangers stranded after a plane crash form a bond as they struggle to survive.",
+        "rating": 4.5
+    },
+    {
+        "title": "The Glass Hotel",
+        "author": "Emily St. John Mandel",
+        "genre": "Fiction",
+        "year": 2020,
+        "synopsis": "A haunting story of greed, guilt, and the fallout of a massive Ponzi scheme.",
+        "rating": 4.5
+    },
+    {
+        "title": "Euphoria",
+        "author": "Lily King",
+        "genre": "Fiction",
+        "year": 2014,
+        "synopsis": "Inspired by the life of anthropologist Margaret Mead, this tale explores love and ambition in the field.",
+        "rating": 4.5
+    }
+]
