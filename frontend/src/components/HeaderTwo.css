@@ -1,0 +1,54 @@
+/* Optionally import your font if you want each component to have it,
+   or place the @import in a global CSS if you'd prefer. */
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+   /* Apply font only within this component scope if you like */
+   .header, .header * {
+     font-family: 'Poppins', sans-serif;
+     margin: 0;
+     padding: 0;
+   }
+   
+   /* Header container */
+   .header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     background-color: #d9a8a8;
+     padding: 20px;
+     color: #000;
+   }
+   
+   /* Text content area */
+   .header-content {
+     max-width: 60%;
+   }
+   
+   .header-content h1 {
+     font-size: 2rem;
+     margin-bottom: 0.5rem;
+   }
+   
+   .header-content p {
+     margin: 5px 0;
+   }
+   
+   /* Picture area */
+   .header-picture {
+     max-width: 30%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   
+   .picture-box {
+     width: 150px;
+     height: 150px;
+     background-color: #ccc;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 1rem;
+     color: #555;
+   }
+   

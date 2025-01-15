@@ -1,23 +1,15 @@
+import "./FeaturedBooks.css";
 
-/**
-
- *
- * @param {Object[]} props.books - The array of featured book objects.
- * Each book object could have { id, title, author, coverImage, description } etc.
- */
-function FeaturedBooks({ books }) {
-  // Fallback if no books are passed
+export function FeaturedBooks({ books }) {
   if (!books || books.length === 0) {
     return <div>No featured books available.</div>;
   }
 
   return (
     <section className="featured-books-section">
-      <h2>Featured Books</h2>
       <div className="featured-books-container">
         {books.map((book) => (
           <div className="featured-book-card" key={book.id}>
-            {/* Cover Image */}
             {book.coverImage && (
               <img
                 className="featured-book-cover"
@@ -25,21 +17,20 @@ function FeaturedBooks({ books }) {
                 alt={`${book.title} cover`}
               />
             )}
-            {/* Title */}
-            <h3 className="featured-book-title">{book.title}</h3>
-            {/* Author */}
-            {book.author && (
-              <p className="featured-book-author">by {book.author}</p>
-            )}
-            {/* Description */}
-            {book.description && (
-              <p className="featured-book-description">{book.description}</p>
-            )}
+
+            {/* Wrap the text in a container for easier overlay */}
+            <div className="featured-book-info">
+              <h3 className="featured-book-title">{book.title}</h3>
+              {book.author && (
+                <p className="featured-book-author">by {book.author}</p>
+              )}
+              {book.description && (
+                <p className="featured-book-description">{book.description}</p>
+              )}
+            </div>
           </div>
         ))}
       </div>
     </section>
   );
 }
-
-export default FeaturedBooks;

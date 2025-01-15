@@ -1,15 +1,15 @@
 import { HeaderOne } from "./components/HeaderOne"
+import { BrowserRouter, Routes, } from "react-router-dom";
+import { routes } from "./routes/routes";
 
 
 export const App = () => {
-
   return (
-    <div>
+    <>
+      <BrowserRouter>
+        <Routes>{routes}</Routes>
+      </BrowserRouter>
 
-      < HeaderOne />
-
-      <h1>Welcome to Final Project!</h1>
-    </div>
-  );
-
+    </>
+  )
 };

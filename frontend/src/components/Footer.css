@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.Footer {
+    display: flex;
+    justify-content: space-between; /* Evenly distribute items */
+    align-items: center;
+    padding: 20px;
+    background-color: #202C59;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.Footer-content {
+    display: flex;
+    justify-content: center; /* Center the middle content */
+    align-items: center;
+    width: 100%; /* Ensures the content spans the full width */
+    position: relative;
+}
+
+.Footer-left {
+    position: absolute; /* Position the left content */
+    left: 20px; /* Align it to the left */
+}
+
+.Footer-center {
+    flex: 1; /* Make the center content take up remaining space */
+    text-align: center;
+}
+
+.Footer-socials {
+    position: absolute; /* Position the right content */
+    right: 20px; /* Align it to the right */
+    display: flex;
+    align-items: center;
+}
+
+.social-icon {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.social-icon:hover {
+    color: #ccc; /* Hover effect for social icons */
+}
+

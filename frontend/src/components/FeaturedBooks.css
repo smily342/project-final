@@ -1,0 +1,95 @@
+/* Import the Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/*Featured Books Section*/
+.featured-books-section {
+  margin: 2rem auto;
+  max-width: 1000px; 
+  padding: 1rem;
+}
+
+/* Container that holds all book cards in a row (wrapping if needed) */
+.featured-books-container {
+  display: flex;
+  flex-wrap: wrap;      
+  gap: 1.5rem;        
+  justify-content: center; 
+}
+
+/* Individual book card */
+.featured-book-card {
+  position: relative;       /* for overlay positioning */
+  width: 200px;             /* fixed width for each book card */
+  height: 300px;            /* fixed height (adjust as desired) */
+  overflow: hidden;         /* hide anything that goes out of boundary */
+  cursor: pointer;          /* gives a pointer on hover */
+  background-color: #f9f9f9; 
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* The book cover image fills the card */
+.featured-book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* keep aspect ratio and fill the card */
+  display: block;     /* remove default inline spacing */
+  transition: transform 0.3s ease;
+}
+
+/* A slight scale effect on the image when hovering */
+.featured-book-card:hover .featured-book-cover {
+  transform: scale(1.05);
+}
+
+/*Hidden overlay info */
+.featured-book-info {
+  position: absolute;     
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); /* semi-transparent black overlay */
+  color: #fff;
+  opacity: 0;             /* hidden by default */
+  transition: opacity 0.3s ease-in-out;
+  padding: 1rem;          
+  box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  text-align: center;      
+}
+
+/* Show the overlay info on hover */
+.featured-book-card:hover .featured-book-info {
+  opacity: 1;
+}
+
+/*Text styling inside overlay*/
+.featured-book-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.featured-book-author {
+  margin-bottom: 0.5rem;
+
+}
+
+.featured-book-description {
+  font-size: 0.9rem;
+  line-height: 1.3;
+  font-family: 'Poppins', sans-serif;
+
+}

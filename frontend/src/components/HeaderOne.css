@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.HeaderOne {
+    display: flex;
+    justify-content: center; /* Center the text horizontally */
+    align-items: center;    /* Center the text vertically */
+    height: 200px;          /* Adjust height as needed */
+    background-color: #f2f4f8; /* Light gray background for better contrast */
+    font-family: 'Poppins', sans-serif;
+}
+
+.header-title {
+    font-size: 48px;
+    font-weight: 700;
+    display: flex;
+    gap: 10px; /* Add spacing between "Readers" and "Compass" */
+    margin: 0;
+    padding: 0;
+}
+
+.solid-text {
+    color: #202C59; /* Solid blue color for "Readers" */
+}
+
+.outlined-text {
+    color: transparent;      /* Transparent fill */
+    -webkit-text-stroke: 1px #202C59; /* Blue outline for "Compass" */
+    font-weight: 700;
+}
+
