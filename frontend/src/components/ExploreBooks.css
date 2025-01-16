@@ -32,6 +32,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 30px;
 }
 
 .category-buttons button:hover {

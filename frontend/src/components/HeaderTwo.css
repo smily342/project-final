@@ -14,9 +14,9 @@
      display: flex;
      justify-content: space-between;
      align-items: center;
-     background-color: #d9a8a8;
+     background-color: pink;
      padding: 20px;
-     color: #000;
+     color: white;
    }
    
    /* Text content area */
@@ -41,14 +41,5 @@
      align-items: center;
    }
    
-   .picture-box {
-     width: 150px;
-     height: 150px;
-     background-color: #ccc;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     font-size: 1rem;
-     color: #555;
-   }
+ 
    

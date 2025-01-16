@@ -8,7 +8,6 @@ export const HeaderTwo = () => {
         <p>The man who never reads lives only one.</p>
       </div>
       <div className="header-picture">
-        <div className="picture-box">Picture</div>
       </div>
     </header>
   );

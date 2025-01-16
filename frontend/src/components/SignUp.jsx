@@ -39,7 +39,7 @@ export const SignUp = () => {
           SIGN UP
         </button>
         <p className="SignUp-footer">
-          Already have an account? <Link to="/login">Log In</Link>
+          Already have an account? <Link to="/">Log In</Link>
         </p>
       </form>
     </div>

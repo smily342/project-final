@@ -14,9 +14,9 @@
      display: flex;
      justify-content: space-between;
      align-items: center;
-     background-color: #d9a8a8;
+     background-color: black;
      padding: 20px;
-     color: #000;
+     color: white;
    }
    
    /* Text content area */

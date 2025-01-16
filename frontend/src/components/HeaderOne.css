@@ -2,15 +2,16 @@
 
 .HeaderOne {
     display: flex;
+    margin-top: 50px;
     justify-content: center; /* Center the text horizontally */
     align-items: center;    /* Center the text vertically */
     height: 200px;          /* Adjust height as needed */
-    background-color: #f2f4f8; /* Light gray background for better contrast */
+    background-color: white; /* Light gray background for better contrast */
     font-family: 'Poppins', sans-serif;
 }
 
 .header-title {
-    font-size: 48px;
+    font-size: 100px;
     font-weight: 700;
     display: flex;
     gap: 10px; /* Add spacing between "Readers" and "Compass" */
@@ -19,12 +20,12 @@
 }
 
 .solid-text {
-    color: #202C59; /* Solid blue color for "Readers" */
+    color: black /* Solid blue color for "Readers" */
 }
 
 .outlined-text {
     color: transparent;      /* Transparent fill */
-    -webkit-text-stroke: 1px #202C59; /* Blue outline for "Compass" */
+    -webkit-text-stroke: 1px black; /* Blue outline for "Compass" */
     font-weight: 700;
 }
 

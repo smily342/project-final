@@ -6,8 +6,8 @@ export const LogIn = () => {
     <div className="LogIn">
       <form className="LogIn-form">
         <h1 className="LogIn-title">Log In</h1>
-        <input type="email" placeholder="Enter your email" className="LogIn-input" />
-        <input type="password" placeholder="Enter your password" className="LogIn-input" />
+        <input type="email" placeholder="JaneDoe@hotmail.com" className="LogIn-input" />
+        <input type="password" placeholder="Password" className="LogIn-input" />
         <button type="submit" className="LogIn-button">LOG IN</button>
         <p className="LogIn-footer">
           Don't have an account? <Link to="/signup">Sign Up</Link> {/* Use Link to navigate */}

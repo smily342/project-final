@@ -9,7 +9,6 @@ export const MyPage =() => {
      <HeaderThree />
       <PersonalBooks />
       <Footer />
-
     </div>
   );
 }
