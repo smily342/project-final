@@ -1,6 +1,6 @@
 import "./ExploreBooks.css"; 
 
-// Temporary books array
+// Temporary books 
 const books = [
   { title: "Read Freely", image: "book1.jpg" },
   { title: "Arigatô", image: "book2.jpg" },
@@ -22,7 +22,7 @@ export function ExploreBooks() {
         </div>
       </section>
 
-      {/* Book Display Section */}
+      {/* Book Section */}
       <section className="book-display">
         <h2>What Will You Discover?</h2>
         <div className="books-grid">

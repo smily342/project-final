@@ -18,7 +18,7 @@ export function FeaturedBooks({ books }) {
               />
             )}
 
-            {/* Wrap the text in a container for easier overlay */}
+           
             <div className="featured-book-info">
               <h3 className="featured-book-title">{book.title}</h3>
               {book.author && (

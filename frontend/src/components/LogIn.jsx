@@ -1,5 +1,5 @@
 import "./LogIn.css";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 
 export const LogIn = () => {
   return (
@@ -10,7 +10,7 @@ export const LogIn = () => {
         <input type="password" placeholder="Password" className="LogIn-input" />
         <button type="submit" className="LogIn-button">LOG IN</button>
         <p className="LogIn-footer">
-          Don't have an account? <Link to="/signup">Sign Up</Link> {/* Use Link to navigate */}
+          Don't have an account? <Link to="/signup">Sign Up</Link> 
         </p>
       </form>
     </div>

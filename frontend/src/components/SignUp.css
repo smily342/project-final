@@ -5,8 +5,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: red; /* Light grey background */
-}
+  background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat; }
 
 .SignUp-form {
   background-color: white;
@@ -15,6 +14,8 @@
   padding: 40px;
   width: 400px;
   display: flex;
+  border: solid 3px;
+  border-color: black;
   flex-direction: column;
   align-items: center;
 }
@@ -23,7 +24,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #202C59; /* Navy blue text */
+  color: black;
   margin-bottom: 20px;
 }
 
@@ -32,14 +33,15 @@
   padding: 12px 16px;
   margin-bottom: 16px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 30px;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   outline: none;
 }
 
 .SignUp-input:focus {
-  border-color: #202C59; /* Navy blue border on focus */
+  border: solid 3px;
+  border-color: black;
 }
 
 .SignUp-checkbox {
@@ -55,12 +57,12 @@
 }
 
 .SignUp-button {
-  width: 100%;
+  width: 50%;
   padding: 12px;
-  background-color: #202C59; /* Navy blue background */
+  background-color: black; 
   color: white;
-  border: none;
-  border-radius: 4px;
+  border: solid 3px;
+  border-radius: 30px;
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -69,17 +71,17 @@
 }
 
 .SignUp-button:hover {
-  background-color: #3b4a99; /* Lighter navy blue on hover */
+  background-color: #94999db0; 
 }
 
 .SignUp-footer {
   margin-top: 16px;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .SignUp-footer a {
-  color: #202C59; /* Navy blue link */
+  color: #4A90E2; 
   text-decoration: none;
   font-weight: 600;
 }

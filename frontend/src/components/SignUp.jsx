@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom"; 
+import { Footer } from "../components/Footer"; 
 import "./SignUp.css";
 
 export const SignUp = () => {
   return (
+    <div>
     <div className="SignUp">
       <form className="SignUp-form">
         <h1 className="SignUp-title">Sign Up</h1>
@@ -43,6 +45,9 @@ export const SignUp = () => {
         </p>
       </form>
     </div>
+          <Footer />
+          </div>
+
   );
 };
 

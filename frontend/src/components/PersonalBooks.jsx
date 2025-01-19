@@ -1,11 +1,10 @@
 import { useState } from "react";
-import "./PersonalBooks.css"; // We'll define the styles here
+import "./PersonalBooks.css"; 
 
 export function PersonalBooks() {
-  // Track which category is selected
   const [selectedCategory, setSelectedCategory] = useState("saved");
 
-  // Temporary mock data (replace with actual API data later)
+  // Temporary data (replace with our API later)
   const savedBooks = [
     {
       id: 1,
@@ -57,11 +56,11 @@ export function PersonalBooks() {
     },
   ];
 
-  // Determine which books to display based on the selected category
+  // Boks to be displayed based on the selected category
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return savedBooks;
     if (selectedCategory === "liked") return likedBooks;
-    return recommendedBooks; // default to "Recommendations"
+    return recommendedBooks; 
   };
 
   const displayedBooks = getDisplayedBooks();

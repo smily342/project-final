@@ -1,1 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.welcome-page {
+    position: relative;
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background:    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat; 
+    z-index: 1;
+    
+}
+
+.welcome-page > * {
+    position: relative; 
+    z-index: 1;
+}
+
+

@@ -1,45 +1,38 @@
-/* Optionally import your font if you want each component to have it,
-   or place the @import in a global CSS if you'd prefer. */
-   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-   /* Apply font only within this component scope if you like */
-   .header, .header * {
-     font-family: 'Poppins', sans-serif;
-     margin: 0;
-     padding: 0;
-   }
-   
-   /* Header container */
-   .header {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     background-color: pink;
-     padding: 20px;
-     color: white;
-   }
-   
-   /* Text content area */
-   .header-content {
-     max-width: 60%;
-   }
-   
-   .header-content h1 {
-     font-size: 2rem;
-     margin-bottom: 0.5rem;
-   }
-   
-   .header-content p {
-     margin: 5px 0;
-   }
-   
-   /* Picture area */
-   .header-picture {
-     max-width: 30%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-   }
-   
- 
-   
+/* Apply font only within this component scope if you like */
+.HeaderTwo, .header * {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header container */
+.HeaderTwo {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
+  color: white;
+  height: 200px;
+}
+
+/* Text content area */
+.header-content2 {
+  max-width: 60%;
+  text-align: center; /* Center text inside the content area */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+}
+
+.header-content2 h1 {
+  font-size: 50px;
+  font-weight: 600;
+  margin: 0;
+}
+
+p {
+  font-size: ;
+}

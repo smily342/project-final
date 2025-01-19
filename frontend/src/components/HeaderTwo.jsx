@@ -2,12 +2,10 @@ import "./HeaderTwo.css";
 
 export const HeaderTwo = () => {
   return (
-    <header className="header">
-      <div className="header-content">
+    <header className="HeaderTwo">
+      <div className="header-content2">
         <h1>A reader lives a thousand lives</h1>
         <p>The man who never reads lives only one.</p>
-      </div>
-      <div className="header-picture">
       </div>
     </header>
   );

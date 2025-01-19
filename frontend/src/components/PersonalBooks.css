@@ -35,7 +35,7 @@
   .books-row {
     display: flex;
     gap: 2rem;
-    flex-wrap: wrap; /* allows wrapping if screen is narrow */
+    flex-wrap: wrap; 
     justify-content: center;
   }
   

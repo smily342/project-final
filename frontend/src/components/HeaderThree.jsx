@@ -6,9 +6,6 @@ export const HeaderThree = () => {
       <div className="header-content">
         <h1>My Page</h1>
       </div>
-      <div className="header-picture">
-        <div className="picture-box">Picture</div>
-      </div>
     </header>
   );
 }

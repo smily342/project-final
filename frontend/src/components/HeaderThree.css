@@ -1,8 +1,7 @@
-/* Optionally import your font if you want each component to have it,
-   or place the @import in a global CSS if you'd prefer. */
+/
    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-   /* Apply font only within this component scope if you like */
+
    .header, .header * {
      font-family: 'Poppins', sans-serif;
      margin: 0;
@@ -14,9 +13,9 @@
      display: flex;
      justify-content: space-between;
      align-items: center;
-     background-color: black;
-     padding: 20px;
+     background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;        
      color: white;
+     height: 200px;
    }
    
    /* Text content area */
@@ -33,22 +32,5 @@
      margin: 5px 0;
    }
    
-   /* Picture area */
-   .header-picture {
-     max-width: 30%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-   }
    
-   .picture-box {
-     width: 150px;
-     height: 150px;
-     background-color: #ccc;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     font-size: 1rem;
-     color: #555;
-   }
    

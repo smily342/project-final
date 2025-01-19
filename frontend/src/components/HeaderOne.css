@@ -2,30 +2,50 @@
 
 .HeaderOne {
     display: flex;
-    margin-top: 50px;
-    justify-content: center; /* Center the text horizontally */
-    align-items: center;    /* Center the text vertically */
-    height: 200px;          /* Adjust height as needed */
-    background-color: white; /* Light gray background for better contrast */
+    justify-content: center; 
+    align-items: center;    
+    height: 200px;          
     font-family: 'Poppins', sans-serif;
-}
-
-.header-title {
-    font-size: 100px;
-    font-weight: 700;
-    display: flex;
-    gap: 10px; /* Add spacing between "Readers" and "Compass" */
-    margin: 0;
+    width: 100%;           
+    z-index: 2;            
+    background-color: transparent; 
     padding: 0;
 }
 
+.header-title {
+    font-size: 150px;
+    font-weight: 600;
+    display: flex;
+    margin-top: 300px;
+    margin-bottom: 250px;
+    gap: 10px; 
+    padding: 0;
+    z-index: 3; 
+}
+
 .solid-text {
-    color: black /* Solid blue color for "Readers" */
+    color: white; 
+    -webkit-text-stroke: 1px black;
+    
 }
 
 .outlined-text {
-    color: transparent;      /* Transparent fill */
-    -webkit-text-stroke: 1px black; /* Blue outline for "Compass" */
-    font-weight: 700;
+    color: white;     
+    -webkit-text-stroke: 1px black; 
+    font-weight: 600;
 }
 
+.intro-text{
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 150px;
+    margin-top: 80px;
+    
+
+    
+}
+
+.intro-text span {
+    display: block;    
+  }
