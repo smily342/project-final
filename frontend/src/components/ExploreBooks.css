@@ -21,17 +21,18 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 40px;
 }
 
 .category-buttons button {
   margin: 10px;
-  padding: 10px 20px;
-  border: none;
+  padding: 20px 40px;
+  border: solid 2px black;
   background-color: #e0e0e0;
-  font-size: 1rem;
+  font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 30px;
+  
 }
 
 .category-buttons button:hover {
@@ -47,13 +48,15 @@
 .book-display h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
-  padding: 20px;
+  padding: 100px;
+  height: 450px;
 }
 
 .book {

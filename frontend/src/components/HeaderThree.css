@@ -1,36 +1,22 @@
-/
-   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+.HeaderThree {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;        
+  color: white;
+  height: 200px;
+  font-family: 'Poppins', sans-serif;
+}
 
-   .header, .header * {
-     font-family: 'Poppins', sans-serif;
-     margin: 0;
-     padding: 0;
-   }
-   
-   /* Header container */
-   .header {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;        
-     color: white;
-     height: 200px;
-   }
-   
-   /* Text content area */
-   .header-content {
-     max-width: 60%;
-   }
-   
-   .header-content h1 {
-     font-size: 2rem;
-     margin-bottom: 0.5rem;
-   }
-   
-   .header-content p {
-     margin: 5px 0;
-   }
-   
-   
-   
+.header-content3 {
+  text-align: center; 
+}
+
+.header-content3 h1 {
+  font-size: 50px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+

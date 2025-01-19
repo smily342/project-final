@@ -1,4 +1,3 @@
-import React from "react";
 import "./Footer.css";
 import { FaInstagram } from "react-icons/fa";
 
@@ -6,17 +5,10 @@ export const Footer = () => {
   return (
     <footer className="Footer">
       <div className="Footer-content">
-        {/* Left Content */}
-        <div className="Footer-left">
-          <p>contact@readerscompass.com</p>
-        </div>
+        <p className="Footer-text">
+          contact@readerscompass.com  |  © 2025 Readers Compass
+        </p>
 
-        {/* Center Content */}
-        <div className="Footer-center">
-          <p>© 2025 Readers Compass</p>
-        </div>
-
-        {/* Right Content */}
         <div className="Footer-socials">
           <FaInstagram className="social-icon" />
         </div>
@@ -26,5 +18,3 @@ export const Footer = () => {
 };
 
 export default Footer;
-
-

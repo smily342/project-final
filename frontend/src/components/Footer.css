@@ -8,7 +8,6 @@
   background-color: black;
   color: white;
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
 }
 
 .Footer-content {
@@ -17,17 +16,10 @@
   align-items: center;
   width: 100%;
   position: relative;
+  gap: 30px; 
 }
 
-.Footer-left {
-  position: absolute;
-  left: 20px;
-}
 
-.Footer-center {
-  flex: 1;
-  text-align: center;
-}
 
 .Footer-socials {
   position: absolute;
@@ -45,3 +37,4 @@
 .social-icon:hover {
   color: #ccc;
 }
+

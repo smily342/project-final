@@ -11,52 +11,82 @@ export function PersonalBooks() {
       coverImage: "https://via.placeholder.com/120x180?text=Saved+1",
       title: "Read Freely",
       author: "Fatima Souza",
-      price: 45.0
     },
     {
       id: 2,
       coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
       title: "Ocean Life",
       author: "John Marine",
-      price: 30.0
+    },
+    {
+      id: 3,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
+    },
+    {
+      id: 4,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
     },
   ];
 
   const likedBooks = [
     {
-      id: 3,
+      id: 5,
       coverImage: "https://via.placeholder.com/120x180?text=Liked+1",
       title: "Arigatou Gozaimas",
       author: "Robert Iger",
-      price: 19.0
     },
     {
-      id: 4,
+      id: 6,
       coverImage: "https://via.placeholder.com/120x180?text=Liked+2",
       title: "Sky High",
       author: "Amelia Flight",
-      price: 39.0
+    },
+    {
+      id: 7,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
+    },
+    {
+      id: 8,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
     },
   ];
 
   const recommendedBooks = [
     {
-      id: 5,
+      id: 9,
       coverImage: "https://via.placeholder.com/120x180?text=Recom+1",
       title: "Embrace The Wild",
       author: "Sara Anderson",
-      price: 39.0
     },
     {
-      id: 6,
+      id: 10,
       coverImage: "https://via.placeholder.com/120x180?text=Recom+2",
       title: "Galaxy Party Here",
       author: "Koga Farescar",
-      price: 49.0
+    },
+    {
+      id: 12,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
+    },
+    {
+      id: 13,
+      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
+      title: "Ocean Life",
+      author: "John Marine",
     },
   ];
 
-  // Boks to be displayed based on the selected category
+  // Boks displayed based on selected category
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return savedBooks;
     if (selectedCategory === "liked") return likedBooks;
@@ -95,7 +125,6 @@ export function PersonalBooks() {
           <div className="book-card" key={book.id}>
             <img className="book-cover" src={book.coverImage} alt={book.title} />
             <div className="book-info">
-              <p className="book-price">${book.price.toFixed(2)}</p>
               <p className="book-title">{book.title}</p>
               <p className="book-author">By {book.author}</p>
             </div>
