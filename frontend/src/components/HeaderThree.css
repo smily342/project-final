@@ -1,22 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Header container */
 .HeaderThree {
+  font-family: 'Poppins', sans-serif;
   display: flex;
+  flex-direction: column;
+  position: relative; /* Position for absolutely placing nav-links */
   justify-content: center; 
   align-items: center; 
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;        
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
   color: white;
-  height: 200px;
-  font-family: 'Poppins', sans-serif;
+  height: 240px;
 }
 
+/* Text content area */
 .header-content3 {
+  max-width: 60%;
   text-align: center; 
 }
 
 .header-content3 h1 {
   font-size: 50px;
-  margin-bottom: 10px;
   font-weight: 600;
+  margin: 0;
+}
+
+/* Navigation Links */
+.nav-link-container {
+  position: absolute; /* Absolute positioning */
+  top: 20px; /* Distance from the top of the header */
+  right: 20px; /* Distance from the right edge */
+  display: flex;
+  gap: 20px; /* Space between the links */
+}
+
+.nav-link {
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  border: 2px solid white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: white;
+  color: black;
 }
 
