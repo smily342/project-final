@@ -3,6 +3,10 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
+import booksRoutes from "./routes/books.js";
+import categoriesRoutes from "./routes/categories.js";
+import recommendationsRoutes from "./routes/recommendations.js";
+
 dotenv.config(); // Load environment variables from .env file
 
 // Connect to MongoDB
@@ -31,6 +35,11 @@ app.use(express.json()); // Parse JSON data in incoming requests
 app.get("/", (req, res) => {
   res.send("Hello Technigo!");
 });
+
+//  ROUTES 
+app.use("/books", booksRoutes);
+app.use("/categories", categoriesRoutes);
+app.use("/recommendations", recommendationsRoutes);
 
 // Start the server
 app.listen(port, () => {
