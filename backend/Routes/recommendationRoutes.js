@@ -1,10 +1,12 @@
 import express from "express";
 import Book from "../models/Book.js";
+import booksData from "../data/books.json"; 
+
 
 const router = express.Router();
 
 // GET: Fetch general recommendations
-router.get("/", async (req, res) => {
+router.get("/recommendations", async (req, res) => {
   try {
     // Fetch the top 4 highest-rated books
     const recommendations = await Book.find().sort({ rating: -1 }).limit(4);

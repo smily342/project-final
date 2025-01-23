@@ -3,45 +3,44 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import booksRoutes from "./routes/books.js";
-import categoriesRoutes from "./routes/categories.js";
-import recommendationsRoutes from "./routes/recommendations.js";
+import booksRoutes from "./Routes/bookroutes.js";
+import categoriesRoutes from "./Routes/categoryRoutes.js";
+import recommendationsRoutes from "./Routes/recommendationRoutes.js";
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config(); 
 
 // Connect to MongoDB
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose
   .connect(mongoUrl, {
-    useNewUrlParser: true, // Use the new URL string parser
-    useUnifiedTopology: true, // Use the new topology engine
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB")) // Log success message
+  .then(() => console.log("Connected to MongoDB"))
   .catch((error) => {
-    console.error("Error connecting to MongoDB:", error.message); // Log error message
-    process.exit(1); // Exit the process with failure
+    console.error("Error connecting to MongoDB:", error.message);
+    process.exit(1);
   });
 
-mongoose.Promise = Promise; // Use JavaScript Promises with Mongoose
+mongoose.Promise = Promise; 
 
 const port = process.env.PORT || 8080;
 const app = express();
 
 // Middlewares
-app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use(express.json()); // Parse JSON data in incoming requests
+app.use(cors());
+app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
   res.send("Hello Technigo!");
 });
 
-//  ROUTES 
+// ROUTES 
 app.use("/books", booksRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/recommendations", recommendationsRoutes);
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
