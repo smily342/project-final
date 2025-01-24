@@ -5,6 +5,7 @@ const router = express.Router();
 
 // Route to fetch all books
 router.get('/books', (req, res) => {
+  console.log("books")
   res.status(200).json(booksData); 
 });
 
