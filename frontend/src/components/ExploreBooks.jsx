@@ -1,12 +1,12 @@
 import "./ExploreBooks.css"; 
 
-// Temporary books 
+//Temporary books 
 const books = [
   { title: "Read Freely", image: "book1.jpg" },
   { title: "Arigatô", image: "book2.jpg" },
   { title: "Embrace the Wild", image: "book3.jpg" },
   { title: "Galaxy", image: "book4.jpg" },
-];
+]; 
 
 export function ExploreBooks() {
   return (
