@@ -1,3 +1,4 @@
+
 const express = require("express");
 const axios = require("axios");
 
@@ -14,7 +15,7 @@ app.use(express.json());
 // Health Check Endpoint
 app.get("/", (req, res) => {
     res.send(
-        "Server is running. Use /books, /api/genres/:category, /rating, or /group-results to fetch data."
+        "Server is running. Use /books, /genres/fiction, /genres/crime, /genres/romance, /genres/biography, /rating, or /group-results to fetch data."
     );
 });
 
@@ -35,27 +36,65 @@ async function fetchBooks(params) {
     }
 }
 
-// Dynamic category-specific endpoint
-app.get("/api/genres/:category", async (req, res) => {
-    const { category } = req.params; // Extract the category from the URL
+// Helper function to fetch books by genre
+async function fetchBooksByGenre(genre) {
+    return await fetchBooks({ genres: genre });
+}
+
+// Genre-specific endpoints
+app.get("/genres/fiction", async (req, res) => {
     try {
-        const { data, quota } = await fetchBooks({ genres: category.toLowerCase() });
+        const { data, quota } = await fetchBooksByGenre("fiction");
         res.json({ data, quota });
     } catch (error) {
-        console.error(`Error fetching ${category} books:`, error);
-        res.status(500).json({ message: `Error fetching ${category} books`, error });
+        console.error("Error fetching fiction books:", error);
+        res.status(500).json({ message: "Error fetching fiction books", error });
+    }
+});
+
+app.get("/genres/crime", async (req, res) => {
+    try {
+        const { data, quota } = await fetchBooksByGenre("crime");
+        res.json({ data, quota });
+    } catch (error) {
+        console.error("Error fetching crime books:", error);
+        res.status(500).json({ message: "Error fetching crime books", error });
+    }
+});
+
+app.get("/genres/romance", async (req, res) => {
+    try {
+        const { data, quota } = await fetchBooksByGenre("romance");
+        res.json({ data, quota });
+    } catch (error) {
+        console.error("Error fetching romance books:", error);
+        res.status(500).json({ message: "Error fetching romance books", error });
+    }
+});
+
+app.get("/genres/biography", async (req, res) => {
+    try {
+        const { data, quota } = await fetchBooksByGenre("biography");
+        res.json({ data, quota });
+    } catch (error) {
+        console.error("Error fetching biography books:", error);
+        res.status(500).json({ message: "Error fetching biography books", error });
     }
 });
 
 // Route to fetch books with the highest ratings
+// Route to fetch books with the highest ratings
 app.get("/rating", async (req, res) => {
     try {
+        // Default query to ensure the API has a filter for sorting
         const defaultQuery = "all books";
+
+        // Fetch books sorted by rating in descending order, with the highest rating at the top
         const { data, quota } = await fetchBooks({
-            query: defaultQuery,
-            sort: "rating",
-            "sort-direction": "DESC",
-            number: 10,
+            query: defaultQuery, // Default query to comply with API requirements
+            sort: "rating", // Sort by rating
+            "sort-direction": "DESC", // Descending order
+            number: 10, // Limit results to 10
         });
 
         res.json({ data, quota });
@@ -65,16 +104,21 @@ app.get("/rating", async (req, res) => {
     }
 });
 
+
+// Route to fetch grouped results (recommendations)
 // Route to fetch grouped results (recommendations)
 app.get("/group-results", async (req, res) => {
     try {
+        // Use the user-provided query or a default query if missing
         const { query = "all books" } = req.query;
+
+        // Fetch grouped book results
         const { data, quota } = await fetchBooks({
-            query,
-            "group-results": true,
-            sort: "rating",
-            "sort-direction": "DESC",
-            number: 10,
+            query, // Query parameter, either user-provided or default
+            "group-results": true, // Enable grouping of similar editions
+            sort: "rating", // Sort by rating for better recommendations
+            "sort-direction": "DESC", // Sort in descending order
+            number: 10, // Limit results to 10
         });
 
         res.json({ data, quota });
@@ -84,8 +128,8 @@ app.get("/group-results", async (req, res) => {
     }
 });
 
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-
