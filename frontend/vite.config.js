@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': {
+       "/genres": {
         target: 'http://localhost:3000', // Backend server
         changeOrigin: true,
         secure: false,

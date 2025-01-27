@@ -1,103 +1,67 @@
-import { useState } from "react";
-import "./PersonalBooks.css"; 
+import { useState, useEffect } from "react";
+import "./PersonalBooks.css";
 
-export function PersonalBooks() {
+export function PersonalBooks({ userId }) {
   const [selectedCategory, setSelectedCategory] = useState("saved");
+  const [savedBooks, setSavedBooks] = useState([]);
+  const [likedBooks, setLikedBooks] = useState([]);
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Temporary data (replace with our API later)
-  const savedBooks = [
-    {
-      id: 1,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+1",
-      title: "Read Freely",
-      author: "Fatima Souza",
-    },
-    {
-      id: 2,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-    {
-      id: 3,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-    {
-      id: 4,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-  ];
+  useEffect(() => {
+    if (!userId && selectedCategory !== "recommended") {
+      // If there's no userId for "saved" or "liked," show error or skip
+      setError("No user ID provided.");
+      return;
+    }
 
-  const likedBooks = [
-    {
-      id: 5,
-      coverImage: "https://via.placeholder.com/120x180?text=Liked+1",
-      title: "Arigatou Gozaimas",
-      author: "Robert Iger",
-    },
-    {
-      id: 6,
-      coverImage: "https://via.placeholder.com/120x180?text=Liked+2",
-      title: "Sky High",
-      author: "Amelia Flight",
-    },
-    {
-      id: 7,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-    {
-      id: 8,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-  ];
+    async function fetchCategoryData() {
+      setLoading(true);
+      setError(null);
 
-  const recommendedBooks = [
-    {
-      id: 9,
-      coverImage: "https://via.placeholder.com/120x180?text=Recom+1",
-      title: "Embrace The Wild",
-      author: "Sara Anderson",
-    },
-    {
-      id: 10,
-      coverImage: "https://via.placeholder.com/120x180?text=Recom+2",
-      title: "Galaxy Party Here",
-      author: "Koga Farescar",
-    },
-    {
-      id: 12,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-    {
-      id: 13,
-      coverImage: "https://via.placeholder.com/120x180?text=Saved+2",
-      title: "Ocean Life",
-      author: "John Marine",
-    },
-  ];
+      try {
+        let response;
+        let data;
 
-  // Boks displayed based on selected category
+        if (selectedCategory === "saved") {
+          response = await fetch(`/users/${userId}/to-read`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          data = await response.json();
+          setSavedBooks(data || []);
+        } else if (selectedCategory === "liked") {
+          response = await fetch(`/users/${userId}/favorites`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          data = await response.json();
+          setLikedBooks(data || []);
+        } else if (selectedCategory === "recommended") {
+          response = await fetch("/group-results");
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const jsonResponse = await response.json();
+          // if the API returns { data: [...] }
+          data = jsonResponse.data;
+          setRecommendedBooks(data || []);
+        }
+      } catch (err) {
+        setError(err.message || "Error fetching data");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCategoryData();
+  }, [selectedCategory, userId]);
+
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return savedBooks;
     if (selectedCategory === "liked") return likedBooks;
-    return recommendedBooks; 
+    return recommendedBooks;
   };
 
   const displayedBooks = getDisplayedBooks();
 
   return (
     <div className="personal-books">
-      {/* Category Buttons */}
       <div className="category-buttons-row">
         <button
           className={selectedCategory === "saved" ? "active" : ""}
@@ -119,14 +83,20 @@ export function PersonalBooks() {
         </button>
       </div>
 
-      {/* Books Row */}
+      {loading && <div>Loading...</div>}
+      {error && <div style={{ color: "red" }}>Error: {error}</div>}
+
       <div className="books-row">
-        {displayedBooks.map((book) => (
-          <div className="book-card" key={book.id}>
-            <img className="book-cover" src={book.coverImage} alt={book.title} />
+        {!loading && !error && displayedBooks.map((book) => (
+          <div className="book-card" key={book._id || book.id}>
+            <img
+              className="book-cover"
+              src={book.coverImage || "https://via.placeholder.com/120x180?text=No+Cover"}
+              alt={book.title || "Book Cover"}
+            />
             <div className="book-info">
               <p className="book-title">{book.title}</p>
-              <p className="book-author">By {book.author}</p>
+              <p className="book-author">By {book.author || "Unknown"}</p>
             </div>
           </div>
         ))}

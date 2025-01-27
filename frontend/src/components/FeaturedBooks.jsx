@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./FeaturedBooks.css";
 
 export function FeaturedBooks() {
@@ -10,8 +10,8 @@ export function FeaturedBooks() {
   // Fetch featured books on component mount
   useEffect(() => {
     const fetchFeaturedBooks = async () => {
-      setLoading(true); // Start loading state
-      setError(""); // Reset error state
+      setLoading(true); 
+      setError(""); 
 
       try {
         // Fetch books from the /rating endpoint
@@ -22,28 +22,28 @@ export function FeaturedBooks() {
         }
 
         const data = await response.json();
-        console.log("Fetched featured books:", data); // Debugging log
+        console.log("Fetched featured books:", data); 
 
         // Map the backend response to match the expected structure
         const fetchedBooks = data.data.map((book) => ({
-          id: book.id, // Add a unique ID if not already present
+          id: book.id, 
           title: book.title,
-          coverImage: book.cover_image || "default-book.jpg", // Fallback for missing image
-          author: book.author_name || "Unknown Author", // Replace with API field for author
-          description: book.description || "", // Replace with API field for description
+          coverImage: book.cover_image || "default-book.jpg", 
+          author: book.author_name || "Unknown Author", 
+          description: book.description || "", 
         }));
 
-        setBooks(fetchedBooks); // Update state with the fetched books
+        setBooks(fetchedBooks); 
       } catch (err) {
         console.error("Error fetching featured books:", err.message);
         setError("Failed to load featured books. Please try again.");
       } finally {
-        setLoading(false); // End loading state
+        setLoading(false); 
       }
     };
 
     fetchFeaturedBooks();
-  }, []); // Run only once when the component mounts
+  }, []); 
 
   if (loading) {
     return <div>Loading featured books...</div>;

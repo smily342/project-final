@@ -9,34 +9,35 @@ export function ExploreBooks() {
 
   // Function to fetch books by category from your backend
   const fetchBooksByCategory = async (category) => {
-    setLoading(true); // Start loading state
-    setError(""); // Reset error state
+    setLoading(true); 
+    setError(""); 
 
     try {
       // Fetch books from your backend using the Fetch API
-      const response = await fetch(`/api/genres/${category.toLowerCase()}`); // Updated to include "/api"
+      const response = await fetch(`/genres/${category.toLowerCase()}`);
 
       // Check if the response is okay
       if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      const data = await response.json(); // Parse the JSON response
+      const data = await response.json(); 
+
       console.log("API Response:", data);
 
-      // Map the backend response to match the expected structure
-      const fetchedBooks = data.data.map((book) => ({
+      // Handle nested structure: data.data.books (array of arrays)
+      const fetchedBooks = data.data.books.flat().map((book) => ({
         title: book.title,
-        image: book.cover_image || "default-book.jpg", // Fallback for missing image
+        image: book.image || "default-book.jpg", 
       }));
 
-      console.log("Mapped Books:", fetchedBooks);
-      setBooks(fetchedBooks); // Update books state
+      console.log("Mapped Books:", fetchedBooks); 
+      setBooks(fetchedBooks); 
     } catch (err) {
       console.error("Error fetching books:", err.message);
       setError("Failed to load books. Please try again.");
     } finally {
-      setLoading(false); // End loading state
+      setLoading(false); 
     }
   };
 
@@ -66,7 +67,7 @@ export function ExploreBooks() {
               books.map((book, index) => (
                 <div className="book" key={index}>
                   <img
-                    src={book.image} // Display book image
+                    src={book.image} 
                     alt={book.title}
                   />
                   <p>{book.title}</p>
