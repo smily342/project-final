@@ -6,6 +6,8 @@
   background-color: black;
   color: white;
   font-family: 'Poppins', sans-serif;
+
+
 }
 
 .Footer-content {
@@ -36,52 +38,4 @@
 
 .social-icon:hover {
   color: #ccc;
-}
-
-/* Mobile (320px - 767px) */
-@media (max-width: 767px) {
-  .Footer {
-    flex-direction: column;
-    /* Make the entire footer stack vertically */
-    text-align: center;
-    gap: 20px;
-    /* Add spacing between sections */
-  }
-
-  .Footer-socials {
-    flex-direction: column;
-    /* Stack text and icon vertically */
-    align-items: center;
-    /* Center align content */
-  }
-
-  footer p {
-    font-size: 1rem;
-    /* Smaller text size on mobile */
-    margin-bottom: 10px;
-    /* Add space between text and icon */
-  }
-}
-
-/* Tablet (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .Footer {
-    flex-direction: row;
-    /* Keep footer content in a row */
-    padding: 30px;
-  }
-
-  .Footer-socials {
-    flex-direction: column;
-    /* Stack text and icon vertically */
-    align-items: center;
-    /* Center align content */
-  }
-
-  footer p {
-    font-size: 1.2rem;
-    /* Slightly larger text on tablets */
-    margin-bottom: 10px;
-    /* Space between text and icon */
-  }
 }
