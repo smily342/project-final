@@ -5,18 +5,19 @@
     justify-content: center;
     align-items: center;
     font-family: 'Poppins', sans-serif;
-    z-index: 2; 
-    background: transparent; 
+    z-index: 2;
+    background: transparent;
+    margin-bottom: 100px;
 }
 
 .LogIn-form {
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 350px;
     text-align: center;
-    
+
 }
 
 .LogIn-title {
@@ -36,9 +37,9 @@
     font-size: 16px;
     color: #555;
     margin-left: 20px;
-    
 
-    
+
+
 }
 
 .LogIn-input::placeholder {
@@ -46,7 +47,7 @@
 }
 
 .LogIn-button {
-    background-color: black; 
+    background-color: black;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -59,7 +60,7 @@
 }
 
 .LogIn-button:hover {
-    background-color: #555; 
+    background-color: #555;
 }
 
 .LogIn-footer {

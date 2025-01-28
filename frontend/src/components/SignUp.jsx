@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import useNavigate
 import { Footer } from "../components/Footer";
 import "./SignUp.css";
 
@@ -11,6 +11,7 @@ export const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,10 +65,15 @@ export const SignUp = () => {
       } else {
         setSuccess("User registered successfully!");
         setError("");
+
+        // Clear form fields
         setFullName("");
         setEmail("");
         setPassword("");
         setRepeatPassword("");
+
+        // ✅ Redirect to Library Page
+        navigate("/library");
       }
     } catch (err) {
       setIsLoading(false);

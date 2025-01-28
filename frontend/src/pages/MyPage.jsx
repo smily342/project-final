@@ -1,16 +1,17 @@
-import {HeaderThree} from "../components/HeaderThree";
+import { HeaderThree } from "../components/HeaderThree";
 import { PersonalBooks } from "../components/PersonalBooks";
-import { Footer } from "../components/Footer"; 
+import { Footer } from "../components/Footer";
 
-
-export const MyPage =() => {
+export const MyPage = () => {
   return (
-    <div>
-     <HeaderThree />
-      <PersonalBooks />
+    <div className="page-wrapper">
+      <HeaderThree />
+      <div className="content-wrapper">
+        <PersonalBooks />
+      </div>
       <Footer />
     </div>
   );
-}
+};
 
 export default MyPage;

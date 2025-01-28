@@ -1,76 +1,75 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-.personal-books {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  /* Category Buttons */
-  .category-buttons-row {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .category-buttons-row button {
-    margin: 10px;
-    padding: 20px 40px;
-    border: solid 2px black;
-    background-color: #e0e0e0;
-    font-size: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .category-buttons-row button:hover {
-    background-color: #ddd;
-  }
-  
-  .category-buttons-row button.active {
-    background-color: #282626;
-    color: white;
-    font-weight: bold;
-  }
-  
-  /* Books Row */
-  .books-row {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    margin-top: 80px;
-  }
-  
-  .book-card {
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 400px;
-    padding: 100px;
-    margin-bottom:100px;
 
-  }
-  
-  .book-cover {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    object-fit: cover;
-  }
-  
-  .book-info {
-    margin-top: 0.5rem;
-  }
-  
-  
-  .book-title {
-    font-weight: bold;
-    margin-bottom: 0.25rem;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .book-author {
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
+.personal-books {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Category Buttons */
+.category-buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.category-buttons-row button {
+  margin: 10px;
+  padding: 20px 40px;
+  border: solid 2px black;
+  background-color: #e0e0e0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category-buttons-row button:hover {
+  background-color: #ddd;
+}
+
+.category-buttons-row button.active {
+  background-color: #282626;
+  color: white;
+}
+
+/* Books Row */
+.books-row {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.book-card {
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 400px;
+  padding: 100px;
+  margin-bottom: 100px;
+
+}
+
+.book-cover {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.book-info {
+  margin-top: 0.5rem;
+}
+
+
+.book-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.book-author {
+  font-size: 0.9rem;
+  color: #666;
+}

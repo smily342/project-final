@@ -1,8 +1,7 @@
 
 import { useState, useEffect } from "react";
-import { FeaturedBooks } from "../components/FeaturedBooks";
 import { HeaderOne } from "../components/HeaderOne";
-import { Footer } from "../components/Footer"; 
+import { Footer } from "../components/Footer";
 import { LogIn } from "../components/LogIn";
 import "./WelcomePage.css";
 
@@ -32,7 +31,6 @@ export function WelcomePage() {
       {/* Foreground Content */}
       <HeaderOne />
       <LogIn />
-      <FeaturedBooks books={mockBooks} />
       <Footer />
     </div>
   );

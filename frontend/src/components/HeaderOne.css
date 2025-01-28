@@ -2,47 +2,128 @@
 
 .HeaderOne {
     display: flex;
-    justify-content: center; 
-    align-items: center;    
-    height: 200px;          
+    justify-content: center;
+    align-items: center;
+    height: 200px;
     font-family: 'Poppins', sans-serif;
-    width: 100%;           
-    z-index: 2;            
-    background-color: transparent; 
+    width: 100%;
+    z-index: 2;
+    background-color: transparent;
     padding: 0;
 }
 
 .header-title {
-    font-size: 150px;
+    font-size: 140px;
     font-weight: 600;
     display: flex;
     margin-top: 300px;
     margin-bottom: 250px;
-    gap: 10px; 
+    gap: 10px;
     padding: 0;
-    z-index: 3; 
-}
-
-.solid-text {
-    color: white; 
+    z-index: 3;
+    text-align: center;
+    color: white;
     -webkit-text-stroke: 1px black;
-    
 }
 
-.outlined-text {
-    color: white;     
-    -webkit-text-stroke: 1px black; 
-    font-weight: 600;
-}
 
-.intro-text{
+.intro-text {
     color: white;
     font-size: 30px;
     text-align: center;
     margin-bottom: 150px;
-    margin-top: 80px;    
+    margin-top: 80px;
 }
 
 .intro-text span {
-    display: block;    
-  }
+    display: block;
+}
+
+/* Mobile (320px - 767px) */
+@media (max-width: 767px) {
+    .header-title {
+        font-size: 3rem;
+        /* Reduce font size for smaller screens */
+        font-weight: 600;
+        display: block;
+        /* Allow text wrapping */
+        margin-top: 150px;
+        /* Adjust top margin */
+        margin-bottom: 150px;
+        /* Adjust bottom margin */
+        padding: 0;
+        z-index: 3;
+        text-align: center;
+        /* Center-align the text */
+        max-width: 80%;
+        /* Constrain the width to ensure wrapping */
+        line-height: 1.2;
+        /* Adjust spacing between lines */
+        word-wrap: break-word;
+        /* Ensure long words wrap */
+        white-space: normal;
+        /* Allow text to break onto multiple lines */
+    }
+
+    .intro-text {
+        color: white;
+        font-size: 1.2rem;
+        /* Slightly larger font for better readability */
+        font-weight: 400;
+        /* Use a clean, readable font weight */
+        text-align: center;
+        /* Center the text */
+        margin-bottom: 80px;
+        /* Adjust spacing below */
+        margin-top: 50px;
+        /* Adjust spacing above */
+        line-height: 1.5;
+        /* Add better line spacing */
+        max-width: 90%;
+        /* Constrain width to avoid overly wide text */
+        margin-left: auto;
+        margin-right: auto;
+        /* Center horizontally */
+    }
+}
+
+
+/* Tablet (768px - 1024px, including iPad Pro) */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    .header-title {
+        font-size: 5rem;
+        font-weight: 600;
+        display: block;
+        padding-top: 150px;
+        padding-bottom: 150px;
+        padding: 0;
+        z-index: 3;
+        text-align: center;
+        max-width: 75%;
+        line-height: 1.2;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    .intro-text {
+        color: white;
+        font-size: 1.5rem;
+        /* Larger font for tablets */
+        font-weight: 400;
+        /* Keep a clean, readable font weight */
+        text-align: center;
+        /* Center the text */
+        margin-bottom: 100px;
+        /* Add spacing below */
+        margin-top: 70px;
+        /* Add spacing above */
+        line-height: 1.6;
+        /* Increase line spacing for readability */
+        max-width: 80%;
+        /* Constrain width for better alignment */
+        margin-left: auto;
+        margin-right: auto;
+        /* Center horizontally */
+    }
+}

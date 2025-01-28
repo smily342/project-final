@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-.categories, .categories *, 
-.book-display, .book-display * {
+.categories,
+.categories *,
+.book-display,
+.book-display * {
   font-family: 'Poppins', sans-serif;
 }
 
@@ -29,15 +31,21 @@
   padding: 20px 40px;
   border: solid 2px black;
   background-color: #e0e0e0;
-  font-size: 20px;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  
+
 }
 
 .category-buttons button:hover {
   background-color: #c7c7c7;
 }
+
+.category-buttons button.active {
+  background-color: #282626;
+  color: white;
+}
+
 
 /* Book Display */
 .book-display {
@@ -81,4 +89,5 @@
 .book p {
   font-weight: bold;
   margin: 10px 0;
+  font-size: 1rem;
 }
