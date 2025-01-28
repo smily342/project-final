@@ -33,6 +33,25 @@ mongoose
 // Middleware to parse JSON
 app.use(express.json());
 
+// Middleware to parse JSON
+app.use(express.json());
+
+// Middleware to authenticate and decode JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access denied" });
+
+  try {
+    const verified = jwt.verify(token, JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (err) {
+    console.error("Token verification error:", err.message);
+    res.status(403).json({ message: "Invalid token" });
+  }
+};
+
+
 // Health Check Endpoint
 app.get("/", (req, res) => {
   res.send("Server is running.");
@@ -202,33 +221,123 @@ app.post("/login", async (req, res) => {
 });
 
 // ADD THESE ROUTES - NOTHING ELSE CHANGED
-app.get("/users/:userId/favorites", async (req, res) => {
+app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await User.findById(userId).populate("favorites");
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
+    const userId = req.user._id; // Extract user ID from the token
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
     res.json(user.favorites);
   } catch (error) {
-    console.error("Error fetching user favorites:", error.message);
+    console.error("Error fetching favorites:", error.message); // Log error details
     res.status(500).json({ message: "Error fetching user favorites.", error: error.message });
   }
 });
 
-app.get("/users/:userId/to-read", async (req, res) => {
+
+app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await User.findById(userId).populate("toRead");
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
+    const userId = req.user._id; // Extract user ID from the token
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
     res.json(user.toRead);
   } catch (error) {
-    console.error("Error fetching user to-read:", error.message);
+    console.error("Error fetching to-read list:", error.message); // Log error details
     res.status(500).json({ message: "Error fetching user to-read.", error: error.message });
   }
 });
+
+// Add a book to favorites
+app.post("/users/me/favorites", async (req, res) => {
+  try {
+    const userId = req.user._id; // Extract user ID from token
+    const { id, title, author, genre } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Check if the book is already in favorites
+    if (user.favorites.some((book) => book.id === id)) {
+      return res.status(400).json({ message: "Book is already in favorites." });
+    }
+
+    // Add the book to favorites
+    user.favorites.push({ id, title, author, genre });
+    await user.save();
+
+    res.status(200).json({ message: "Book added to favorites.", favorites: user.favorites });
+  } catch (error) {
+    console.error("Error adding book to favorites:", error.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Add a book to the to-read list
+app.post("/users/me/to-read", async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { id, title, author, genre } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Check if the book is already in the to-read list
+    if (user.toRead.some((book) => book.id === id)) {
+      return res.status(400).json({ message: "Book is already in the to-read list." });
+    }
+
+    // Add the book to the to-read list
+    user.toRead.push({ id, title, author, genre });
+    await user.save();
+
+    res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
+  } catch (error) {
+    console.error("Error adding book to to-read list:", error.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Remove a book from favorites
+app.delete("/users/me/favorites/:bookId", async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { bookId } = req.params;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Remove the book from favorites
+    user.favorites = user.favorites.filter((book) => book.id !== bookId);
+    await user.save();
+
+    res.status(200).json({ message: "Book removed from favorites.", favorites: user.favorites });
+  } catch (error) {
+    console.error("Error removing book from favorites:", error.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Remove a book from the to-read list
+app.delete("/users/me/to-read/:bookId", async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { bookId } = req.params;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Remove the book from the to-read list
+    user.toRead = user.toRead.filter((book) => book.id !== bookId);
+    await user.save();
+
+    res.status(200).json({ message: "Book removed from to-read list.", toRead: user.toRead });
+  } catch (error) {
+    console.error("Error removing book from to-read list:", error.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 
 // Start the server
 app.listen(PORT, () => {

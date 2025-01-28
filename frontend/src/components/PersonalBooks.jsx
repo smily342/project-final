@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./PersonalBooks.css";
 
-export function PersonalBooks({ userId }) {
+export function PersonalBooks() {
   const [selectedCategory, setSelectedCategory] = useState("saved");
   const [savedBooks, setSavedBooks] = useState([]);
   const [likedBooks, setLikedBooks] = useState([]);
@@ -10,12 +10,6 @@ export function PersonalBooks({ userId }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!userId && selectedCategory !== "recommended") {
-      // If there's no userId for "saved" or "liked," show error or skip
-      setError("No user ID provided.");
-      return;
-    }
-
     async function fetchCategoryData() {
       setLoading(true);
       setError(null);
@@ -23,26 +17,50 @@ export function PersonalBooks({ userId }) {
       try {
         let response;
         let data;
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("User not authenticated.");
+          return;
+        }
 
         if (selectedCategory === "saved") {
-          response = await fetch(`/users/${userId}/to-read`);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          data = await response.json();
-          setSavedBooks(data || []);
+          console.log("Fetching saved books...");
+          response = await fetch("http://localhost:3000/users/me/to-read", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
         } else if (selectedCategory === "liked") {
-          response = await fetch(`/users/${userId}/favorites`);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          data = await response.json();
-          setLikedBooks(data || []);
+          console.log("Fetching liked books...");
+          response = await fetch("http://localhost:3000/users/me/favorites", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
         } else if (selectedCategory === "recommended") {
-          response = await fetch("/group-results");
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          const jsonResponse = await response.json();
-          // if the API returns { data: [...] }
-          data = jsonResponse.data;
-          setRecommendedBooks(data || []);
+          console.log("Fetching recommendations...");
+          response = await fetch("http://localhost:3000/group-results");
+        }
+
+        // Log the response URL and status for debugging
+        console.log(`Response URL: ${response.url}, Status: ${response.status}`);
+
+        if (!response.ok) {
+          // Log the raw response body for debugging
+          const rawResponse = await response.text();
+          console.error("Response Error Body:", rawResponse);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Parse the JSON data
+        data = await response.json();
+
+        // Update state based on the selected category
+        if (selectedCategory === "saved") setSavedBooks(data || []);
+        if (selectedCategory === "liked") setLikedBooks(data || []);
+        if (selectedCategory === "recommended") {
+          const recommendations = data.data || [];
+          setRecommendedBooks(recommendations);
         }
       } catch (err) {
+        console.error("Fetch error:", err.message || "Unknown error");
         setError(err.message || "Error fetching data");
       } finally {
         setLoading(false);
@@ -50,7 +68,7 @@ export function PersonalBooks({ userId }) {
     }
 
     fetchCategoryData();
-  }, [selectedCategory, userId]);
+  }, [selectedCategory]);
 
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return savedBooks;
@@ -87,19 +105,21 @@ export function PersonalBooks({ userId }) {
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
       <div className="books-row">
-        {!loading && !error && displayedBooks.map((book) => (
-          <div className="book-card" key={book._id || book.id}>
-            <img
-              className="book-cover"
-              src={book.coverImage || "https://via.placeholder.com/120x180?text=No+Cover"}
-              alt={book.title || "Book Cover"}
-            />
-            <div className="book-info">
-              <p className="book-title">{book.title}</p>
-              <p className="book-author">By {book.author || "Unknown"}</p>
+        {!loading &&
+          !error &&
+          displayedBooks.map((book) => (
+            <div className="book-card" key={book._id || book.id}>
+              <img
+                className="book-cover"
+                src={book.coverImage || "https://via.placeholder.com/120x180?text=No+Cover"}
+                alt={book.title || "Book Cover"}
+              />
+              <div className="book-info">
+                <p className="book-title">{book.title}</p>
+                <p className="book-author">By {book.author || "Unknown"}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

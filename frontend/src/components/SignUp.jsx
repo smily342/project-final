@@ -44,8 +44,6 @@ export const SignUp = () => {
     try {
       setIsLoading(true);
 
-      // IMPORTANT CHANGE: Make sure you have "http://" and do NOT prepend a slash
-      // This ensures we hit http://localhost:3000/signup correctly.
       const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

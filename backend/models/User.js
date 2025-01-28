@@ -6,8 +6,22 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
-  toRead: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  favorites: [
+    {
+      id: String, // Unique book ID (from external API)
+      title: String,
+      author: String,
+      genre: String,
+    },
+  ],
+  toRead: [
+    {
+      id: String, // Unique book ID (from external API)
+      title: String,
+      author: String,
+      genre: String,
+    },
+  ],
 });
 
 userSchema.set("timestamps", true);
