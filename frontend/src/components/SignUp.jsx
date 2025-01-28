@@ -15,11 +15,11 @@ export const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic validations
     if (!fullName.trim()) {
       setError("Please enter your first and last name.");
       return;
     }
-
     const nameParts = fullName.trim().split(" ");
     if (nameParts.length < 2) {
       setError("Please provide both first and last name.");
@@ -32,7 +32,6 @@ export const SignUp = () => {
       setError("Please enter a valid email.");
       return;
     }
-
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
@@ -43,7 +42,10 @@ export const SignUp = () => {
     }
 
     try {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
+
+      // IMPORTANT CHANGE: Make sure you have "http://" and do NOT prepend a slash
+      // This ensures we hit http://localhost:3000/signup correctly.
       const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,7 +58,7 @@ export const SignUp = () => {
       });
 
       const data = await response.json();
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
 
       if (!response.ok) {
         setError(data.message || "Something went wrong during signup.");
@@ -70,7 +72,7 @@ export const SignUp = () => {
         setRepeatPassword("");
       }
     } catch (err) {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
       setError("Unable to connect to the server. Please try again later.");
       setSuccess("");
       console.error(err);

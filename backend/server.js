@@ -5,11 +5,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 require("dotenv").config();
+const cors = require("cors");
+
 
 const User = require("./models/user.js");
 
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 // API details
@@ -41,7 +44,7 @@ async function fetchBooks(params) {
     const response = await axios.get(BOOKS_API_URL, {
       params: {
         ...params,
-        "api-key": API_KEY, // Add the API key
+        "api-key": API_KEY,
       },
     });
 
@@ -80,7 +83,10 @@ app.get("/genres/crime", async (req, res) => {
 
 app.get("/genres/romance", async (req, res) => {
   try {
-    const { data, quota } = await fetchBooksByGenre("romance");
+    const { data, quota } = await fetchBooksByGenre({
+      query: "romance",
+      number: 8,
+    })
     res.json({ data, quota });
   } catch (error) {
     console.error("Error fetching romance books:", error.message);
@@ -142,22 +148,31 @@ app.post(
     body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long."),
   ],
   async (req, res) => {
+    // Check validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      // Return first error as "message" (so the frontend sees data.message)
+      const firstErrorMsg = errors.array()[0].msg;
+      return res.status(400).json({ message: firstErrorMsg });
     }
 
     const { firstName, lastName, email, password } = req.body;
 
     try {
       const existingEmail = await User.findOne({ email });
-      if (existingEmail) return res.status(400).json({ message: "Email already exists." });
+      if (existingEmail) {
+        return res.status(400).json({ message: "Email already exists." });
+      }
 
       const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
 
-      const user = new User({ firstName, lastName, email, password: hashedPassword });
       await user.save();
-
       res.status(201).json({ message: "User registered successfully!" });
     } catch (err) {
       console.error("Error during signup:", err.message);

@@ -1,18 +1,17 @@
-import mongoose from "mongoose";
+// models/user.js
+const mongoose = require("mongoose");
 
-// Schema for users
-const userSchema = mongoose.Schema({
-  firstName: { type: String, required: true }, // User's first name
-  lastName: { type: String, required: true }, // User's last name
-  email: { type: String, required: true, unique: true }, // Unique email
-  password: { type: String, required: true }, // Hashed password
-  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }], // Favorite books
-  toRead: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }], // Books to read
+const userSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  toRead: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
 });
-
 
 userSchema.set("timestamps", true);
 
 const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = User;
