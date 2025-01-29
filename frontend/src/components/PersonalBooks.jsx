@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import "./PersonalBooks.css";
+import { FaTrash } from "react-icons/fa";
+
+const API_BASE_URL = "http://localhost:3000"; // Change if deploying!!
 
 export function PersonalBooks() {
   const [selectedCategory, setSelectedCategory] = useState("saved");
@@ -10,65 +13,77 @@ export function PersonalBooks() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchCategoryData() {
-      setLoading(true);
-      setError(null);
-
-      try {
-        let response;
-        let data;
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          setError("User not authenticated.");
-          return;
-        }
-
-        if (selectedCategory === "saved") {
-          console.log("Fetching saved books...");
-          response = await fetch("http://localhost:3000/users/me/to-read", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-        } else if (selectedCategory === "liked") {
-          console.log("Fetching liked books...");
-          response = await fetch("http://localhost:3000/users/me/favorites", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-        } else if (selectedCategory === "recommended") {
-          console.log("Fetching recommendations...");
-          response = await fetch("http://localhost:3000/group-results");
-        }
-
-        // Log the response URL and status for debugging
-        console.log(`Response URL: ${response.url}, Status: ${response.status}`);
-
-        if (!response.ok) {
-          // Log the raw response body for debugging
-          const rawResponse = await response.text();
-          console.error("Response Error Body:", rawResponse);
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        // Parse the JSON data
-        data = await response.json();
-
-        // Update state based on the selected category
-        if (selectedCategory === "saved") setSavedBooks(data || []);
-        if (selectedCategory === "liked") setLikedBooks(data || []);
-        if (selectedCategory === "recommended") {
-          const recommendations = data.data || [];
-          setRecommendedBooks(recommendations);
-        }
-      } catch (err) {
-        console.error("Fetch error:", err.message || "Unknown error");
-        setError(err.message || "Error fetching data");
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchCategoryData();
   }, [selectedCategory]);
+
+  const fetchCategoryData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("User not authenticated.");
+        return;
+      }
+
+      let endpoint;
+      if (selectedCategory === "saved") {
+        endpoint = "/users/me/to-read";
+      } else if (selectedCategory === "liked") {
+        endpoint = "/users/me/favorites";
+      } else if (selectedCategory === "recommended") {
+        endpoint = "/group-results";
+      }
+
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (selectedCategory === "saved") setSavedBooks(data || []);
+      if (selectedCategory === "liked") setLikedBooks(data || []);
+      if (selectedCategory === "recommended") {
+        setRecommendedBooks(data.data || []);
+      }
+    } catch (err) {
+      setError(err.message || "Error fetching data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Remove book from "Saved" or "Liked"
+  const handleRemoveBook = async (bookId) => {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please log in to modify your books.");
+
+    const isSaved = selectedCategory === "saved";
+    const endpoint = `${API_BASE_URL}/users/me/${isSaved ? "to-read" : "favorites"}/${encodeURIComponent(bookId)}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        if (isSaved) {
+          setSavedBooks((prev) => prev.filter((book) => book.id !== bookId));
+        } else {
+          setLikedBooks((prev) => prev.filter((book) => book.id !== bookId));
+        }
+      } else {
+        console.error("Failed to remove book.");
+      }
+    } catch (error) {
+      console.error("Error removing book:", error);
+    }
+  };
 
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return savedBooks;
@@ -108,7 +123,7 @@ export function PersonalBooks() {
         {!loading &&
           !error &&
           displayedBooks.map((book) => (
-            <div className="book-card" key={book._id || book.id}>
+            <div className="book-card" key={book.id}>
               <img
                 className="book-cover"
                 src={book.coverImage || "https://via.placeholder.com/120x180?text=No+Cover"}
@@ -117,6 +132,14 @@ export function PersonalBooks() {
               <div className="book-info">
                 <p className="book-title">{book.title}</p>
                 <p className="book-author">By {book.author || "Unknown"}</p>
+                {selectedCategory !== "recommended" && (
+                  <button
+                    className="remove-button"
+                    onClick={() => handleRemoveBook(book.id)}
+                  >
+                    <FaTrash /> Remove
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -124,3 +147,5 @@ export function PersonalBooks() {
     </div>
   );
 }
+
+export default PersonalBooks;

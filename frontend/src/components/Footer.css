@@ -27,7 +27,6 @@
   align-items: center;
   text-align: center;
   gap: 10px;
-  /* Space between text and icon */
 }
 
 .social-icon {
@@ -39,3 +38,7 @@
 .social-icon:hover {
   color: #ccc;
 }
+
+@media (max-width: 767px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {}

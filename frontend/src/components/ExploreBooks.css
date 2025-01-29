@@ -61,10 +61,10 @@
 
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  padding: 100px;
-  height: 450px;
+  padding: 20px;
+  height: auto;
 }
 
 .book {
@@ -90,4 +90,46 @@
   font-weight: bold;
   margin: 10px 0;
   font-size: 1rem;
+}
+
+.book-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.like-button,
+.save-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.like-button.liked svg,
+.save-button.saved svg {
+  color: black;
+}
+
+.like-button svg,
+.save-button svg {
+  transition: color 0.2s;
+}
+
+
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 books per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .books-grid {
+    grid-template-columns: repeat(1, 1fr);
+    /* 1 book per row on very small screens */
+  }
 }

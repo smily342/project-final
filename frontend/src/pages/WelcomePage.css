@@ -1,30 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 /* Global reset */
+.MainContent {
+    flex: 1;
+    /* This makes the content area grow to push the footer down */
+}
+
 html,
 body {
     height: 100%;
     margin: 0;
-    /* Remove default browser margins */
     padding: 0;
-    /* Remove default browser padding */
     font-family: 'Poppins', sans-serif;
-    /* Set global font */
     overflow-x: hidden;
-    /* Prevent horizontal scrolling */
 }
 
 /* Welcome Page */
 .welcome-page {
     position: relative;
     min-height: 100vh;
-    /* Ensure it spans the full viewport height */
     margin: 0;
     padding: 0;
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
     background-attachment: fixed;
-    /* Fix the background for a smooth parallax effect */
     z-index: 1;
 }
 
@@ -32,21 +31,15 @@ body {
 .welcome-page>* {
     position: relative;
     z-index: 2;
-    /* Higher than the background */
 }
 
 /* Content Area */
 .content {
     flex: 1;
-    /* Allow the content to fill available space */
     overflow-y: auto;
-    /* Enable scrolling for content overflow */
     width: 100%;
-    /* Prevent horizontal scrolling */
     padding: 20px;
-    /* Optional: Add some inner padding for better spacing */
     color: white;
-    /* Ensure text is readable on dark background */
 }
 
 /* Debugging (optional) */

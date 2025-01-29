@@ -38,18 +38,32 @@ app.use(express.json());
 
 // Middleware to authenticate and decode JWT token
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Access denied" });
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "Access denied. No token provided." });
+
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access denied. Token missing." });
 
   try {
     const verified = jwt.verify(token, JWT_SECRET);
     req.user = verified;
+
+    if (!req.user._id) {
+      console.error("Token does not contain user ID");
+      return res.status(403).json({ message: "Invalid token structure." });
+    }
+
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      console.error("Token expired.");
+      return res.status(403).json({ message: "Session expired. Please log in again." });
+    }
     console.error("Token verification error:", err.message);
     res.status(403).json({ message: "Invalid token" });
   }
 };
+
 
 
 // Health Check Endpoint
@@ -132,12 +146,19 @@ app.get("/rating", async (req, res) => {
       "sort-direction": "DESC",
       number: 10,
     });
+
+    if (!data || !Array.isArray(data.books)) {
+      return res.status(500).json({ message: "No books found in API response" });
+    }
+
+    res.setHeader("Content-Type", "application/json"); // Force JSON format
     res.json({ data });
   } catch (error) {
     console.error("Error fetching highest-rated books:", error.message);
     res.status(500).json({ message: "Error fetching highest-rated books.", error: error.message });
   }
 });
+
 
 // Route to fetch grouped results (recommendations)
 app.get("/group-results", async (req, res) => {
@@ -220,52 +241,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// ADD THESE ROUTES - NOTHING ELSE CHANGED
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
-    const userId = req.user._id; // Extract user ID from the token
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
-
     res.json(user.favorites);
   } catch (error) {
-    console.error("Error fetching favorites:", error.message); // Log error details
-    res.status(500).json({ message: "Error fetching user favorites.", error: error.message });
+    console.error("Error fetching favorites:", error.message);
+    res.status(500).json({ message: "Error fetching user favorites." });
   }
 });
 
-
-app.get("/users/me/to-read", authenticateToken, async (req, res) => {
+app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
-    const userId = req.user._id; // Extract user ID from the token
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found." });
-
-    res.json(user.toRead);
-  } catch (error) {
-    console.error("Error fetching to-read list:", error.message); // Log error details
-    res.status(500).json({ message: "Error fetching user to-read.", error: error.message });
-  }
-});
-
-// Add a book to favorites
-app.post("/users/me/favorites", async (req, res) => {
-  try {
-    const userId = req.user._id; // Extract user ID from token
     const { id, title, author, genre } = req.body;
-
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
 
-    // Check if the book is already in favorites
-    if (user.favorites.some((book) => book.id === id)) {
+    if (user.favorites.some((book) => book.id.toString() === id.toString())) {
       return res.status(400).json({ message: "Book is already in favorites." });
     }
-
-    // Add the book to favorites
     user.favorites.push({ id, title, author, genre });
     await user.save();
-
     res.status(200).json({ message: "Book added to favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error adding book to favorites:", error.message);
@@ -273,44 +270,13 @@ app.post("/users/me/favorites", async (req, res) => {
   }
 });
 
-// Add a book to the to-read list
-app.post("/users/me/to-read", async (req, res) => {
+app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) => {
   try {
-    const userId = req.user._id;
-    const { id, title, author, genre } = req.body;
-
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
 
-    // Check if the book is already in the to-read list
-    if (user.toRead.some((book) => book.id === id)) {
-      return res.status(400).json({ message: "Book is already in the to-read list." });
-    }
-
-    // Add the book to the to-read list
-    user.toRead.push({ id, title, author, genre });
+    user.favorites = user.favorites.filter((book) => book.id.toString() !== req.params.bookId.toString());
     await user.save();
-
-    res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
-  } catch (error) {
-    console.error("Error adding book to to-read list:", error.message);
-    res.status(500).json({ message: "Internal server error." });
-  }
-});
-
-// Remove a book from favorites
-app.delete("/users/me/favorites/:bookId", async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const { bookId } = req.params;
-
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found." });
-
-    // Remove the book from favorites
-    user.favorites = user.favorites.filter((book) => book.id !== bookId);
-    await user.save();
-
     res.status(200).json({ message: "Book removed from favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error removing book from favorites:", error.message);
@@ -318,19 +284,42 @@ app.delete("/users/me/favorites/:bookId", async (req, res) => {
   }
 });
 
-// Remove a book from the to-read list
-app.delete("/users/me/to-read/:bookId", async (req, res) => {
+app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   try {
-    const userId = req.user._id;
-    const { bookId } = req.params;
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found." });
+    res.json(user.toRead);
+  } catch (error) {
+    console.error("Error fetching to-read list:", error.message);
+    res.status(500).json({ message: "Error fetching user to-read list." });
+  }
+});
 
-    const user = await User.findById(userId);
+app.post("/users/me/to-read", authenticateToken, async (req, res) => {
+  try {
+    const { id, title, author, genre } = req.body;
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
 
-    // Remove the book from the to-read list
-    user.toRead = user.toRead.filter((book) => book.id !== bookId);
+    if (user.toRead.some((book) => book.id.toString() === id.toString())) {
+      return res.status(400).json({ message: "Book is already in the to-read list." });
+    }
+    user.toRead.push({ id, title, author, genre });
     await user.save();
+    res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
+  } catch (error) {
+    console.error("Error adding book to to-read list:", error.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
 
+app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    user.toRead = user.toRead.filter((book) => book.id.toString() !== req.params.bookId.toString());
+    await user.save();
     res.status(200).json({ message: "Book removed from to-read list.", toRead: user.toRead });
   } catch (error) {
     console.error("Error removing book from to-read list:", error.message);
