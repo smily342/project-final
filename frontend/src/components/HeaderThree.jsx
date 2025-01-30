@@ -1,5 +1,5 @@
 import "./HeaderThree.css";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom";
 
 export const HeaderThree = () => {
   return (

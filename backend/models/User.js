@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   favorites: [
     {
-      id: String, // Unique book ID (from external API)
+      id: String,
       title: String,
       author: String,
       genre: String,
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   ],
   toRead: [
     {
-      id: String, // Unique book ID (from external API)
+      id: String,
       title: String,
       author: String,
       genre: String,
@@ -26,6 +26,6 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set("timestamps", true);
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;

@@ -7,9 +7,7 @@ const { body, validationResult } = require("express-validator");
 require("dotenv").config();
 const cors = require("cors");
 
-
-const User = require("./models/user.js");
-
+const User = require("./models/User");
 
 const app = express();
 app.use(cors());
@@ -29,9 +27,6 @@ mongoose
     console.error("Failed to connect to MongoDB", err.message);
     process.exit(1);
   });
-
-// Middleware to parse JSON
-app.use(express.json());
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -63,8 +58,6 @@ const authenticateToken = (req, res, next) => {
     res.status(403).json({ message: "Invalid token" });
   }
 };
-
-
 
 // Health Check Endpoint
 app.get("/", (req, res) => {
@@ -119,7 +112,7 @@ app.get("/genres/romance", async (req, res) => {
     const { data, quota } = await fetchBooksByGenre({
       query: "romance",
       number: 8,
-    })
+    });
     res.json({ data, quota });
   } catch (error) {
     console.error("Error fetching romance books:", error.message);
@@ -151,14 +144,13 @@ app.get("/rating", async (req, res) => {
       return res.status(500).json({ message: "No books found in API response" });
     }
 
-    res.setHeader("Content-Type", "application/json"); // Force JSON format
+    res.setHeader("Content-Type", "application/json");
     res.json({ data });
   } catch (error) {
     console.error("Error fetching highest-rated books:", error.message);
     res.status(500).json({ message: "Error fetching highest-rated books.", error: error.message });
   }
 });
-
 
 // Route to fetch grouped results (recommendations)
 app.get("/group-results", async (req, res) => {
@@ -191,7 +183,6 @@ app.post(
     // Check validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Return first error as "message" (so the frontend sees data.message)
       const firstErrorMsg = errors.array()[0].msg;
       return res.status(400).json({ message: firstErrorMsg });
     }
@@ -241,6 +232,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Save and like routes
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -326,7 +318,6 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Internal server error." });
   }
 });
-
 
 // Start the server
 app.listen(PORT, () => {

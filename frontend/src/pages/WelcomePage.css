@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-/* Global reset */
 .MainContent {
     flex: 1;
-    /* This makes the content area grow to push the footer down */
 }
 
 html,
@@ -27,7 +25,6 @@ body {
     z-index: 1;
 }
 
-/* Ensure children are properly positioned */
 .welcome-page>* {
     position: relative;
     z-index: 2;
@@ -45,5 +42,4 @@ body {
 /* Debugging (optional) */
 * {
     box-sizing: border-box;
-    /* Include padding and borders in width/height calculations */
 }

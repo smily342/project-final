@@ -37,7 +37,7 @@ export function ExploreBooks() {
       }
 
       const fetchedBooks = data.data.books.flat().map((book) => ({
-        id: book.id || book._id, // Ensure ID is included
+        id: book.id || book._id,
         title: book.title,
         image: book.image || "default-book.jpg",
         author: Array.isArray(book.authors) ? book.authors.join(", ") : book.authors || "Unknown Author",
@@ -104,7 +104,7 @@ export function ExploreBooks() {
         return updated;
       });
     } catch (error) {
-      console.error("🔥 Error updating favorites:", error);
+      console.error(" Error updating favorites:", error);
     }
   };
 
@@ -172,13 +172,12 @@ export function ExploreBooks() {
               <div className="book" key={book.id}>
                 <img src={book.image} alt={book.title} />
                 <p className="book-title"><strong>{book.title}</strong></p>
-                <p className="book-author">{book.author}</p>
                 <div className="book-actions">
                   <button className={`like-button ${likedBooks[book.id] ? "liked" : ""}`} onClick={() => handleLike(book)}>
-                    <FaHeart color={likedBooks[book.id] ? "black" : "gray"} /> Like
+                    <FaHeart color={likedBooks[book.id] ? "black" : "gray"} />
                   </button>
                   <button className={`save-button ${savedBooks[book.id] ? "saved" : ""}`} onClick={() => handleSave(book)}>
-                    <FaBookmark color={savedBooks[book.id] ? "black" : "gray"} /> Save
+                    <FaBookmark color={savedBooks[book.id] ? "black" : "gray"} />
                   </button>
                 </div>
               </div>

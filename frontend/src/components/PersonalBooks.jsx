@@ -1,16 +1,26 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./PersonalBooks.css";
 import { FaTrash } from "react-icons/fa";
+import useStore from "../store/useStore";
 
 const API_BASE_URL = "http://localhost:3000"; // Change if deploying!!
+const FALLBACK_IMAGE = "https://via.placeholder.com/120x180.png?text=No+Cover"; // Updated URL
 
 export function PersonalBooks() {
-  const [selectedCategory, setSelectedCategory] = useState("saved");
-  const [savedBooks, setSavedBooks] = useState([]);
-  const [likedBooks, setLikedBooks] = useState([]);
-  const [recommendedBooks, setRecommendedBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    savedBooks,
+    setSavedBooks,
+    likedBooks,
+    setLikedBooks,
+    recommendedBooks,
+    setRecommendedBooks,
+    loading,
+    setLoading,
+    error,
+    setError,
+  } = useStore();
 
   useEffect(() => {
     fetchCategoryData();
@@ -45,11 +55,24 @@ export function PersonalBooks() {
       }
 
       const data = await response.json();
-      if (selectedCategory === "saved") setSavedBooks(data || []);
-      if (selectedCategory === "liked") setLikedBooks(data || []);
-      if (selectedCategory === "recommended") {
-        setRecommendedBooks(data.data || []);
-      }
+      console.log("Fetched books:", data);
+
+      const booksArray = data.data?.books || data.data || data;
+      console.log("Processed books array:", booksArray);
+
+      const formattedBooks = booksArray.map((book) => ({
+        id: book.id || book._id,
+        title: book.title,
+        image: book.image || FALLBACK_IMAGE, // Updated to use online fallback
+        author: Array.isArray(book.authors) ? book.authors.join(", ") : book.authors || "Unknown Author",
+        genre: book.genre || "Unknown Genre",
+      }));
+
+      console.log("Final books with images:", formattedBooks);
+
+      if (selectedCategory === "saved") setSavedBooks(formattedBooks);
+      if (selectedCategory === "liked") setLikedBooks(formattedBooks);
+      if (selectedCategory === "recommended") setRecommendedBooks(formattedBooks);
     } catch (err) {
       setError(err.message || "Error fetching data");
     } finally {
@@ -57,7 +80,6 @@ export function PersonalBooks() {
     }
   };
 
-  // ✅ Remove book from "Saved" or "Liked"
   const handleRemoveBook = async (bookId) => {
     const token = localStorage.getItem("token");
     if (!token) return alert("Please log in to modify your books.");
@@ -126,18 +148,19 @@ export function PersonalBooks() {
             <div className="book-card" key={book.id}>
               <img
                 className="book-cover"
-                src={book.coverImage || "https://via.placeholder.com/120x180?text=No+Cover"}
+                src={book.image}
+                onError={(e) => (e.target.src = FALLBACK_IMAGE)}
                 alt={book.title || "Book Cover"}
               />
+
               <div className="book-info">
                 <p className="book-title">{book.title}</p>
-                <p className="book-author">By {book.author || "Unknown"}</p>
                 {selectedCategory !== "recommended" && (
                   <button
                     className="remove-button"
                     onClick={() => handleRemoveBook(book.id)}
                   >
-                    <FaTrash /> Remove
+                    <FaTrash />
                   </button>
                 )}
               </div>

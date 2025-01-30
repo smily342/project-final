@@ -6,8 +6,6 @@
   background-color: black;
   color: white;
   font-family: 'Poppins', sans-serif;
-
-
 }
 
 .Footer-content {
@@ -18,19 +16,24 @@
   width: 100%;
   position: relative;
   gap: 30px;
-  font-size: 1rem;
 }
 
-/* Default Desktop: Keep text and icon in a row */
+.Footer-text {
+  font-size: 1.4rem;
+}
+
+
 .Footer-socials {
   display: flex;
   align-items: center;
   text-align: center;
   gap: 10px;
+  margin-bottom: 10px;
+
 }
 
 .social-icon {
-  font-size: 50px;
+  font-size: 1.5rem;
   color: white;
   cursor: pointer;
 }
@@ -39,6 +42,47 @@
   color: #ccc;
 }
 
-@media (max-width: 767px) {}
+@media (max-width: 767px) {
+  .Footer {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 10px;
+  }
 
-@media (min-width: 768px) and (max-width: 1024px) {}
+  .Footer-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .Footer-text {
+    font-size: 1rem;
+    text-align: center;
+
+    display: block;
+    text-align: center;
+
+  }
+
+
+  .Footer-socials {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Footer {
+    margin-bottom: 0;
+  }
+
+  .Footer-text {
+    font-size: 1rem;
+    margin-bottom: 60px;
+  }
+
+  .Footer-socials {
+    margin-bottom: 50px;
+  }
+}

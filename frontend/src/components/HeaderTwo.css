@@ -5,10 +5,10 @@
   font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
-  position: relative; /* Position for absolutely placing nav-links */
-  justify-content: center; 
-  align-items: center; 
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
   color: white;
   height: 240px;
 }
@@ -16,7 +16,7 @@
 /* Text content area */
 .header-content2 {
   max-width: 60%;
-  text-align: center; 
+  text-align: center;
 }
 
 .header-content2 h1 {
@@ -32,11 +32,12 @@ p {
 
 /* Navigation Links */
 .nav-links {
-  position: absolute; /* Absolute positioning */
-  top: 20px; /* Distance from the top of the header */
-  right: 20px; /* Distance from the right edge */
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
-  gap: 20px; /* Space between the links */
+  gap: 20px;
+  justify-content: flex-end;
 }
 
 .nav-link {
@@ -55,4 +56,48 @@ p {
   color: black;
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  .header-content2 h1 {
+    font-size: 40px;
+    margin-top: 70px;
+  }
 
+  p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    max-width: 90%;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-width: 1.5px;
+    white-space: nowrap;
+    text-align: center;
+    width: fit-content;
+  }
+
+  .header-content2 h1 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-top: 80px;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+}

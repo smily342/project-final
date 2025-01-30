@@ -29,12 +29,12 @@
 .category-buttons button {
   margin: 10px;
   padding: 20px 40px;
-  border: solid 2px black;
-  background-color: #e0e0e0;
+  background-color: black;
+  color: white;
   font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
+  border-radius: 30px;
 }
 
 .category-buttons button:hover {
@@ -42,10 +42,9 @@
 }
 
 .category-buttons button.active {
-  background-color: #282626;
+  background-color: grey;
   color: white;
 }
-
 
 /* Book Display */
 .book-display {
@@ -73,6 +72,10 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .book:hover {
@@ -86,16 +89,24 @@
   border-radius: 5px;
 }
 
-.book p {
+.book-title {
   font-weight: bold;
   margin: 10px 0;
   font-size: 1rem;
 }
 
+.book-author {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
 .book-actions {
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
 }
 
 .like-button,
@@ -103,33 +114,58 @@
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  padding: 5px;
+  transition: color 0.3s ease;
 }
 
-.like-button.liked svg,
-.save-button.saved svg {
+.like-button.liked {
   color: black;
 }
 
-.like-button svg,
-.save-button svg {
+.like-button svg {
   transition: color 0.2s;
 }
 
 
+
+.save-button svg {
+  transition: color 0.2s;
+}
+
+.save-button:hover,
+.like-button:hover {
+  color: #777;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .books-grid {
     grid-template-columns: repeat(2, 1fr);
-    /* 2 books per row on smaller screens */
+  }
+
+  .category-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .books-grid {
     grid-template-columns: repeat(1, 1fr);
-    /* 1 book per row on very small screens */
+  }
+
+  .category-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .category-buttons button {
+    padding: 10px;
+    font-size: 0.9rem;
+    border-width: 1.5px;
   }
 }

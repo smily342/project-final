@@ -43,47 +43,30 @@
 @media (max-width: 767px) {
     .header-title {
         font-size: 3rem;
-        /* Reduce font size for smaller screens */
         font-weight: 600;
         display: block;
-        /* Allow text wrapping */
         margin-top: 150px;
-        /* Adjust top margin */
         margin-bottom: 150px;
-        /* Adjust bottom margin */
         padding: 0;
         z-index: 3;
         text-align: center;
-        /* Center-align the text */
         max-width: 80%;
-        /* Constrain the width to ensure wrapping */
         line-height: 1.2;
-        /* Adjust spacing between lines */
         word-wrap: break-word;
-        /* Ensure long words wrap */
         white-space: normal;
-        /* Allow text to break onto multiple lines */
     }
 
     .intro-text {
         color: white;
         font-size: 1.2rem;
-        /* Slightly larger font for better readability */
         font-weight: 400;
-        /* Use a clean, readable font weight */
         text-align: center;
-        /* Center the text */
         margin-bottom: 80px;
-        /* Adjust spacing below */
         margin-top: 50px;
-        /* Adjust spacing above */
         line-height: 1.5;
-        /* Add better line spacing */
         max-width: 90%;
-        /* Constrain width to avoid overly wide text */
         margin-left: auto;
         margin-right: auto;
-        /* Center horizontally */
     }
 }
 
@@ -109,21 +92,13 @@
     .intro-text {
         color: white;
         font-size: 1.5rem;
-        /* Larger font for tablets */
         font-weight: 400;
-        /* Keep a clean, readable font weight */
         text-align: center;
-        /* Center the text */
         margin-bottom: 100px;
-        /* Add spacing below */
         margin-top: 70px;
-        /* Add spacing above */
         line-height: 1.6;
-        /* Increase line spacing for readability */
         max-width: 80%;
-        /* Constrain width for better alignment */
         margin-left: auto;
         margin-right: auto;
-        /* Center horizontally */
     }
 }
