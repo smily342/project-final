@@ -3,8 +3,8 @@ import "./PersonalBooks.css";
 import { FaTrash } from "react-icons/fa";
 import useStore from "../store/useStore";
 
-const API_BASE_URL = "http://localhost:3000"; // Change if deploying!!
-const FALLBACK_IMAGE = "https://via.placeholder.com/120x180.png?text=No+Cover"; // Updated URL
+const API_BASE_URL = "http://localhost:3000";
+const FALLBACK_IMAGE = "default-book.jpg";
 
 export function PersonalBooks() {
   const {
@@ -57,18 +57,39 @@ export function PersonalBooks() {
       const data = await response.json();
       console.log("Fetched books:", data);
 
-      const booksArray = data.data?.books || data.data || data;
-      console.log("Processed books array:", booksArray);
+      // Force the books data into an array
+      const booksArray =
+        Array.isArray(data.data?.books)
+          ? data.data.books
+          : Array.isArray(data.data)
+            ? data.data
+            : Array.isArray(data)
+              ? data
+              : [];
 
-      const formattedBooks = booksArray.map((book) => ({
-        id: book.id || book._id,
-        title: book.title,
-        image: book.image || FALLBACK_IMAGE, // Updated to use online fallback
-        author: Array.isArray(book.authors) ? book.authors.join(", ") : book.authors || "Unknown Author",
-        genre: book.genre || "Unknown Genre",
-      }));
+      // Truncate titles to a maximum of 31 characters
+      const truncateTitle = (title, maxLength = 31) =>
+        title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
-      console.log("Final books with images:", formattedBooks);
+      // Map each book and ensure a unique identifier is stored in "id"
+      const formattedBooks = booksArray.map((book) => {
+        const uniqueId = book.id || book._id;
+        return {
+          id: uniqueId,
+          title: truncateTitle(book.title),
+          image: book.image
+            ? book.image.startsWith("http")
+              ? book.image
+              : `${API_BASE_URL}/${book.image}`
+            : `${API_BASE_URL}/${FALLBACK_IMAGE}`,
+          author: Array.isArray(book.authors)
+            ? book.authors.join(", ")
+            : book.authors || "Unknown Author",
+          genre: book.genre || "Unknown Genre",
+        };
+      });
+
+      console.log("Final books:", formattedBooks);
 
       if (selectedCategory === "saved") setSavedBooks(formattedBooks);
       if (selectedCategory === "liked") setLikedBooks(formattedBooks);
@@ -84,8 +105,15 @@ export function PersonalBooks() {
     const token = localStorage.getItem("token");
     if (!token) return alert("Please log in to modify your books.");
 
-    const isSaved = selectedCategory === "saved";
-    const endpoint = `${API_BASE_URL}/users/me/${isSaved ? "to-read" : "favorites"}/${encodeURIComponent(bookId)}`;
+    let endpoint = "";
+    if (selectedCategory === "saved") {
+      endpoint = `${API_BASE_URL}/users/me/to-read/${encodeURIComponent(bookId)}`;
+    } else if (selectedCategory === "liked") {
+      endpoint = `${API_BASE_URL}/users/me/favorites/${encodeURIComponent(bookId)}`;
+    } else {
+
+      return;
+    }
 
     try {
       const response = await fetch(endpoint, {
@@ -94,10 +122,18 @@ export function PersonalBooks() {
       });
 
       if (response.ok) {
-        if (isSaved) {
-          setSavedBooks((prev) => prev.filter((book) => book.id !== bookId));
-        } else {
-          setLikedBooks((prev) => prev.filter((book) => book.id !== bookId));
+        if (selectedCategory === "saved") {
+          setSavedBooks((prev) =>
+            Array.isArray(prev)
+              ? prev.filter((book) => String(book.id || book._id) !== String(bookId))
+              : []
+          );
+        } else if (selectedCategory === "liked") {
+          setLikedBooks((prev) =>
+            Array.isArray(prev)
+              ? prev.filter((book) => String(book.id || book._id) !== String(bookId))
+              : []
+          );
         }
       } else {
         console.error("Failed to remove book.");
@@ -107,10 +143,11 @@ export function PersonalBooks() {
     }
   };
 
+  // Always return an array from getDisplayedBooks
   const getDisplayedBooks = () => {
-    if (selectedCategory === "saved") return savedBooks;
-    if (selectedCategory === "liked") return likedBooks;
-    return recommendedBooks;
+    if (selectedCategory === "saved") return Array.isArray(savedBooks) ? savedBooks : [];
+    if (selectedCategory === "liked") return Array.isArray(likedBooks) ? likedBooks : [];
+    return Array.isArray(recommendedBooks) ? recommendedBooks : [];
   };
 
   const displayedBooks = getDisplayedBooks();
@@ -149,16 +186,15 @@ export function PersonalBooks() {
               <img
                 className="book-cover"
                 src={book.image}
-                onError={(e) => (e.target.src = FALLBACK_IMAGE)}
                 alt={book.title || "Book Cover"}
               />
-
               <div className="book-info">
                 <p className="book-title">{book.title}</p>
                 {selectedCategory !== "recommended" && (
                   <button
+                    type="button"
                     className="remove-button"
-                    onClick={() => handleRemoveBook(book.id)}
+                    onClick={() => handleRemoveBook(book.id || book._id)}
                   >
                     <FaTrash />
                   </button>

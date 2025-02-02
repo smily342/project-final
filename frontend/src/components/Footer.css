@@ -1,35 +1,46 @@
-.Footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: black;
-  color: white;
-  font-family: 'Poppins', sans-serif;
+body,
+html {
+  height: 100%;
+  margin: 0;
 }
 
-.Footer-content {
-  margin-top: 40px;
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.Footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  position: relative;
+  padding: 1rem;
+  background-color: black;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  margin-top: auto;
+}
+
+/* Use column direction to stack text and icons vertically */
+.Footer-content {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 30px;
 }
 
 .Footer-text {
   font-size: 1.4rem;
+  margin: 0;
 }
-
 
 .Footer-socials {
   display: flex;
+  justify-content: center;
   align-items: center;
-  text-align: center;
   gap: 10px;
-  margin-bottom: 10px;
-
 }
 
 .social-icon {
@@ -42,6 +53,7 @@
   color: #ccc;
 }
 
+/* Responsive adjustments for smaller devices */
 @media (max-width: 767px) {
   .Footer {
     flex-direction: column;
@@ -50,26 +62,19 @@
   }
 
   .Footer-content {
-    flex-direction: column;
     gap: 15px;
   }
 
   .Footer-text {
     font-size: 1rem;
     text-align: center;
-
-    display: block;
-    text-align: center;
-
   }
-
 
   .Footer-socials {
     flex-direction: row;
     justify-content: center;
     gap: 15px;
   }
-
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -79,10 +84,5 @@
 
   .Footer-text {
     font-size: 1rem;
-    margin-bottom: 60px;
-  }
-
-  .Footer-socials {
-    margin-bottom: 50px;
   }
 }

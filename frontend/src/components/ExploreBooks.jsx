@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./ExploreBooks.css";
 import { FaBookmark, FaHeart } from "react-icons/fa";
+import SearchBar from "./SearchBar";
 
-const API_BASE_URL = "http://localhost:3000"; // Change if deploying!!
+const API_BASE_URL = "http://localhost:3000";
 
 export function ExploreBooks() {
   const [books, setBooks] = useState([]);
@@ -36,9 +37,13 @@ export function ExploreBooks() {
         throw new Error("Unexpected response structure from server.");
       }
 
+      // Truncate titles to a maximum of 31 characters
+      const truncateTitle = (title, maxLength = 31) =>
+        title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
+
       const fetchedBooks = data.data.books.flat().map((book) => ({
         id: book.id || book._id,
-        title: book.title,
+        title: truncateTitle(book.title),
         image: book.image || "default-book.jpg",
         author: Array.isArray(book.authors) ? book.authors.join(", ") : book.authors || "Unknown Author",
         genre: book.genre || "Unknown Genre",
@@ -143,8 +148,18 @@ export function ExploreBooks() {
     }
   };
 
+  const handleSearch = async ({ title, author }) => {
+    const query = new URLSearchParams();
+    if (title) query.append("title", title);
+    if (author) query.append("author", author);
+
+    await fetchBooks(`/search?${query.toString()}`);
+  };
+
   return (
     <>
+      <SearchBar onSearch={handleSearch} />
+
       <section className="categories">
         <h2>Explore Categories</h2>
         <div className="category-buttons">
@@ -159,6 +174,7 @@ export function ExploreBooks() {
           ))}
         </div>
       </section>
+
 
       <section className="book-display">
         <h2>{selectedCategory ? `Explore ${selectedCategory}` : "Top-Rated Books"}</h2>

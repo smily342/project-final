@@ -74,7 +74,17 @@ async function fetchBooks(params) {
       },
     });
 
-    return { data: response.data, quota: response.headers };
+    // Step 1: Flatten the nested array
+    const flatBooks = response.data.books.flat();
+
+    // Step 2: Remove duplicate titles
+    const uniqueBooks = Array.from(
+      new Map(
+        flatBooks.map(book => [book.title.toLowerCase(), book])
+      ).values()
+    );
+
+    return { data: { books: uniqueBooks }, quota: response.headers };
   } catch (error) {
     console.error("Error fetching books from external API:", error.message);
     throw new Error("Failed to fetch books from external API.");
@@ -170,6 +180,30 @@ app.get("/group-results", async (req, res) => {
   }
 });
 
+// Search books by title and/or author
+app.get("/search", async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ message: "Please provide a query to search." });
+  }
+
+  try {
+    const params = { query };
+
+    const { data } = await fetchBooks(params);
+
+    if (!data || !Array.isArray(data.books)) {
+      return res.status(500).json({ message: "No books found in API response" });
+    }
+
+    res.json({ data });
+  } catch (error) {
+    console.error("Error searching books:", error.message);
+    res.status(500).json({ message: "Error searching books.", error: error.message });
+  }
+});
+
 // User Signup Route
 app.post(
   "/signup",
@@ -223,7 +257,7 @@ app.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).json({ message: "Invalid email or password." });
 
-    const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "30d" });
 
     res.json({ token });
   } catch (err) {
@@ -233,6 +267,9 @@ app.post("/login", async (req, res) => {
 });
 
 // Save and like routes
+const ASSETS_BASE_URL = "http://localhost:3000";
+
+// Get favorites
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -244,16 +281,32 @@ app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
+// Add a book to favorites (updated to include and normalize the image)
 app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
-    const { id, title, author, genre } = req.body;
+    // Destructure the image along with other fields
+    let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
 
+    // Check if the book is already in favorites
     if (user.favorites.some((book) => book.id.toString() === id.toString())) {
       return res.status(400).json({ message: "Book is already in favorites." });
     }
-    user.favorites.push({ id, title, author, genre });
+
+    // Normalize the image URL:
+    // - If no image is provided, use a fallback
+    // - If the image URL is relative, prepend the assets base URL (with a slash)
+    if (!image) {
+      image = "default-book.jpg";
+    }
+    if (!image.startsWith("http")) {
+      // Ensure there is a slash between the base URL and the image path
+      image = `${ASSETS_BASE_URL}/${image}`;
+    }
+
+    // Save the book with its image
+    user.favorites.push({ id, title, author, genre, image });
     await user.save();
     res.status(200).json({ message: "Book added to favorites.", favorites: user.favorites });
   } catch (error) {
@@ -262,6 +315,7 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
+// Remove a book from favorites
 app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -276,6 +330,7 @@ app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) =>
   }
 });
 
+// Get to-read list
 app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -287,16 +342,28 @@ app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   }
 });
 
+// Add a book to the to-read list (updated to include and normalize the image)
 app.post("/users/me/to-read", authenticateToken, async (req, res) => {
   try {
-    const { id, title, author, genre } = req.body;
+    // Destructure the image along with the other fields
+    let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found." });
 
     if (user.toRead.some((book) => book.id.toString() === id.toString())) {
       return res.status(400).json({ message: "Book is already in the to-read list." });
     }
-    user.toRead.push({ id, title, author, genre });
+
+    // Normalize the image URL (same logic as above)
+    if (!image) {
+      image = "default-book.jpg";
+    }
+    if (!image.startsWith("http")) {
+      image = `${ASSETS_BASE_URL}/${image}`;
+    }
+
+    // Save the book with its image
+    user.toRead.push({ id, title, author, genre, image });
     await user.save();
     res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
   } catch (error) {
@@ -305,6 +372,7 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
   }
 });
 
+// Remove a book from the to-read list
 app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
