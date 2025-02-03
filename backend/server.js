@@ -74,14 +74,12 @@ async function fetchBooks(params) {
       },
     });
 
-    // Step 1: Flatten the nested array
+    // Flatten the nested array
     const flatBooks = response.data.books.flat();
 
-    // Step 2: Remove duplicate titles
+    // Remove duplicate titles
     const uniqueBooks = Array.from(
-      new Map(
-        flatBooks.map(book => [book.title.toLowerCase(), book])
-      ).values()
+      new Map(flatBooks.map(book => [book.title.toLowerCase(), book])).values()
     );
 
     return { data: { books: uniqueBooks }, quota: response.headers };
@@ -91,52 +89,23 @@ async function fetchBooks(params) {
   }
 }
 
-// Helper function to fetch books by genre
+// Fetching books by genre 
 async function fetchBooksByGenre(genre) {
-  return await fetchBooks({ genres: genre });
+  return await fetchBooks({ genres: genre, number: 15 });
 }
 
-// Genre-specific endpoints
-app.get("/genres/fiction", async (req, res) => {
+// Route to fetch books by genre
+app.get("/genres/:genre", async (req, res) => {
+  const { genre } = req.params;
   try {
-    const { data, quota } = await fetchBooksByGenre("fiction");
+    const { data, quota } = await fetchBooksByGenre(genre);
     res.json({ data, quota });
   } catch (error) {
-    console.error("Error fetching fiction books:", error.message);
-    res.status(500).json({ message: "Error fetching fiction books", error: error.message });
-  }
-});
-
-app.get("/genres/crime", async (req, res) => {
-  try {
-    const { data, quota } = await fetchBooksByGenre("crime");
-    res.json({ data, quota });
-  } catch (error) {
-    console.error("Error fetching crime books:", error.message);
-    res.status(500).json({ message: "Error fetching crime books", error: error.message });
-  }
-});
-
-app.get("/genres/romance", async (req, res) => {
-  try {
-    const { data, quota } = await fetchBooksByGenre({
-      query: "romance",
-      number: 8,
+    console.error(`Error fetching ${genre} books:`, error.message);
+    res.status(500).json({
+      message: `Error fetching ${genre} books`,
+      error: error.message,
     });
-    res.json({ data, quota });
-  } catch (error) {
-    console.error("Error fetching romance books:", error.message);
-    res.status(500).json({ message: "Error fetching romance books", error: error.message });
-  }
-});
-
-app.get("/genres/biography", async (req, res) => {
-  try {
-    const { data, quota } = await fetchBooksByGenre("biography");
-    res.json({ data, quota });
-  } catch (error) {
-    console.error("Error fetching biography books:", error.message);
-    res.status(500).json({ message: "Error fetching biography books", error: error.message });
   }
 });
 

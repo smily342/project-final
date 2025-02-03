@@ -116,6 +116,13 @@
   transition: color 0.2s;
 }
 
+.loading-text {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+
+}
+
 
 
 /* Responsive desing */

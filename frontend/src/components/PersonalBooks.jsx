@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./PersonalBooks.css";
 import { FaTrash } from "react-icons/fa";
 import useStore from "../store/useStore";
@@ -7,6 +7,10 @@ const API_BASE_URL = "http://localhost:3000";
 const FALLBACK_IMAGE = "default-book.jpg";
 
 export function PersonalBooks() {
+  console.log("PersonalBooks component re-rendered!");
+
+  const [removingBookId, setRemovingBookId] = useState(null); // Track the book being removed
+
   const {
     selectedCategory,
     setSelectedCategory,
@@ -27,6 +31,7 @@ export function PersonalBooks() {
   }, [selectedCategory]);
 
   const fetchCategoryData = async () => {
+    console.log("fetchCategoryData called! Fetching data...");
     setLoading(true);
     setError(null);
 
@@ -55,9 +60,6 @@ export function PersonalBooks() {
       }
 
       const data = await response.json();
-      console.log("Fetched books:", data);
-
-      // Force the books data into an array
       const booksArray =
         Array.isArray(data.data?.books)
           ? data.data.books
@@ -67,34 +69,28 @@ export function PersonalBooks() {
               ? data
               : [];
 
-      // Truncate titles to a maximum of 31 characters
       const truncateTitle = (title, maxLength = 31) =>
         title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
-      // Map each book and ensure a unique identifier is stored in "id"
-      const formattedBooks = booksArray.map((book) => {
-        const uniqueId = book.id || book._id;
-        return {
-          id: uniqueId,
-          title: truncateTitle(book.title),
-          image: book.image
-            ? book.image.startsWith("http")
-              ? book.image
-              : `${API_BASE_URL}/${book.image}`
-            : `${API_BASE_URL}/${FALLBACK_IMAGE}`,
-          author: Array.isArray(book.authors)
-            ? book.authors.join(", ")
-            : book.authors || "Unknown Author",
-          genre: book.genre || "Unknown Genre",
-        };
-      });
-
-      console.log("Final books:", formattedBooks);
+      const formattedBooks = booksArray.map((book) => ({
+        id: book.id || book._id,
+        title: truncateTitle(book.title),
+        image: book.image
+          ? book.image.startsWith("http")
+            ? book.image
+            : `${API_BASE_URL}/${book.image}`
+          : `${API_BASE_URL}/${FALLBACK_IMAGE}`,
+        author: Array.isArray(book.authors)
+          ? book.authors.join(", ")
+          : book.authors || "Unknown Author",
+        genre: book.genre || "Unknown Genre",
+      }));
 
       if (selectedCategory === "saved") setSavedBooks(formattedBooks);
       if (selectedCategory === "liked") setLikedBooks(formattedBooks);
       if (selectedCategory === "recommended") setRecommendedBooks(formattedBooks);
     } catch (err) {
+      console.error("Error fetching data:", err.message);
       setError(err.message || "Error fetching data");
     } finally {
       setLoading(false);
@@ -102,8 +98,15 @@ export function PersonalBooks() {
   };
 
   const handleRemoveBook = async (bookId) => {
+    console.log(`Attempting to remove book with ID: ${bookId}`);
+    setRemovingBookId(bookId); // Mark the book as being removed
+
     const token = localStorage.getItem("token");
-    if (!token) return alert("Please log in to modify your books.");
+    if (!token) {
+      alert("Please log in to modify your books.");
+      setRemovingBookId(null);
+      return;
+    }
 
     let endpoint = "";
     if (selectedCategory === "saved") {
@@ -111,7 +114,8 @@ export function PersonalBooks() {
     } else if (selectedCategory === "liked") {
       endpoint = `${API_BASE_URL}/users/me/favorites/${encodeURIComponent(bookId)}`;
     } else {
-
+      console.warn("Invalid category for book removal.");
+      setRemovingBookId(null);
       return;
     }
 
@@ -122,28 +126,26 @@ export function PersonalBooks() {
       });
 
       if (response.ok) {
+        console.log("Book successfully removed from backend.");
         if (selectedCategory === "saved") {
-          setSavedBooks((prev) =>
-            Array.isArray(prev)
-              ? prev.filter((book) => String(book.id || book._id) !== String(bookId))
-              : []
-          );
+          setSavedBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
         } else if (selectedCategory === "liked") {
-          setLikedBooks((prev) =>
-            Array.isArray(prev)
-              ? prev.filter((book) => String(book.id || book._id) !== String(bookId))
-              : []
-          );
+          setLikedBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
         }
       } else {
-        console.error("Failed to remove book.");
+        console.error(`Failed to remove book with ID: ${bookId}. Status: ${response.status}`);
+        alert("Failed to remove the book. Please try again.");
+        fetchCategoryData(); // Revert state
       }
-    } catch (error) {
-      console.error("Error removing book:", error);
+    } catch (err) {
+      console.error("Error removing book:", err);
+      alert("An error occurred while removing the book. Please try again.");
+      fetchCategoryData(); // Revert state
+    } finally {
+      setRemovingBookId(null); // Clear the removal flag
     }
   };
 
-  // Always return an array from getDisplayedBooks
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return Array.isArray(savedBooks) ? savedBooks : [];
     if (selectedCategory === "liked") return Array.isArray(likedBooks) ? likedBooks : [];
@@ -175,7 +177,7 @@ export function PersonalBooks() {
         </button>
       </div>
 
-      {loading && <div>Loading...</div>}
+      {loading && <div className="loading-text">Loading...</div>}
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
       <div className="books-row">
@@ -194,9 +196,10 @@ export function PersonalBooks() {
                   <button
                     type="button"
                     className="remove-button"
-                    onClick={() => handleRemoveBook(book.id || book._id)}
+                    onClick={() => handleRemoveBook(book.id)}
+                    disabled={removingBookId === book.id} // Disable the button while removing
                   >
-                    <FaTrash />
+                    {removingBookId === book.id ? "Removing..." : <FaTrash />}
                   </button>
                 )}
               </div>
@@ -208,3 +211,4 @@ export function PersonalBooks() {
 }
 
 export default PersonalBooks;
+
