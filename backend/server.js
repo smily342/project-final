@@ -236,7 +236,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Save and like routes
-const ASSETS_BASE_URL = "https://project-final-044d.onrender.com/";
+const ASSETS_BASE_URL = "https://project-final-044d.onrender.com";
 
 // Get favorites
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {

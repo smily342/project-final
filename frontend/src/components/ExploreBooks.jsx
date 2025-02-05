@@ -3,7 +3,7 @@ import "./ExploreBooks.css";
 import { FaBookmark, FaHeart } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 
-const API_BASE_URL = "https://project-final-044d.onrender.com/";
+const API_BASE_URL = "https://project-final-044d.onrender.com";
 
 export function ExploreBooks() {
   const [books, setBooks] = useState([]);
