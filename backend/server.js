@@ -236,7 +236,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Save and like routes
-const ASSETS_BASE_URL = "http://localhost:3000";
+const ASSETS_BASE_URL = "https://project-final-044d.onrender.com/";
 
 // Get favorites
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
@@ -358,5 +358,5 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on https://project-final-044d.onrender.com`);
 });

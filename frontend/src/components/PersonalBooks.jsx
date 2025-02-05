@@ -3,7 +3,7 @@ import "./PersonalBooks.css";
 import { FaTrash } from "react-icons/fa";
 import useStore from "../store/useStore";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://project-final-044d.onrender.com/";
 const FALLBACK_IMAGE = "default-book.jpg";
 
 export function PersonalBooks() {
