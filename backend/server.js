@@ -360,3 +360,17 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on https://project-final-044d.onrender.com`);
 });
+const path = require('path');
+
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on https://project-final-044d.onrender.com`);
+});
