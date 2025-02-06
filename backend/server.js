@@ -359,10 +359,18 @@ app.listen(PORT, () => {
   console.log(`Server is running on https://project-final-044d.onrender.com`);
 });
 
-// Serve static files from the frontend build directory
+// =========================================
+// 1. Serve React files (CSS/JS/Images)
+// =========================================
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Serve index.html for all non-API routes
+// =========================================
+// 2. Catch-all route for React routing
+// =========================================
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
+
+// =========================================
+// 3. NOW open the store doors (start server)
+// =========================================

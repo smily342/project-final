@@ -1,19 +1,16 @@
-html,
-body {
+body,
+html {
   height: 100%;
   margin: 0;
-  padding: 0;
-  position: relative;
-  /* Establishes a positioning context for absolute children */
 }
 
-/* Footer CSS */
-.Footer {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
+.Footer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,8 +18,10 @@ body {
   background-color: black;
   color: white;
   font-family: 'Poppins', sans-serif;
+  margin-top: auto;
 }
 
+/* Use column direction to stack text and icons vertically */
 .Footer-content {
   margin-top: 40px;
   display: flex;
@@ -80,7 +79,15 @@ body {
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .Footer {
+    margin-top: auto;
+    /* Re-assert auto margin on tablet */
     margin-bottom: 0;
+    /* Optional, to be safe */
+  }
+
+  .Footer-content {
+    margin-top: 0;
+    /* Remove the extra top margin that pushes content upward */
   }
 
   .Footer-text {
