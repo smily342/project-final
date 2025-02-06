@@ -10,6 +10,10 @@ const cors = require("cors");
 const User = require("./models/User");
 
 const app = express();
+const path = require("path");
+
+// Serve static files from the 'public/images' directory
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 
@@ -253,6 +257,8 @@ app.get("/users/me/favorites", authenticateToken, async (req, res) => {
 // Add a book to favorites (updated to include and normalize the image)
 app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   try {
+    console.log("Received req.body:", req.body);
+
     // Destructure the image along with other fields
     let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
@@ -263,14 +269,9 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in favorites." });
     }
 
-    // Normalize the image URL:
-    // - If no image is provided, use a fallback
-    // - If the image URL is relative, prepend the assets base URL (with a slash)
-    if (!image) {
-      image = "default-book.jpg";
-    }
-    if (!image.startsWith("http")) {
-      // Ensure there is a slash between the base URL and the image path
+
+
+    if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
 
@@ -323,11 +324,8 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in the to-read list." });
     }
 
-    // Normalize the image URL (same logic as above)
-    if (!image) {
-      image = "default-book.jpg";
-    }
-    if (!image.startsWith("http")) {
+
+    if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
 
@@ -360,7 +358,6 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on https://project-final-044d.onrender.com`);
 });
-const path = require('path');
 
 // Serve static files from the frontend build directory
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -368,9 +365,4 @@ app.use(express.static(path.join(__dirname, '../frontend/dist')));
 // Serve index.html for all non-API routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on https://project-final-044d.onrender.com`);
 });

@@ -128,16 +128,19 @@
 /* Responsive desing */
 @media (max-width: 1024px) {
   .books-row {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, auto));
     gap: 15px;
     padding: 10px 5%;
     margin: 0 auto;
     max-width: 100%;
     margin-bottom: 145px;
+    justify-content: center;
   }
 
   .book-card {
-    max-width: 100%;
+    width: 240px;
+    max-width: 240px;
+    margin: 70px auto 0;
   }
 }
 

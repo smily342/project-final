@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
       title: String,
       author: String,
       genre: String,
+      image: String,
     },
   ],
   toRead: [
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema({
       title: String,
       author: String,
       genre: String,
+      image: String,
     },
   ],
 });

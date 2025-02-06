@@ -4,12 +4,11 @@ import { FaTrash } from "react-icons/fa";
 import useStore from "../store/useStore";
 
 const API_BASE_URL = "https://project-final-044d.onrender.com";
-const FALLBACK_IMAGE = "default-book.jpg";
 
 export function PersonalBooks() {
   console.log("PersonalBooks component re-rendered!");
 
-  const [removingBookId, setRemovingBookId] = useState(null); // Track the book being removed
+  const [removingBookId, setRemovingBookId] = useState(null);
 
   const {
     selectedCategory,
@@ -28,6 +27,7 @@ export function PersonalBooks() {
 
   useEffect(() => {
     fetchCategoryData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
   const fetchCategoryData = async () => {
@@ -72,19 +72,23 @@ export function PersonalBooks() {
       const truncateTitle = (title, maxLength = 31) =>
         title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
-      const formattedBooks = booksArray.map((book) => ({
-        id: book.id || book._id,
-        title: truncateTitle(book.title),
-        image: book.image
-          ? book.image.startsWith("http")
-            ? book.image
-            : `${API_BASE_URL}/${book.image}`
-          : `${API_BASE_URL}/${FALLBACK_IMAGE}`,
-        author: Array.isArray(book.authors)
-          ? book.authors.join(", ")
-          : book.authors || "Unknown Author",
-        genre: book.genre || "Unknown Genre",
-      }));
+      const formattedBooks = booksArray.map((book) => {
+        const id = book.id || book._id;
+        if (!id) {
+          console.warn("Book without id encountered:", book);
+        }
+        return {
+          id,
+          title: truncateTitle(book.title),
+          image: book.image,
+          author: Array.isArray(book.authors)
+            ? book.authors.join(", ")
+            : book.authors || "Unknown Author",
+          genre: book.genre || "Unknown Genre",
+        };
+      });
+
+      console.log("Formatted Books:", formattedBooks);
 
       if (selectedCategory === "saved") setSavedBooks(formattedBooks);
       if (selectedCategory === "liked") setLikedBooks(formattedBooks);
@@ -99,7 +103,7 @@ export function PersonalBooks() {
 
   const handleRemoveBook = async (bookId) => {
     console.log(`Attempting to remove book with ID: ${bookId}`);
-    setRemovingBookId(bookId); // Mark the book as being removed
+    setRemovingBookId(bookId);
 
     const token = localStorage.getItem("token");
     if (!token) {
@@ -128,21 +132,25 @@ export function PersonalBooks() {
       if (response.ok) {
         console.log("Book successfully removed from backend.");
         if (selectedCategory === "saved") {
-          setSavedBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+          console.log("Saved books before deletion:", savedBooks);
+          const updated = savedBooks.filter((book) => String(book.id) !== String(bookId));
+          console.log("Saved books after deletion:", updated);
+          setSavedBooks(updated);
         } else if (selectedCategory === "liked") {
-          setLikedBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+          console.log("Liked books before deletion:", likedBooks);
+          const updated = likedBooks.filter((book) => String(book.id) !== String(bookId));
+          console.log("Liked books after deletion:", updated);
+          setLikedBooks(updated);
         }
       } else {
         console.error(`Failed to remove book with ID: ${bookId}. Status: ${response.status}`);
         alert("Failed to remove the book. Please try again.");
-        fetchCategoryData(); // Revert state
       }
     } catch (err) {
       console.error("Error removing book:", err);
       alert("An error occurred while removing the book. Please try again.");
-      fetchCategoryData(); // Revert state
     } finally {
-      setRemovingBookId(null); // Clear the removal flag
+      setRemovingBookId(null);
     }
   };
 
@@ -197,7 +205,7 @@ export function PersonalBooks() {
                     type="button"
                     className="remove-button"
                     onClick={() => handleRemoveBook(book.id)}
-                    disabled={removingBookId === book.id} // Disable the button while removing
+                    disabled={removingBookId === book.id}
                   >
                     {removingBookId === book.id ? "Removing..." : <FaTrash />}
                   </button>
@@ -211,4 +219,3 @@ export function PersonalBooks() {
 }
 
 export default PersonalBooks;
-
