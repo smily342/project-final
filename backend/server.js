@@ -354,10 +354,6 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on https://project-final-044d.onrender.com`);
-});
 
 // =========================================
 // 1. Serve React files (CSS/JS/Images)
@@ -374,3 +370,6 @@ app.get('*', (req, res) => {
 // =========================================
 // 3. NOW open the store doors (start server)
 // =========================================
+app.listen(PORT, () => {
+  console.log(`Server is running on https://project-final-044d.onrender.com`);
+});

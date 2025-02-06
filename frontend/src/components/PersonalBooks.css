@@ -40,14 +40,16 @@
 /* Books Row */
 .books-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 240px));
   gap: 20px;
   padding: 20px;
   justify-content: center;
+  justify-items: center;
   max-width: 1200px;
   margin: 0 auto;
   margin-bottom: 200px;
 }
+
 
 /* Individual Book Card */
 .book-card {
@@ -61,7 +63,7 @@
   border-radius: 5px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 250px;
+  max-width: 240px;
   min-height: 100%;
   margin-top: 70px;
 

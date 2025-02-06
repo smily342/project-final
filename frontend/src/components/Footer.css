@@ -21,7 +21,6 @@ html {
   margin-top: auto;
 }
 
-/* Use column direction to stack text and icons vertically */
 .Footer-content {
   margin-top: 40px;
   display: flex;
@@ -53,7 +52,6 @@ html {
   color: #ccc;
 }
 
-/* Responsive adjustments for smaller devices */
 @media (max-width: 767px) {
   .Footer {
     flex-direction: column;
@@ -78,19 +76,24 @@ html {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+
   .Footer {
-    margin-top: auto;
-    /* Re-assert auto margin on tablet */
-    margin-bottom: 0;
-    /* Optional, to be safe */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 0;
   }
 
-  .Footer-content {
-    margin-top: 0;
-    /* Remove the extra top margin that pushes content upward */
+  #root {
+    padding-bottom: 80px;
   }
 
   .Footer-text {
     font-size: 1rem;
+  }
+
+  .Footer-content {
+    margin-top: 0;
   }
 }

@@ -207,7 +207,7 @@ export function PersonalBooks() {
                     onClick={() => handleRemoveBook(book.id)}
                     disabled={removingBookId === book.id}
                   >
-                    {removingBookId === book.id ? "Removing..." : <FaTrash />}
+                    {removingBookId === book.id ? "" : <FaTrash />}
                   </button>
                 )}
               </div>
