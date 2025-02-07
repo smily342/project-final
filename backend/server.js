@@ -21,7 +21,12 @@ const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.API_KEY || "87077da560924d26b6811db60429e36f";
 const BOOKS_API_URL = "https://api.bigbookapi.com/search-books";
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://BHS:I3u4i01zNraLZurV@cluster0.i2djz.mongodb.net/final-project?retryWrites=true&w=majority";
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  "mongodb+srv://BHS:I3u4i01zNraLZurV@cluster0.i2djz.mongodb.net/final-project?retryWrites=true&w=majority";
+
+// Base URL for assets (used to normalize relative image URLs)
+const ASSETS_BASE_URL = "https://project-final-044d.onrender.com";
 
 // Connect to MongoDB
 mongoose
@@ -38,10 +43,12 @@ app.use(express.json());
 // Middleware to authenticate and decode JWT token
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ message: "Access denied. No token provided." });
+  if (!authHeader)
+    return res.status(401).json({ message: "Access denied. No token provided." });
 
   const token = authHeader.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Access denied. Token missing." });
+  if (!token)
+    return res.status(401).json({ message: "Access denied. Token missing." });
 
   try {
     const verified = jwt.verify(token, JWT_SECRET);
@@ -68,41 +75,64 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
-// Helper function to fetch books by custom parameters
+// --- UPDATED fetchBooks FUNCTION ---
 async function fetchBooks(params) {
   try {
+    console.log("Fetching books with params:", params);
     const response = await axios.get(BOOKS_API_URL, {
-      params: {
-        ...params,
-        "api-key": API_KEY,
-      },
+      params: { ...params, "api-key": API_KEY },
     });
+    console.log("External API response received:", response.data);
 
-    // Flatten the nested array
-    const flatBooks = response.data.books.flat();
+    // Check that response.data.books exists and is an array.
+    if (!response.data || !Array.isArray(response.data.books)) {
+      console.error("Unexpected API response structure:", response.data);
+      throw new Error("The external API did not return an array for books.");
+    }
 
-    // Remove duplicate titles
+    // Flatten the books array if it is nested.
+    let flatBooks;
+    try {
+      flatBooks = response.data.books.flat();
+    } catch (err) {
+      console.warn("Could not flatten books array, using as-is.", err.message);
+      flatBooks = response.data.books;
+    }
+
+    console.log("Fetched books count (before duplicate removal):", flatBooks.length);
+
+    // Remove duplicate titles (case-insensitive)
     const uniqueBooks = Array.from(
       new Map(flatBooks.map(book => [book.title.toLowerCase(), book])).values()
     );
+    console.log("Unique books count after duplicate removal:", uniqueBooks.length);
 
     return { data: { books: uniqueBooks }, quota: response.headers };
   } catch (error) {
-    console.error("Error fetching books from external API:", error.message);
+    if (error.response) {
+      console.error("Error response from external API:", error.response.data);
+      console.error("Status code:", error.response.status);
+    } else {
+      console.error("Error message:", error.message);
+    }
     throw new Error("Failed to fetch books from external API.");
   }
 }
+// --- END UPDATED fetchBooks FUNCTION ---
 
 // Fetching books by genre 
 async function fetchBooksByGenre(genre) {
+  console.log("Fetching books for genre:", genre);
   return await fetchBooks({ genres: genre, number: 15 });
 }
 
 // Route to fetch books by genre
 app.get("/genres/:genre", async (req, res) => {
   const { genre } = req.params;
+  console.log("Genre requested:", genre);
   try {
     const { data, quota } = await fetchBooksByGenre(genre);
+    console.log(`Successfully fetched ${data.books.length} books for genre ${genre}`);
     res.json({ data, quota });
   } catch (error) {
     console.error(`Error fetching ${genre} books:`, error.message);
@@ -115,6 +145,7 @@ app.get("/genres/:genre", async (req, res) => {
 
 // Route to fetch books with the highest ratings
 app.get("/rating", async (req, res) => {
+  console.log("Fetching highest-rated books");
   try {
     const { data } = await fetchBooks({
       query: "all books",
@@ -124,19 +155,25 @@ app.get("/rating", async (req, res) => {
     });
 
     if (!data || !Array.isArray(data.books)) {
+      console.error("No books found in API response for /rating");
       return res.status(500).json({ message: "No books found in API response" });
     }
 
+    console.log("Fetched highest-rated books:", data.books.length);
     res.setHeader("Content-Type", "application/json");
     res.json({ data });
   } catch (error) {
     console.error("Error fetching highest-rated books:", error.message);
-    res.status(500).json({ message: "Error fetching highest-rated books.", error: error.message });
+    res.status(500).json({
+      message: "Error fetching highest-rated books.",
+      error: error.message,
+    });
   }
 });
 
 // Route to fetch grouped results (recommendations)
 app.get("/group-results", async (req, res) => {
+  console.log("Fetching grouped results with query:", req.query);
   try {
     const { query = "all books" } = req.query;
     const { data } = await fetchBooks({
@@ -146,34 +183,44 @@ app.get("/group-results", async (req, res) => {
       "sort-direction": "DESC",
       number: 10,
     });
+    console.log("Grouped results fetched:", data.books.length);
     res.json({ data });
   } catch (error) {
     console.error("Error fetching grouped results:", error.message);
-    res.status(500).json({ message: "Error fetching grouped results.", error: error.message });
+    res.status(500).json({
+      message: "Error fetching grouped results.",
+      error: error.message,
+    });
   }
 });
 
 // Search books by title and/or author
 app.get("/search", async (req, res) => {
+  console.log("Search request received with query:", req.query);
   const { query } = req.query;
 
   if (!query) {
+    console.error("Search query missing");
     return res.status(400).json({ message: "Please provide a query to search." });
   }
 
   try {
     const params = { query };
-
     const { data } = await fetchBooks(params);
 
     if (!data || !Array.isArray(data.books)) {
+      console.error("No books found in API response for /search");
       return res.status(500).json({ message: "No books found in API response" });
     }
 
+    console.log("Search results count:", data.books.length);
     res.json({ data });
   } catch (error) {
     console.error("Error searching books:", error.message);
-    res.status(500).json({ message: "Error searching books.", error: error.message });
+    res.status(500).json({
+      message: "Error searching books.",
+      error: error.message,
+    });
   }
 });
 
@@ -184,13 +231,16 @@ app.post(
     body("firstName").notEmpty().withMessage("First name is required."),
     body("lastName").notEmpty().withMessage("Last name is required."),
     body("email").isEmail().withMessage("A valid email is required."),
-    body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long."),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long."),
   ],
   async (req, res) => {
-    // Check validation
+    console.log("Signup request received with body:", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const firstErrorMsg = errors.array()[0].msg;
+      console.error("Signup validation error:", firstErrorMsg);
       return res.status(400).json({ message: firstErrorMsg });
     }
 
@@ -199,6 +249,7 @@ app.post(
     try {
       const existingEmail = await User.findOne({ email });
       if (existingEmail) {
+        console.error("Signup error: Email already exists:", email);
         return res.status(400).json({ message: "Email already exists." });
       }
 
@@ -211,6 +262,7 @@ app.post(
       });
 
       await user.save();
+      console.log("User registered successfully:", email);
       res.status(201).json({ message: "User registered successfully!" });
     } catch (err) {
       console.error("Error during signup:", err.message);
@@ -221,17 +273,24 @@ app.post(
 
 // User Login Route
 app.post("/login", async (req, res) => {
+  console.log("Login request received with body:", req.body);
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid email or password." });
+    if (!user) {
+      console.error("Login failed: Invalid email", email);
+      return res.status(400).json({ message: "Invalid email or password." });
+    }
 
     const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) return res.status(400).json({ message: "Invalid email or password." });
+    if (!validPassword) {
+      console.error("Login failed: Invalid password for", email);
+      return res.status(400).json({ message: "Invalid email or password." });
+    }
 
     const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "30d" });
-
+    console.log("User logged in successfully:", email);
     res.json({ token });
   } catch (err) {
     console.error("Error during login:", err.message);
@@ -240,13 +299,17 @@ app.post("/login", async (req, res) => {
 });
 
 // Save and like routes
-const ASSETS_BASE_URL = "https://project-final-044d.onrender.com";
 
 // Get favorites
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
+  console.log("Fetching favorites for user:", req.user._id);
   try {
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("Favorites fetch error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
+    console.log("Favorites fetched. Count:", user.favorites.length);
     res.json(user.favorites);
   } catch (error) {
     console.error("Error fetching favorites:", error.message);
@@ -254,30 +317,50 @@ app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to favorites (updated to include and normalize the image)
+// Add a book to favorites (updated to always include image from the API)
 app.post("/users/me/favorites", authenticateToken, async (req, res) => {
+  console.log("Add favorite request received with body:", req.body);
   try {
-    console.log("Received req.body:", req.body);
-
-    // Destructure the image along with other fields
     let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("Add favorite error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
 
-    // Check if the book is already in favorites
     if (user.favorites.some((book) => book.id.toString() === id.toString())) {
+      console.error("Add favorite error: Book already in favorites, id:", id);
       return res.status(400).json({ message: "Book is already in favorites." });
     }
 
+    // Always try to fetch the image from the external API using the title.
+    try {
+      const response = await axios.get(BOOKS_API_URL, {
+        params: {
+          query: title,
+          "api-key": API_KEY,
+          number: 1,
+        },
+      });
+      let booksFromApi = response.data.books;
+      if (Array.isArray(booksFromApi[0])) {
+        booksFromApi = booksFromApi.flat();
+      }
+      if (booksFromApi && booksFromApi.length > 0 && booksFromApi[0].image) {
+        image = booksFromApi[0].image;
+      }
+    } catch (apiError) {
+      console.error("Error fetching image from API:", apiError.message);
+    }
 
-
+    // Normalize the image URL if it's relative.
     if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
 
-    // Save the book with its image
     user.favorites.push({ id, title, author, genre, image });
     await user.save();
+    console.log("Book added to favorites for user:", req.user._id);
     res.status(200).json({ message: "Book added to favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error adding book to favorites:", error.message);
@@ -287,12 +370,19 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
 
 // Remove a book from favorites
 app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) => {
+  console.log("Remove favorite request received for book id:", req.params.bookId);
   try {
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("Remove favorite error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
 
-    user.favorites = user.favorites.filter((book) => book.id.toString() !== req.params.bookId.toString());
+    user.favorites = user.favorites.filter(
+      (book) => book.id.toString() !== req.params.bookId.toString()
+    );
     await user.save();
+    console.log("Book removed from favorites for user:", req.user._id);
     res.status(200).json({ message: "Book removed from favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error removing book from favorites:", error.message);
@@ -302,9 +392,14 @@ app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) =>
 
 // Get to-read list
 app.get("/users/me/to-read", authenticateToken, async (req, res) => {
+  console.log("Fetching to-read list for user:", req.user._id);
   try {
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("To-read fetch error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
+    console.log("To-read list fetched. Count:", user.toRead.length);
     res.json(user.toRead);
   } catch (error) {
     console.error("Error fetching to-read list:", error.message);
@@ -312,26 +407,50 @@ app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to the to-read list (updated to include and normalize the image)
+// Add a book to the to-read list (updated to always include image from the API)
 app.post("/users/me/to-read", authenticateToken, async (req, res) => {
+  console.log("Add to-read request received with body:", req.body);
   try {
-    // Destructure the image along with the other fields
     let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("Add to-read error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
 
     if (user.toRead.some((book) => book.id.toString() === id.toString())) {
+      console.error("Add to-read error: Book already in to-read list, id:", id);
       return res.status(400).json({ message: "Book is already in the to-read list." });
     }
 
+    // Always try to fetch the image from the external API using the title.
+    try {
+      const response = await axios.get(BOOKS_API_URL, {
+        params: {
+          query: title,
+          "api-key": API_KEY,
+          number: 1,
+        },
+      });
+      let booksFromApi = response.data.books;
+      if (Array.isArray(booksFromApi[0])) {
+        booksFromApi = booksFromApi.flat();
+      }
+      if (booksFromApi && booksFromApi.length > 0 && booksFromApi[0].image) {
+        image = booksFromApi[0].image;
+      }
+    } catch (apiError) {
+      console.error("Error fetching image from API:", apiError.message);
+    }
 
+    // Normalize the image URL if it's relative.
     if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
 
-    // Save the book with its image
     user.toRead.push({ id, title, author, genre, image });
     await user.save();
+    console.log("Book added to to-read list for user:", req.user._id);
     res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
   } catch (error) {
     console.error("Error adding book to to-read list:", error.message);
@@ -341,12 +460,19 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
 
 // Remove a book from the to-read list
 app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
+  console.log("Remove to-read request received for book id:", req.params.bookId);
   try {
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      console.error("Remove to-read error: User not found:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
+    }
 
-    user.toRead = user.toRead.filter((book) => book.id.toString() !== req.params.bookId.toString());
+    user.toRead = user.toRead.filter(
+      (book) => book.id.toString() !== req.params.bookId.toString()
+    );
     await user.save();
+    console.log("Book removed from to-read list for user:", req.user._id);
     res.status(200).json({ message: "Book removed from to-read list.", toRead: user.toRead });
   } catch (error) {
     console.error("Error removing book from to-read list:", error.message);
@@ -354,22 +480,15 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
   }
 });
 
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// =========================================
-// 1. Serve React files (CSS/JS/Images)
-// =========================================
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-// =========================================
-// 2. Catch-all route for React routing
-// =========================================
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+// Catch-all route for React routing (serve index.html)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
 
-// =========================================
-// 3. NOW open the store doors (start server)
-// =========================================
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on https://project-final-044d.onrender.com`);
 });

@@ -45,7 +45,9 @@ export function ExploreBooks() {
         id: book.id || book._id,
         title: truncateTitle(book.title),
         image: book.image || "default-book.jpg",
-        author: Array.isArray(book.authors) ? book.authors.join(", ") : book.authors || "Unknown Author",
+        author: Array.isArray(book.authors)
+          ? book.authors.join(", ")
+          : book.authors || "Unknown Author",
         genre: book.genre || "Unknown Genre",
       }));
 
@@ -109,7 +111,7 @@ export function ExploreBooks() {
         return updated;
       });
     } catch (error) {
-      console.error(" Error updating favorites:", error);
+      console.error("Error updating favorites:", error);
     }
   };
 
@@ -121,11 +123,20 @@ export function ExploreBooks() {
     const method = isSaved ? "DELETE" : "POST";
     const endpoint = `${API_BASE_URL}/users/me/to-read${isSaved ? `/${encodeURIComponent(book.id)}` : ""}`;
 
+    // Create a payload that explicitly includes the image field
+    const bookPayload = {
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      genre: book.genre,
+      image: book.image, // Ensure the image URL is passed along
+    };
+
     try {
       const response = await fetch(endpoint, {
         method,
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: isSaved ? null : JSON.stringify(book),
+        body: isSaved ? null : JSON.stringify(bookPayload),
       });
 
       if (response.status === 403) {
@@ -139,10 +150,7 @@ export function ExploreBooks() {
         throw new Error(`Failed to update saved books. Server responded with: ${response.status}`);
       }
 
-      setSavedBooks((prev) => {
-        const updated = { ...prev, [book.id]: !isSaved };
-        return updated;
-      });
+      setSavedBooks((prev) => ({ ...prev, [book.id]: !isSaved }));
     } catch (error) {
       console.error("Error updating saved books:", error);
     }
@@ -174,7 +182,6 @@ export function ExploreBooks() {
           ))}
         </div>
       </section>
-
 
       <section className="book-display">
         <h2>{selectedCategory ? `Explore ${selectedCategory}` : "Top-Rated Books"}</h2>
