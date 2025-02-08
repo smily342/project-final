@@ -37,7 +37,7 @@ export function ExploreBooks() {
         throw new Error("Unexpected response structure from server.");
       }
 
-      // Truncate titles to a maximum of 31 characters
+      // Titles to max 31 characters
       const truncateTitle = (title, maxLength = 31) =>
         title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
@@ -123,13 +123,13 @@ export function ExploreBooks() {
     const method = isSaved ? "DELETE" : "POST";
     const endpoint = `${API_BASE_URL}/users/me/to-read${isSaved ? `/${encodeURIComponent(book.id)}` : ""}`;
 
-    // Create a payload that explicitly includes the image field
+
     const bookPayload = {
       id: book.id,
       title: book.title,
       author: book.author,
       genre: book.genre,
-      image: book.image, // Ensure the image URL is passed along
+      image: book.image,
     };
 
     try {
@@ -156,13 +156,20 @@ export function ExploreBooks() {
     }
   };
 
-  const handleSearch = async ({ title, author }) => {
-    const query = new URLSearchParams();
-    if (title) query.append("title", title);
-    if (author) query.append("author", author);
+  // search function to search for books
+  const handleSearch = async (queryString) => {
+    if (!queryString.trim()) {
+      console.log("No search query provided. Fetching all books.");
+      return fetchBooks("/rating");
+    }
 
-    await fetchBooks(`/search?${query.toString()}`);
+
+    const searchQuery = new URLSearchParams();
+    searchQuery.append("query", queryString.trim());
+    await fetchBooks(`/search?${searchQuery.toString()}`);
   };
+
+
 
   return (
     <>

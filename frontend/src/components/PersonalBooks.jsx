@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./PersonalBooks.css";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaHeart, FaBookmark } from "react-icons/fa"; // <-- Import the additional icons
 import useStore from "../store/useStore";
 
 const API_BASE_URL = "https://project-final-044d.onrender.com";
@@ -132,14 +132,10 @@ export function PersonalBooks() {
       if (response.ok) {
         console.log("Book successfully removed from backend.");
         if (selectedCategory === "saved") {
-          console.log("Saved books before deletion:", savedBooks);
           const updated = savedBooks.filter((book) => String(book.id) !== String(bookId));
-          console.log("Saved books after deletion:", updated);
           setSavedBooks(updated);
         } else if (selectedCategory === "liked") {
-          console.log("Liked books before deletion:", likedBooks);
           const updated = likedBooks.filter((book) => String(book.id) !== String(bookId));
-          console.log("Liked books after deletion:", updated);
           setLikedBooks(updated);
         }
       } else {
@@ -153,6 +149,88 @@ export function PersonalBooks() {
       setRemovingBookId(null);
     }
   };
+
+  // NEW: Like and Save functions (same as in ExploreBooks, adapted for array-based state)
+  const handleLike = async (book) => {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please log in to like books.");
+
+    const isLiked = likedBooks.some(b => String(b.id) === String(book.id));
+    const method = isLiked ? "DELETE" : "POST";
+    const endpoint = `${API_BASE_URL}/users/me/favorites${isLiked ? `/${encodeURIComponent(book.id)}` : ""}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: isLiked ? null : JSON.stringify(book),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update favorites. Server responded with: ${response.status}`);
+      }
+
+      // Update local state: remove if already liked, add otherwise
+      if (isLiked) {
+        const updated = likedBooks.filter(b => String(b.id) !== String(book.id));
+        setLikedBooks(updated);
+      } else {
+        setLikedBooks([...likedBooks, book]);
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
+
+  const handleSave = async (book) => {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please log in to save books.");
+
+    const isSaved = savedBooks.some(b => String(b.id) === String(book.id));
+    const method = isSaved ? "DELETE" : "POST";
+    const endpoint = `${API_BASE_URL}/users/me/to-read${isSaved ? `/${encodeURIComponent(book.id)}` : ""}`;
+
+    const bookPayload = {
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      genre: book.genre,
+      image: book.image,
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: isSaved ? null : JSON.stringify(bookPayload),
+      });
+
+      if (response.status === 403) {
+        console.warn("Session expired. Logging out...");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to update saved books. Server responded with: ${response.status}`);
+      }
+
+      // Update local state: remove if already saved, add otherwise
+      if (isSaved) {
+        const updated = savedBooks.filter(b => String(b.id) !== String(book.id));
+        setSavedBooks(updated);
+      } else {
+        setSavedBooks([...savedBooks, book]);
+      }
+    } catch (error) {
+      console.error("Error updating saved books:", error);
+    }
+  };
+
+  // Helper functions to check if a book is liked or saved
+  const isBookLiked = (bookId) => likedBooks.some(b => String(b.id) === String(bookId));
+  const isBookSaved = (bookId) => savedBooks.some(b => String(b.id) === String(bookId));
 
   const getDisplayedBooks = () => {
     if (selectedCategory === "saved") return Array.isArray(savedBooks) ? savedBooks : [];
@@ -200,7 +278,24 @@ export function PersonalBooks() {
               />
               <div className="book-info">
                 <p className="book-title">{book.title}</p>
-                {selectedCategory !== "recommended" && (
+                {selectedCategory === "recommended" ? (
+                  // NEW: Render the like and save buttons for recommendation books
+                  <div className="book-actions">
+                    <button
+                      className={`like-button ${isBookLiked(book.id) ? "liked" : ""}`}
+                      onClick={() => handleLike(book)}
+                    >
+                      <FaHeart color={isBookLiked(book.id) ? "black" : "gray"} />
+                    </button>
+                    <button
+                      className={`save-button ${isBookSaved(book.id) ? "saved" : ""}`}
+                      onClick={() => handleSave(book)}
+                    >
+                      <FaBookmark color={isBookSaved(book.id) ? "black" : "gray"} />
+                    </button>
+                  </div>
+                ) : (
+                  // Existing remove button for saved/liked categories
                   <button
                     type="button"
                     className="remove-button"

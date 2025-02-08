@@ -11,7 +11,6 @@ export function WelcomePage() {
   return (
     <div className="welcome-page">
       {/* Background Image */}
-      <div className="half-page-background" />
 
       {/* Foreground Content */}
       <HeaderOne />

@@ -2,6 +2,9 @@
 
 .MainContent {
   flex: 1;
+  min-height: 100vh;
+
+
 }
 
 html,
@@ -23,11 +26,13 @@ body {
     url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
   background-attachment: fixed;
   z-index: 1;
+
 }
 
 .welcome-page>* {
   position: relative;
   z-index: 2;
+
 }
 
 /* Content Area */
