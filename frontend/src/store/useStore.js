@@ -3,9 +3,9 @@ import { create } from 'zustand';
 const useStore = create((set) => ({
     selectedCategory: 'saved',
     setSelectedCategory: (category) => set({ selectedCategory: category }),
-    savedBooks: [],
+    savedBooks: {},
     setSavedBooks: (books) => set({ savedBooks: books }),
-    likedBooks: [],
+    likedBooks: {},
     setLikedBooks: (books) => set({ likedBooks: books }),
     recommendedBooks: [],
     setRecommendedBooks: (books) => set({ recommendedBooks: books }),

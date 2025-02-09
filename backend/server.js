@@ -25,7 +25,7 @@ const MONGO_URI =
   process.env.MONGO_URI ||
   "mongodb+srv://BHS:I3u4i01zNraLZurV@cluster0.i2djz.mongodb.net/final-project?retryWrites=true&w=majority";
 
-// Base URL for assets (used to normalize relative image URLs)
+// Base URL 
 const ASSETS_BASE_URL = "https://project-final-044d.onrender.com";
 
 // Connect to MongoDB
@@ -75,7 +75,7 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
-// fetchBooks FUNCTION 
+// fetchBooks 
 async function fetchBooks(params) {
   try {
     console.log("Fetching books with params:", params);
@@ -84,13 +84,12 @@ async function fetchBooks(params) {
     });
     console.log("External API response received:", response.data);
 
-    // Check that response.data.books exists and is an array.
     if (!response.data || !Array.isArray(response.data.books)) {
       console.error("Unexpected API response structure:", response.data);
       throw new Error("The external API did not return an array for books.");
     }
 
-    // Flatten the books array if it is nested.
+    // Flatten books array
     let flatBooks;
     try {
       flatBooks = response.data.books.flat();
