@@ -74,22 +74,18 @@
     text-align: center;
     width: fit-content;
   }
+
+  .HeaderThree {
+    height: 180px;
+  }
+
+  .header-content3 h1 {
+    margin-top: 50px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .nav-link {
     font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .HeaderThree {
-    height: 180px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-content3 h1 {
-    margin-top: 50px;
   }
 }

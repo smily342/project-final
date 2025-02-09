@@ -39,7 +39,7 @@
   display: block;
 }
 
-/* Mobile (320px - 767px) */
+/* Mobile  */
 @media (max-width: 767px) {
   .header-title {
     font-size: 3rem;
