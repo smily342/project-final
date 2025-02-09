@@ -75,7 +75,7 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
-// --- UPDATED fetchBooks FUNCTION ---
+// fetchBooks FUNCTION 
 async function fetchBooks(params) {
   try {
     console.log("Fetching books with params:", params);
@@ -101,7 +101,7 @@ async function fetchBooks(params) {
 
     console.log("Fetched books count (before duplicate removal):", flatBooks.length);
 
-    // Remove duplicate titles (case-insensitive)
+    // Remove duplicate titles 
     const uniqueBooks = Array.from(
       new Map(flatBooks.map(book => [book.title.toLowerCase(), book])).values()
     );
@@ -118,7 +118,7 @@ async function fetchBooks(params) {
     throw new Error("Failed to fetch books from external API.");
   }
 }
-// --- END UPDATED fetchBooks FUNCTION ---
+
 
 // Fetching books by genre 
 async function fetchBooksByGenre(genre) {
@@ -317,7 +317,7 @@ app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to favorites (updated to always include image from the API)
+// Add a book to favorites 
 app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   console.log("Add favorite request received with body:", req.body);
   try {
@@ -333,7 +333,7 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in favorites." });
     }
 
-    // Always try to fetch the image from the external API using the title.
+    //  fetch the image from the external API using the title.
     try {
       const response = await axios.get(BOOKS_API_URL, {
         params: {
@@ -353,7 +353,7 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
       console.error("Error fetching image from API:", apiError.message);
     }
 
-    // Normalize the image URL if it's relative.
+
     if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
@@ -368,7 +368,7 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
-// Remove a book from favorites
+// Remove book from favorites
 app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) => {
   console.log("Remove favorite request received for book id:", req.params.bookId);
   try {
@@ -407,7 +407,7 @@ app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to the to-read list (updated to always include image from the API)
+// Add a book to the to-read list 
 app.post("/users/me/to-read", authenticateToken, async (req, res) => {
   console.log("Add to-read request received with body:", req.body);
   try {
@@ -423,7 +423,7 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in the to-read list." });
     }
 
-    // Always try to fetch the image from the external API using the title.
+    // fetch the image from the external API using the title.
     try {
       const response = await axios.get(BOOKS_API_URL, {
         params: {
@@ -443,7 +443,7 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
       console.error("Error fetching image from API:", apiError.message);
     }
 
-    // Normalize the image URL if it's relative.
+
     if (image && !image.startsWith("http")) {
       image = `${ASSETS_BASE_URL}/${image}`;
     }
@@ -480,10 +480,10 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
   }
 });
 
-// Serve static files from the frontend build directory
+
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// Catch-all route for React routing (serve index.html)
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
