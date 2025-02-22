@@ -1,35 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Inherit the Poppins font across these sections */
 .personal-books,
 .personal-books *,
 .books-row,
 .books-row * {
   font-family: 'Poppins', sans-serif;
-
 }
 
-/* Category Buttons */
+/* Category Buttons Row */
 .category-buttons-row {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
   margin-top: 40px;
+  flex-wrap: wrap;
+  /* Allows buttons to wrap on smaller screens */
 }
 
 .category-buttons-row button {
+  /* Reduced top margin and overall padding to prevent large buttons */
+  margin: 20px 10px;
+  padding: 15px 30px;
 
-  margin: 80px 10px 10px;
-  padding: 20px 40px;
   background-color: black;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  /* Slightly smaller than 1.2rem for better balance */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 30px;
+
+  /* Ensures consistent width if button text is short or long */
+  min-width: 120px;
 }
 
 .category-buttons-row button:hover {
   background-color: #c7c7c7;
+  color: black;
+  /* Ensures text is visible on the lighter background */
 }
 
 .category-buttons-row button.active {
@@ -50,7 +60,6 @@
   margin-bottom: 200px;
 }
 
-
 /* Individual Book Card */
 .book-card {
   display: flex;
@@ -68,8 +77,6 @@
   margin-top: 70px;
 }
 
-
-
 .book-card:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -79,7 +86,6 @@
   width: 100%;
   height: auto;
   border-radius: 5px;
-
 }
 
 .book-info {
@@ -119,20 +125,16 @@
   margin-top: 50px;
   text-align: center;
   font-size: 1.5rem;
-
 }
 
-
-
-/* Responsive desing */
+/* Tablet (up to 1024px) */
 @media (max-width: 1024px) {
   .books-row {
     grid-template-columns: repeat(auto-fit, minmax(200px, auto));
     gap: 15px;
     padding: 10px 5%;
-    margin: 0 auto;
     max-width: 100%;
-    margin-bottom: 145px;
+    margin: 0 auto 145px;
     justify-content: center;
   }
 
@@ -143,15 +145,14 @@
   }
 }
 
-/* Mobile */
+/* Mobile (up to 480px) */
 @media (max-width: 480px) {
   .books-row {
     grid-template-columns: repeat(1, 1fr);
-    justify-content: center;
     padding: 10px 5%;
-    margin: 0 auto;
     max-width: 100%;
-    margin-bottom: 40px;
+    margin: 0 auto 40px;
+    justify-content: center;
   }
 
   .book-card {
@@ -160,22 +161,16 @@
     margin: 0 auto;
   }
 
+  /* Make buttons wrap more naturally on smaller screens */
   .category-buttons-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
-    padding: 30px;
+    margin-top: 20px;
   }
 
   .category-buttons-row button {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-    white-space: nowrap;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    /* Remove min-width so they can shrink if space is tight */
+    min-width: auto;
   }
-
 }

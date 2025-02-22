@@ -1,84 +1,36 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import "./SignUp.css";
 
 export const SignUp = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting }
+  } = useForm();
+
   const navigate = useNavigate();
+  const password = watch("password");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Basic validations
-    if (!fullName.trim()) {
-      setError("Please enter your first and last name.");
-      return;
-    }
-    const nameParts = fullName.trim().split(" ");
-    if (nameParts.length < 2) {
-      setError("Please provide both first and last name.");
-      return;
-    }
-    const firstName = nameParts[0];
-    const lastName = nameParts.slice(1).join(" ");
-
-    if (!email) {
-      setError("Please enter a valid email.");
-      return;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-    if (password !== repeatPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
+  const onSubmit = async (data) => {
     try {
-      setIsLoading(true);
-
       const response = await fetch("https://project-final-044d.onrender.com/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
+        body: JSON.stringify(data),
       });
 
-      const data = await response.json();
-      setIsLoading(false);
+      const responseData = await response.json();
 
       if (!response.ok) {
-        setError(data.message || "Something went wrong during signup.");
-        setSuccess("");
-      } else {
-        setSuccess("User registered successfully!");
-        setError("");
-
-        // Clear form fields
-        setFullName("");
-        setEmail("");
-        setPassword("");
-        setRepeatPassword("");
-
-        // Redirect to Library Page
-        navigate("/library");
+        throw new Error(responseData.message || "Something went wrong");
       }
+
+      // Redirect after successful signup
+      navigate("/library");
     } catch (err) {
-      setIsLoading(false);
-      setError("Unable to connect to the server. Please try again later.");
-      setSuccess("");
       console.error(err);
     }
   };
@@ -86,47 +38,63 @@ export const SignUp = () => {
   return (
     <div>
       <div className="SignUp">
-        <form className="SignUp-form" onSubmit={handleSubmit}>
+        <form className="SignUp-form" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="SignUp-title">Sign Up</h1>
 
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
-
+          {/* First and Last Name */}
           <input
             type="text"
             placeholder="First and Lastname"
             className="SignUp-input"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            {...register("fullName", { required: "Full name is required" })}
           />
+          {errors.fullName && <p className="error">{errors.fullName.message}</p>}
+
+          {/* Email */}
           <input
             type="email"
             placeholder="Enter your email"
             className="SignUp-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", {
+              required: "Email is required",
+              pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email format" },
+            })}
           />
+          {errors.email && <p className="error">{errors.email.message}</p>}
+
+          {/* Password */}
           <input
             type="password"
             placeholder="Enter your password"
             className="SignUp-input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters long" } })}
           />
+          {errors.password && <p className="error">{errors.password.message}</p>}
+
+          {/* Confirm Password */}
           <input
             type="password"
             placeholder="Repeat your password"
             className="SignUp-input"
-            value={repeatPassword}
-            onChange={(e) => setRepeatPassword(e.target.value)}
+            {...register("repeatPassword", {
+              required: "Please confirm your password",
+              validate: (value) => value === password || "Passwords do not match"
+            })}
           />
+          {errors.repeatPassword && <p className="error">{errors.repeatPassword.message}</p>}
+
+          {/* Terms and Conditions Checkbox */}
           <div className="SignUp-checkbox">
-            <input type="checkbox" id="terms" />
+            <input type="checkbox" id="terms" {...register("terms", { required: "You must accept the terms" })} />
             <label htmlFor="terms">I agree to terms</label>
           </div>
-          <button type="submit" className="SignUp-button" disabled={isLoading}>
-            {isLoading ? "Signing Up..." : "SIGN UP"}
+          {errors.terms && <p className="error">{errors.terms.message}</p>}
+
+          {/* Submit Button */}
+          <button type="submit" className="SignUp-button" disabled={isSubmitting}>
+            {isSubmitting ? "Signing Up..." : "SIGN UP"}
           </button>
+
           <p className="SignUp-footer">
             Already have an account? <Link to="/">Log In</Link>
           </p>

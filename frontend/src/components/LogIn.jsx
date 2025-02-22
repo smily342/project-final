@@ -1,57 +1,68 @@
-import "./LogIn.css";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
+import "./LogIn.css";
 
 export const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm();
+
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(null);
-
+  const onSubmit = async (data) => {
     try {
       const response = await fetch("https://project-final-044d.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(data),
       });
 
-      const data = await response.json();
+      const responseData = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/library");
-      } else {
-        setError(data.message || "Login failed.");
+      if (!response.ok) {
+        throw new Error(responseData.message || "Login failed");
       }
+
+      localStorage.setItem("token", responseData.token);
+      navigate("/library");
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      console.error(err);
     }
   };
 
   return (
     <div className="LogIn">
-      <form className="LogIn-form" onSubmit={handleLogin}>
+      <form className="LogIn-form" onSubmit={handleSubmit(onSubmit)}>
         <h1 className="LogIn-title">Log In</h1>
-        {error && <p className="LogIn-error">{error}</p>}
+
+        {/* Email Input */}
         <input
           type="email"
           placeholder="JaneDoe@hotmail.com"
           className="LogIn-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email", {
+            required: "Email is required",
+            pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email format" },
+          })}
         />
+        {errors.email && <p className="error">{errors.email.message}</p>}
+
+        {/* Password Input */}
         <input
           type="password"
           placeholder="Password"
           className="LogIn-input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password", { required: "Password is required" })}
         />
-        <button type="submit" className="LogIn-button">LOG IN</button>
+        {errors.password && <p className="error">{errors.password.message}</p>}
+
+        {/* Submit Button */}
+        <button type="submit" className="LogIn-button" disabled={isSubmitting}>
+          {isSubmitting ? "Logging in..." : "LOG IN"}
+        </button>
+
         <p className="LogIn-footer">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>

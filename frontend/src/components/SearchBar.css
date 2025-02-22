@@ -11,7 +11,15 @@
   border: 3px solid black;
   border-radius: 25px;
   padding: 7px 25px;
+
+  /* Ensures border + padding don't reduce the content area */
+  box-sizing: border-box;
+
+  /* Default width for larger screens */
   width: 30%;
+
+  /* Minimum width to prevent placeholder truncation */
+  min-width: 300px;
 }
 
 .search-container input {
@@ -33,5 +41,15 @@
   .search-container {
     width: 80%;
     margin-top: 25px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .search-container {
+    width: 50%
+  }
+
+  .search-container input {
+    font-size: 12px;
   }
 }

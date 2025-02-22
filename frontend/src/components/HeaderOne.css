@@ -1,104 +1,128 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 .HeaderOne {
+  /* Let the container expand with the content instead of a fixed 200px height */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 200px;
+  justify-content: center;
   font-family: 'Poppins', sans-serif;
   width: 100%;
   z-index: 2;
   background-color: transparent;
   padding: 0;
+  transform: translateZ(0);
+  /* Forces repaint */
 }
 
 .header-title {
-  font-size: 140px;
+  /* Reduced from 140px to 7rem (about 112px) */
+  font-size: 7rem;
   font-weight: 600;
   display: flex;
-  margin-top: 300px;
-  margin-bottom: 250px;
+  /* Reduced margins so text isn't pushed too far */
+  margin-top: 150px;
+  margin-bottom: 150px;
   gap: 10px;
   padding: 0;
   z-index: 3;
   text-align: center;
   color: white;
   -webkit-text-stroke: 1px black;
+  transform: translateZ(0);
+  /* Forces repaint */
 }
-
 
 .intro-text {
   color: white;
-  font-size: 30px;
+  /* 2rem is about 32px, still large but more manageable than 30px at small widths */
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 150px;
+  /* Reduced margins for better spacing */
   margin-top: 80px;
+  margin-bottom: 80px;
+  transform: translateZ(0);
+  /* Forces repaint */
 }
 
 .intro-text span {
   display: block;
 }
 
-/* Mobile  */
+/* Mobile (up to 767px) */
 @media (max-width: 767px) {
   .header-title {
+    /* 3rem is about 48px */
     font-size: 3rem;
     font-weight: 600;
     display: block;
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin-top: 80px;
+    margin-bottom: 80px;
     padding: 0;
     z-index: 3;
     text-align: center;
-    max-width: 80%;
+    max-width: 90%;
     line-height: 1.2;
     word-wrap: break-word;
     white-space: normal;
+    transform: translateZ(0);
+    /* Forces repaint */
   }
 
   .intro-text {
     color: white;
     font-size: 1.2rem;
+    /* about 19.2px */
     font-weight: 400;
     text-align: center;
-    margin-bottom: 80px;
     margin-top: 50px;
+    margin-bottom: 50px;
     line-height: 1.5;
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
+    transform: translateZ(0);
+    /* Forces repaint */
   }
 }
 
-
-/* Tablet  */
+/* Tablet (768px to 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
-
   .header-title {
-    font-size: 5rem;
+    /* Reduced from 5rem to 4rem so it fits better near 950px */
+    font-size: 4rem;
     font-weight: 600;
     display: block;
-    padding-top: 150px;
-    padding-bottom: 150px;
+    /* Lowered margins so text doesn't appear squeezed or pushed too far */
+    margin-top: 100px;
+    margin-bottom: 100px;
     padding: 0;
     z-index: 3;
     text-align: center;
-    max-width: 75%;
+    /* Increased from 75-90% to 85% for a bit more horizontal space */
+    max-width: 85%;
     line-height: 1.2;
     word-wrap: break-word;
     white-space: normal;
+    transform: translateZ(0);
+    /* Forces repaint */
   }
 
   .intro-text {
     color: white;
     font-size: 1.5rem;
+    /* about 24px */
     font-weight: 400;
     text-align: center;
-    margin-bottom: 100px;
-    margin-top: 70px;
+    margin-top: 50px;
     line-height: 1.6;
-    max-width: 80%;
+    /* Expanded to 85% for consistency */
+    max-width: 85%;
     margin-left: auto;
     margin-right: auto;
+    /* Reduced bottom margin so it's not too spaced out */
+    margin-bottom: 80px;
+    transform: translateZ(0);
+    /* Forces repaint */
   }
 }

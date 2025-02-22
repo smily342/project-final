@@ -88,4 +88,11 @@
   .nav-link {
     font-size: 13px;
   }
+
+  @media (min-width: 950px) {
+    .header-content3 {
+      max-width: 80%;
+    }
+  }
+
 }
