@@ -8,12 +8,8 @@
   position: relative;
   justify-content: center;
   align-items: center;
-
-  /* Changed from a fixed height to min-height */
   min-height: 240px;
   padding: 40px 0;
-  /* Added padding for breathing room */
-
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
   color: white;
@@ -24,7 +20,7 @@
   text-align: center;
 }
 
-/* Headline */
+/* Title */
 .header-content2 h1 {
   font-size: 3rem;
   font-weight: 600;
@@ -32,12 +28,14 @@
   margin-top: 50px;
 }
 
+/* Text */
 .header-content2 p {
   font-size: 1.5rem;
   margin-top: 10px;
   line-height: 1.4;
 }
 
+/* Navigation links */
 .nav-links {
   position: absolute;
   top: 20px;
@@ -63,7 +61,7 @@
   color: black;
 }
 
-/* Tablet: 768px to 1024px */
+/* Responsive Design */
 @media (min-width: 768px) and (max-width: 1024px) {
   .header-content2 h1 {
     font-size: 2.5rem;
@@ -73,8 +71,6 @@
   .header-content2 p {
     font-size: 1.2rem;
   }
-
-
 }
 
 /* Mobile: up to 480px */

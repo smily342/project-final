@@ -6,7 +6,7 @@ export const LogIn = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const navigate = useNavigate();

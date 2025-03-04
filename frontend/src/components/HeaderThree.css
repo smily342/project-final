@@ -8,7 +8,9 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)),
+    url("../assets/images/bookshelf.jpg") center center / cover no-repeat;
   color: white;
   height: 240px;
 }
@@ -50,7 +52,7 @@
   color: black;
 }
 
-
+/* Responsive Design */
 @media (max-width: 480px) {
   .nav-link-container {
     position: absolute;
@@ -94,5 +96,4 @@
       max-width: 80%;
     }
   }
-
 }

@@ -1,17 +1,15 @@
 import { HeaderOne } from "../components/HeaderOne";
 import { Footer } from "../components/Footer";
 import { LogIn } from "../components/LogIn";
-import useDocumentTitle from "../useDocumentTitle"; // Import the custom hook
+import useDocumentTitle from "../useDocumentTitle";
 import "./WelcomePage.css";
 
-export function WelcomePage() {
-  useDocumentTitle("Welcome to Readers Compass"); // Set the title
+const WelcomePage = () => {
+  useDocumentTitle("Welcome to Readers Compass");
 
   return (
     <div className="welcome-page">
-      <div className="welcome-page__background"></div>
-
-      {/* Page content */}
+      <div className="welcome-page__background" />
       <div className="welcome-page__content">
         <HeaderOne />
         <LogIn />
@@ -19,6 +17,6 @@ export function WelcomePage() {
       </div>
     </div>
   );
-}
+};
 
 export default WelcomePage;

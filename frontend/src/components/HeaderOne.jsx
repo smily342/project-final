@@ -4,7 +4,7 @@ export const HeaderOne = () => {
   return (
     <div>
       <header className="HeaderOne">
-        <h1 className="header-title"> Readers Compass </h1>
+        <h1 className="header-title">Readers Compass</h1>
       </header>
       <p className="intro-text">
         <span>
@@ -15,7 +15,6 @@ export const HeaderOne = () => {
         </span>
       </p>
     </div>
-
   );
 };
 

@@ -117,6 +117,7 @@ body {
   padding-top: 10px;
 }
 
+/* Like and save buttons */
 .like-button,
 .save-button {
   border: none;
@@ -137,8 +138,6 @@ body {
 .like-button svg {
   transition: color 0.2s;
 }
-
-
 
 .save-button svg {
   transition: color 0.2s;

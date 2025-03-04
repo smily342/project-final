@@ -8,7 +8,6 @@ export const Footer = () => {
         <p className="Footer-text">
           contact@readerscompass.com  |  © 2025 Readers Compass
         </p>
-
         <div className="Footer-socials">
           <FaInstagram className="social-icon" />
         </div>

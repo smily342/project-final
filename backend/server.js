@@ -25,7 +25,7 @@ const MONGO_URI =
   process.env.MONGO_URI ||
   "mongodb+srv://BHS:I3u4i01zNraLZurV@cluster0.i2djz.mongodb.net/final-project?retryWrites=true&w=majority";
 
-// Base URL 
+// Base URL
 const ASSETS_BASE_URL = "https://project-final-044d.onrender.com";
 
 // Connect to MongoDB
@@ -75,7 +75,7 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
-// fetchBooks 
+// fetchBooks function (unchanged)
 async function fetchBooks(params) {
   try {
     console.log("Fetching books with params:", params);
@@ -100,7 +100,7 @@ async function fetchBooks(params) {
 
     console.log("Fetched books count (before duplicate removal):", flatBooks.length);
 
-    // Remove duplicate titles 
+    // Remove duplicate titles
     const uniqueBooks = Array.from(
       new Map(flatBooks.map(book => [book.title.toLowerCase(), book])).values()
     );
@@ -118,8 +118,7 @@ async function fetchBooks(params) {
   }
 }
 
-
-// Fetching books by genre 
+// Fetching books by genre
 async function fetchBooksByGenre(genre) {
   console.log("Fetching books for genre:", genre);
   return await fetchBooks({ genres: genre, number: 15 });
@@ -288,7 +287,9 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password." });
     }
 
-    const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "30d" });
+    const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, {
+      expiresIn: "30d",
+    });
     console.log("User logged in successfully:", email);
     res.json({ token });
   } catch (err) {
@@ -296,8 +297,6 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Internal server error.", error: err.message });
   }
 });
-
-// Save and like routes
 
 // Get favorites
 app.get("/users/me/favorites", authenticateToken, async (req, res) => {
@@ -316,9 +315,10 @@ app.get("/users/me/favorites", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to favorites 
+// Add a book to favorites
 app.post("/users/me/favorites", authenticateToken, async (req, res) => {
   console.log("Add favorite request received with body:", req.body);
+
   try {
     let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
@@ -332,35 +332,19 @@ app.post("/users/me/favorites", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in favorites." });
     }
 
-    //  fetch the image from the external API using the title.
-    try {
-      const response = await axios.get(BOOKS_API_URL, {
-        params: {
-          query: title,
-          "api-key": API_KEY,
-          number: 1,
-        },
-      });
-      let booksFromApi = response.data.books;
-      if (Array.isArray(booksFromApi[0])) {
-        booksFromApi = booksFromApi.flat();
-      }
-      if (booksFromApi && booksFromApi.length > 0 && booksFromApi[0].image) {
-        image = booksFromApi[0].image;
-      }
-    } catch (apiError) {
-      console.error("Error fetching image from API:", apiError.message);
-    }
-
-
-    if (image && !image.startsWith("http")) {
-      image = `${ASSETS_BASE_URL}/${image}`;
-    }
-
     user.favorites.push({ id, title, author, genre, image });
     await user.save();
+
+    // *** Log the entire user doc after save ***
+    console.log(
+      "User doc after saving favorite:",
+      JSON.stringify(user, null, 2)
+    );
+
     console.log("Book added to favorites for user:", req.user._id);
-    res.status(200).json({ message: "Book added to favorites.", favorites: user.favorites });
+    res
+      .status(200)
+      .json({ message: "Book added to favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error adding book to favorites:", error.message);
     res.status(500).json({ message: "Internal server error." });
@@ -381,8 +365,11 @@ app.delete("/users/me/favorites/:bookId", authenticateToken, async (req, res) =>
       (book) => book.id.toString() !== req.params.bookId.toString()
     );
     await user.save();
+
     console.log("Book removed from favorites for user:", req.user._id);
-    res.status(200).json({ message: "Book removed from favorites.", favorites: user.favorites });
+    res
+      .status(200)
+      .json({ message: "Book removed from favorites.", favorites: user.favorites });
   } catch (error) {
     console.error("Error removing book from favorites:", error.message);
     res.status(500).json({ message: "Internal server error." });
@@ -406,9 +393,10 @@ app.get("/users/me/to-read", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a book to the to-read list 
+// Add a book to the to-read list
 app.post("/users/me/to-read", authenticateToken, async (req, res) => {
   console.log("Add to-read request received with body:", req.body);
+
   try {
     let { id, title, author, genre, image } = req.body;
     const user = await User.findById(req.user._id);
@@ -422,35 +410,19 @@ app.post("/users/me/to-read", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Book is already in the to-read list." });
     }
 
-    // fetch the image from the external API using the title.
-    try {
-      const response = await axios.get(BOOKS_API_URL, {
-        params: {
-          query: title,
-          "api-key": API_KEY,
-          number: 1,
-        },
-      });
-      let booksFromApi = response.data.books;
-      if (Array.isArray(booksFromApi[0])) {
-        booksFromApi = booksFromApi.flat();
-      }
-      if (booksFromApi && booksFromApi.length > 0 && booksFromApi[0].image) {
-        image = booksFromApi[0].image;
-      }
-    } catch (apiError) {
-      console.error("Error fetching image from API:", apiError.message);
-    }
-
-
-    if (image && !image.startsWith("http")) {
-      image = `${ASSETS_BASE_URL}/${image}`;
-    }
-
     user.toRead.push({ id, title, author, genre, image });
     await user.save();
+
+    // *** Log the entire user doc after save ***
+    console.log(
+      "User doc after saving to-read:",
+      JSON.stringify(user, null, 2)
+    );
+
     console.log("Book added to to-read list for user:", req.user._id);
-    res.status(200).json({ message: "Book added to to-read list.", toRead: user.toRead });
+    res
+      .status(200)
+      .json({ message: "Book added to to-read list.", toRead: user.toRead });
   } catch (error) {
     console.error("Error adding book to to-read list:", error.message);
     res.status(500).json({ message: "Internal server error." });
@@ -472,16 +444,16 @@ app.delete("/users/me/to-read/:bookId", authenticateToken, async (req, res) => {
     );
     await user.save();
     console.log("Book removed from to-read list for user:", req.user._id);
-    res.status(200).json({ message: "Book removed from to-read list.", toRead: user.toRead });
+    res
+      .status(200)
+      .json({ message: "Book removed from to-read list.", toRead: user.toRead });
   } catch (error) {
     console.error("Error removing book from to-read list:", error.message);
     res.status(500).json({ message: "Internal server error." });
   }
 });
 
-
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));

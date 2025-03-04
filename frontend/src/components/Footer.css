@@ -35,6 +35,7 @@ html {
   margin: 0;
 }
 
+/* Icon*/
 .Footer-socials {
   display: flex;
   justify-content: center;
@@ -52,6 +53,7 @@ html {
   color: #ccc;
 }
 
+/* Responsive Design */
 @media (max-width: 767px) {
   .Footer {
     flex-direction: column;
@@ -76,7 +78,6 @@ html {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-
   .Footer {
     position: fixed;
     bottom: 0;

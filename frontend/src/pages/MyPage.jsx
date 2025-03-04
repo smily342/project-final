@@ -1,11 +1,11 @@
-import { useDocumentTitle } from "../useDocumentTitle"; // Import the hook
+import { useDocumentTitle } from "../useDocumentTitle";
 import { HeaderThree } from "../components/HeaderThree";
 import { PersonalBooks } from "../components/PersonalBooks";
 import { Footer } from "../components/Footer";
 import "./MyPage.css";
 
 export const MyPage = () => {
-  useDocumentTitle("My Page - Readers Compass"); // Set the document title
+  useDocumentTitle("My Page - Readers Compass");
 
   return (
     <div className="page-wrapper">
