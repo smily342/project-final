@@ -19,9 +19,9 @@ export function ExploreBooks() {
 		fetchUserBooks();
 	}, []);
 
-	// -------------------------------
+
 	// Fetch books from the API
-	// -------------------------------
+
 	const fetchBooks = async (endpoint, category = null) => {
 		setLoading(true);
 		setError("");
@@ -39,9 +39,11 @@ export function ExploreBooks() {
 				throw new Error("Unexpected response structure from server.");
 			}
 
-			const fetchedBooks = data.data.books.flat().map((book, index) =>
-				formatBookData(book, index)
+			// Use formatBookData but DO NOT pass index as a second argument
+			const fetchedBooks = data.data.books.flat().map((book) =>
+				formatBookData(book)
 			);
+
 			setBooks(fetchedBooks);
 		} catch (err) {
 			console.error("Error fetching books:", err.message);
@@ -51,9 +53,9 @@ export function ExploreBooks() {
 		}
 	};
 
-	// -------------------------------
+
 	// Fetch the user's saved/liked books
-	// -------------------------------
+
 	const fetchUserBooks = async () => {
 		const token = localStorage.getItem("token");
 		if (!token) return;

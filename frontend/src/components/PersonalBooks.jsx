@@ -60,7 +60,7 @@ export function PersonalBooks() {
 				formatBookData(book, index)
 			);
 			booksArray.forEach((book, index) => {
-				console.log(`✅ Processed Book ${index}:`, book.title, book.image);
+				console.log(` Processed Book ${index}:`, book.title, book.image);
 			});
 			if (selectedCategory === "saved") {
 				setSavedBooks(booksArray);
@@ -70,7 +70,7 @@ export function PersonalBooks() {
 				setRecommendedBooks(booksArray);
 			}
 		} catch (err) {
-			console.error("❌ Error fetching data:", err.message);
+			console.error(" Error fetching data:", err.message);
 			setError(err.message || "Error fetching data");
 		} finally {
 			setLoading(false);
