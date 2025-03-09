@@ -21,7 +21,6 @@ export function ExploreBooks() {
 
 
 	// Fetch books from the API
-
 	const fetchBooks = async (endpoint, category = null) => {
 		setLoading(true);
 		setError("");
@@ -29,7 +28,6 @@ export function ExploreBooks() {
 
 		try {
 			const url = `${API_BASE_URL}${endpoint}`;
-			console.log(`\nFetching books from: ${url}`);
 			const response = await fetch(url);
 			if (!response.ok) {
 				throw new Error(`Server error: ${response.status} ${response.statusText}`);
@@ -39,29 +37,24 @@ export function ExploreBooks() {
 				throw new Error("Unexpected response structure from server.");
 			}
 
-			// Use formatBookData but DO NOT pass index as a second argument
+			// Use formatBookData
 			const fetchedBooks = data.data.books.flat().map((book) =>
 				formatBookData(book)
 			);
 
 			setBooks(fetchedBooks);
 		} catch (err) {
-			console.error("Error fetching books:", err.message);
 			setError(err.message || "Failed to load books. Please try again.");
 		} finally {
 			setLoading(false);
 		}
 	};
 
-
 	// Fetch the user's saved/liked books
-
 	const fetchUserBooks = async () => {
 		const token = localStorage.getItem("token");
 		if (!token) return;
 		try {
-			console.log("Fetching user favorites from:", `${API_BASE_URL}/users/me/favorites`);
-			console.log("Fetching user to-read from:", `${API_BASE_URL}/users/me/to-read`);
 
 			const [favoritesRes, toReadRes] = await Promise.all([
 				fetch(`${API_BASE_URL}/users/me/favorites`, {
@@ -75,7 +68,7 @@ export function ExploreBooks() {
 			const favoritesData = await favoritesRes.json();
 			const toReadData = await toReadRes.json();
 
-			// Convert the arrays into { [book.id]: true } maps
+			// Convert the arrays 
 			setLikedBooks(
 				favoritesData.reduce((acc, book) => ({ ...acc, [book.id]: true }), {})
 			);
@@ -87,9 +80,8 @@ export function ExploreBooks() {
 		}
 	};
 
-	// -------------------------------
-	// handleLike (POST or DELETE) in one function
-	// -------------------------------
+
+	// handleLike (POST or DELETE)
 	const handleLike = async (book) => {
 		const token = localStorage.getItem("token");
 		if (!token) return alert("Please log in to like books.");
@@ -100,9 +92,6 @@ export function ExploreBooks() {
 		const endpoint = `${API_BASE_URL}/users/me/favorites${isLiked ? `/${encodeURIComponent(book.id)}` : ""
 			}`;
 		const method = isLiked ? "DELETE" : "POST";
-
-		console.log("\nhandleLike Endpoint:", endpoint);
-		console.log("handleLike: About to toggle like for this book:", book);
 
 		try {
 			const response = await fetch(endpoint, {
@@ -125,9 +114,8 @@ export function ExploreBooks() {
 		}
 	};
 
-	// -------------------------------
-	// handleSave (POST or DELETE) in one function
-	// -------------------------------
+
+	// handleSave (POST or DELETE) 
 	const handleSave = async (book) => {
 		const token = localStorage.getItem("token");
 		if (!token) return alert("Please log in to save books.");
@@ -139,15 +127,8 @@ export function ExploreBooks() {
 			}`;
 		const method = isSaved ? "DELETE" : "POST";
 
-		console.log("\nhandleSave Endpoint:", endpoint);
-		console.log("handleSave: About to toggle save for this book:", book);
-
 		// Format the book before saving
 		const formattedBook = formatBookData(book);
-		console.log(
-			`handleSave: ${isSaved ? "Removing from" : "Adding to"} to-read with data:`,
-			formattedBook
-		);
 
 		try {
 			const response = await fetch(endpoint, {
@@ -176,12 +157,10 @@ export function ExploreBooks() {
 		}
 	};
 
-	// -------------------------------
-	// handleSearch
-	// -------------------------------
+
+	// Handl search
 	const handleSearch = async (queryString) => {
 		if (!queryString.trim()) {
-			console.log("No search query provided. Fetching all books.");
 			return fetchBooks("/rating");
 		}
 		const searchQuery = new URLSearchParams();
@@ -189,9 +168,7 @@ export function ExploreBooks() {
 		await fetchBooks(`/search?${searchQuery.toString()}`);
 	};
 
-	// -------------------------------
 	// Render
-	// -------------------------------
 	return (
 		<>
 			<SearchBar onSearch={handleSearch} />

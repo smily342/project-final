@@ -7,7 +7,6 @@ import { formatBookData } from "../helpers/bookFormatter";
 const API_BASE_URL = "https://project-final-044d.onrender.com";
 
 export function PersonalBooks() {
-	console.log("🔄 PersonalBooks component re-rendered!");
 	const [removingBookId, setRemovingBookId] = useState(null);
 
 	const {
@@ -30,7 +29,6 @@ export function PersonalBooks() {
 	}, [selectedCategory]);
 
 	const fetchCategoryData = async () => {
-		console.log(`📚 Fetching books for category: ${selectedCategory}`);
 		setLoading(true);
 		setError(null);
 		try {
@@ -54,13 +52,11 @@ export function PersonalBooks() {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 			const data = await response.json();
-			console.log("🔍 Raw fetched data:", data);
 			// Format the data with the shared helper.
 			const booksArray = (Array.isArray(data) ? data : data.data?.books || []).map((book, index) =>
 				formatBookData(book, index)
 			);
 			booksArray.forEach((book, index) => {
-				console.log(` Processed Book ${index}:`, book.title, book.image);
 			});
 			if (selectedCategory === "saved") {
 				setSavedBooks(booksArray);
@@ -78,7 +74,6 @@ export function PersonalBooks() {
 	};
 
 	const handleRemoveBook = async (bookId) => {
-		console.log(`🗑 Attempting to remove book with ID: ${bookId}`);
 		setRemovingBookId(bookId);
 		const token = localStorage.getItem("token");
 		if (!token) {
@@ -102,7 +97,6 @@ export function PersonalBooks() {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			if (response.ok) {
-				console.log("✅ Book successfully removed from backend.");
 				if (selectedCategory === "saved") {
 					const updated = savedBooks.filter((book) => book.id !== bookId);
 					setSavedBooks(updated);
@@ -111,11 +105,11 @@ export function PersonalBooks() {
 					setLikedBooks(updated);
 				}
 			} else {
-				console.error(`❌ Failed to remove book with ID: ${bookId}. Status: ${response.status}`);
+				console.error(` Failed to remove book with ID: ${bookId}. Status: ${response.status}`);
 				alert("Failed to remove the book. Please try again.");
 			}
 		} catch (err) {
-			console.error("❌ Error removing book:", err);
+			console.error(" Error removing book:", err);
 			alert("An error occurred while removing the book. Please try again.");
 		} finally {
 			setRemovingBookId(null);
@@ -135,9 +129,7 @@ export function PersonalBooks() {
 		(book, index, self) => index === self.findIndex((b) => b.id === book.id)
 	);
 
-	console.log("🖼 Displayed Books in PersonalBooks (unique):");
 	uniqueDisplayedBooks.forEach((book, index) => {
-		console.log(`Book ${index}:`, book.title, book.image);
 	});
 
 	return (
@@ -166,7 +158,6 @@ export function PersonalBooks() {
 			{error && <div style={{ color: "red" }}>Error: {error}</div>}
 			<div className="books-row">
 				{uniqueDisplayedBooks.map((book, index) => {
-					console.log(`🎨 Rendering Book ${index}:`, book.title, book.image);
 					return (
 						<div className="book-card" key={book.id}>
 							<img className="book-cover" src={book.image} alt={book.title || "Book Cover"} />

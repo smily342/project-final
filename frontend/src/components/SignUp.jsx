@@ -15,7 +15,6 @@ export const SignUp = () => {
 	const password = watch("password");
 
 	const onSubmit = async (data) => {
-		// Split the fullName input into firstName and lastName
 		const nameParts = data.fullName.trim().split(" ");
 		const firstName = nameParts[0];
 		const lastName = nameParts.slice(1).join(" ") || "";

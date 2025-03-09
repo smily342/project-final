@@ -4,11 +4,11 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/', // Ensure the base path is correct
+  base: '/',
   server: {
     proxy: {
       "/genres": {
-        target: 'https://project-final-044d.onrender.com', // Updated backend server
+        target: 'https://project-final-044d.onrender.com',
         changeOrigin: true,
         secure: true,
       },
